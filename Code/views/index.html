@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CareerGuide - Shape Your Future</title>
+  <link rel="stylesheet" href="../public/CSS/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.77/build/spline-viewer.js"></script>
+
+</head>
+<body>
+  <header class="fixed-header">
+    <nav class="container">
+      <div class="nav-container">
+        <a href="../views/index.html" class="logo">CareerGuide</a>
+        <ul class="nav-links">
+          <li><a href="../views/streams.html">Streams</a></li>
+          <li><a href="../views/quiz.html">Career Quiz</a></li>
+          <li><a href="../views/compare.html">Compare</a></li>
+          <li><a href="/predictor">Career Predictor</a></li>
+          <li><a href="/testimonials">Testimonials</a></li>
+          <li><a href="/qa">Q&A</a></li>
+          <li><a href="/scholarships">Scholarships</a></li>
+          <li><a href="/parents">For Parents</a></li>
+        </ul>
+        <div class="mobile-menu-btn">
+          <i class="fas fa-bars"></i>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <div class="mobile-menu">
+    <ul>
+      <li><a href="/streams">Streams</a></li>
+      <li><a href="/quiz">Career Quiz</a></li>
+      <li><a href="/compare">Compare</a></li>
+      <li><a href="/predictor">Career Predictor</a></li>
+      <li><a href="/testimonials">Testimonials</a></li>
+      <li><a href="/qa">Q&A</a></li>
+      <li><a href="/scholarships">Scholarships</a></li>
+      <li><a href="/parents">For Parents</a></li>
+    </ul>
+  </div>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-content">
+        <h1 class="animate-fade-in">Shape Your Future with CareerGuide</h1>
+        <p class="animate-fade-in delay-200">Empowering Class 10 students to make informed decisions about their academic and career paths.</p>
+        <a href="../views/quiz.html" class="btn btn-primary animate-fade-in delay-400">Take Career Quiz <i class="fas fa-arrow-right"></i></a>
+      </div>
+      <div class="scroll-indicator">
+        <i class="fas fa-chevron-down"></i>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+      <div class="container">
+        <h2>Discover Your Path</h2>
+        <div class="feature-grid">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-book-open"></i>
+            </div>
+            <h3>Stream Information</h3>
+            <p>Explore Science, Commerce, and Arts streams</p>
+            <a href="/streams" class="feature-link">Learn more</a>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-brain"></i>
+            </div>
+            <h3>AI Career Quiz</h3>
+            <p>Get personalized stream recommendations</p>
+            <a href="/quiz" class="feature-link">Take the quiz</a>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-compass"></i>
+            </div>
+            <h3>Stream Comparison</h3>
+            <p>Compare different streams side by side</p>
+            <a href="/compare" class="feature-link">Compare now</a>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-users"></i>
+            </div>
+            <h3>Future Career Predictor</h3>
+            <p>Discover potential careers based on your choices</p>
+            <a href="/predictor" class="feature-link">Predict careers</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Career Path Visualization -->
+    <section class="career-path dark-section">
+      <div class="container">
+        <h2>Visualize Your Career Path</h2>
+        <div class="path-selector">
+          <button class="path-btn active" data-path="science">Science</button>
+          <button class="path-btn" data-path="commerce">Commerce</button>
+          <button class="path-btn" data-path="arts">Arts</button>
+        </div>
+        <div class="path-visualization">
+          <div class="path-container science-path active">
+            <div class="path-step">Physics</div>
+            <div class="path-step">Chemistry</div>
+            <div class="path-step">Biology</div>
+            <div class="path-step">Engineering</div>
+            <div class="path-step">Medicine</div>
+            <div class="path-step">Research</div>
+          </div>
+          <div class="path-container commerce-path">
+            <div class="path-step">Accounting</div>
+            <div class="path-step">Economics</div>
+            <div class="path-step">Business Studies</div>
+            <div class="path-step">Finance</div>
+            <div class="path-step">Management</div>
+            <div class="path-step">Entrepreneurship</div>
+          </div>
+          <div class="path-container arts-path">
+            <div class="path-step">Literature</div>
+            <div class="path-step">History</div>
+            <div class="path-step">Psychology</div>
+            <div class="path-step">Journalism</div>
+            <div class="path-step">Law</div>
+            <div class="path-step">Design</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+      <div class="container">
+        <h2>What Our Users Say</h2>
+        <div class="testimonial-slider">
+          <div class="testimonial-slide active">
+            <div class="testimonial-content">
+              <p>"CareerGuide helped me choose the perfect stream. I'm now confidently pursuing my dreams!"</p>
+              <div class="testimonial-author">- Priya S., Science Stream</div>
+            </div>
+          </div>
+          <div class="testimonial-slide">
+            <div class="testimonial-content">
+              <p>"The career quiz was eye-opening. It showed me options I hadn't even considered before."</p>
+              <div class="testimonial-author">- Rahul M., Commerce Stream</div>
+            </div>
+          </div>
+          <div class="testimonial-slide">
+            <div class="testimonial-content">
+              <p>"As a parent, the resources here have been invaluable in supporting my child's decisions."</p>
+              <div class="testimonial-author">- Anjali P., Parent</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-dots">
+          <span class="dot active"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Statistics Section -->
+    <section class="statistics gradient-section">
+      <div class="container">
+        <h2>Our Impact</h2>
+        <div class="stats-container">
+          <div class="stat-card">
+            <div class="stat-number">50,000+</div>
+            <div class="stat-label">Students Guided</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">95%</div>
+            <div class="stat-label">Satisfaction Rate</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">1000+</div>
+            <div class="stat-label">Career Paths Explored</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Resources Section -->
+    <section class="resources">
+      <div class="container">
+        <h2>Additional Resources</h2>
+        <div class="resource-grid">
+          <a href="/scholarships" class="resource-card">
+            <div class="resource-icon">
+              <i class="fas fa-award"></i>
+            </div>
+            <div class="resource-content">
+              <h3>Scholarships & Exams</h3>
+              <p>Find scholarships and entrance exam information</p>
+            </div>
+          </a>
+          <a href="/qa" class="resource-card">
+            <div class="resource-icon">
+              <i class="fas fa-comment"></i>
+            </div>
+            <div class="resource-content">
+              <h3>Career Counseling</h3>
+              <p>Get answers to your career-related questions</p>
+            </div>
+          </a>
+          <a href="/testimonials" class="resource-card">
+            <div class="resource-icon">
+              <i class="fas fa-graduation-cap"></i>
+            </div>
+            <div class="resource-content">
+              <h3>Student Testimonials</h3>
+              <p>Read experiences from students and professionals</p>
+            </div>
+          </a>
+          <a href="/parents" class="resource-card">
+            <div class="resource-icon">
+              <i class="fas fa-users"></i>
+            </div>
+            <div class="resource-content">
+              <h3>Parental Guidance</h3>
+              <p>Resources for parents to support their children</p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="cta gradient-section">
+      <div class="container">
+        <h2>Ready to Start Your Journey?</h2>
+        <p>Take the first step towards a bright future with CareerGuide. Our personalized guidance awaits you.</p>
+        <a href="/quiz" class="btn btn-secondary">Start Career Quiz <i class="fas fa-arrow-right"></i></a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <h3>CareerGuide</h3>
+          <p>Empowering students to make informed career decisions.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="/streams">Streams</a></li>
+            <li><a href="/quiz">Career Quiz</a></li>
+            <li><a href="/compare">Compare Streams</a></li>
+            <li><a href="/predictor">Career Predictor</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Contact Us</h4>
+          <p>Email: info@careerguide.com</p>
+          <p>Phone: +91 1234567890</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2023 CareerGuide. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../public/JS/main.js"></script>
+</body>
+</html>
+

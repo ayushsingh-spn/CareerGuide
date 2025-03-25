@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Career Quiz - CareerGuide</title>
+  <link rel="stylesheet" href="../public/CSS/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <header class="fixed-header">
+    <nav class="container">
+      <div class="nav-container">
+        <a href="../views/index.html" class="logo">CareerGuide</a>
+        <ul class="nav-links">
+          <li><a href="../views/streams.html">Streams</a></li>
+          <li><a href="../views/quiz.html">Career Quiz</a></li>
+          <li><a href="../views/compare.html">Compare</a></li>
+          <li><a href="/predictor">Career Predictor</a></li>
+          <li><a href="/testimonials">Testimonials</a></li>
+          <li><a href="/qa">Q&A</a></li>
+          <li><a href="/scholarships">Scholarships</a></li>
+          <li><a href="/parents">For Parents</a></li>
+        </ul>
+        <div class="mobile-menu-btn">
+          <i class="fas fa-bars"></i>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <div class="mobile-menu">
+    <ul>
+      <li><a href="/streams">Streams</a></li>
+      <li><a href="/quiz" class="active">Career Quiz</a></li>
+      <li><a href="/compare">Compare</a></li>
+      <li><a href="/predictor">Career Predictor</a></li>
+      <li><a href="/testimonials">Testimonials</a></li>
+      <li><a href="/qa">Q&A</a></li>
+      <li><a href="/scholarships">Scholarships</a></li>
+      <li><a href="/parents">For Parents</a></li>
+    </ul>
+  </div>
+
+  <main class="page-content">
+    <div class="container">
+      <section class="page-header">
+        <h1>Career Quiz</h1>
+      </section>
+
+      <section class="quiz-container">
+        <div class="quiz-card" id="quiz-card">
+          <div class="quiz-question" id="quiz-question">
+            <h2>Question <span id="question-number">1</span></h2>
+            <p id="question-text">Which subject do you enjoy the most?</p>
+            <div class="quiz-options">
+              <div class="option">
+                <input type="radio" id="option-0" name="quiz-option" value="Mathematics">
+                <label for="option-0">Mathematics</label>
+              </div>
+              <div class="option">
+                <input type="radio" id="option-1" name="quiz-option" value="Biology">
+                <label for="option-1">Biology</label>
+              </div>
+              <div class="option">
+                <input type="radio" id="option-2" name="quiz-option" value="Economics">
+                <label for="option-2">Economics</label>
+              </div>
+              <div class="option">
+                <input type="radio" id="option-3" name="quiz-option" value="Literature">
+                <label for="option-3">Literature</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="quiz-result" id="quiz-result" style="display: none;">
+            <h2>Your Result</h2>
+            <p id="result-text"></p>
+            <button class="btn btn-primary" id="retake-btn">Retake Quiz</button>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <h3>CareerGuide</h3>
+          <p>Empowering students to make informed career decisions.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="/streams">Streams</a></li>
+            <li><a href="/quiz">Career Quiz</a></li>
+            <li><a href="/compare">Compare Streams</a></li>
+            <li><a href="/predictor">Career Predictor</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Contact Us</h4>
+          <p>Email: info@careerguide.com</p>
+          <p>Phone: +91 1234567890</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2023 CareerGuide. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../public/JS/main.js"></script>
+  <script src="../public/JS/quiz.js"></script>
+</body>
+</html>
+
