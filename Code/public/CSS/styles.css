@@ -134,6 +134,7 @@
     font-size: 1.5rem;
     font-weight: 700;
     color: var(--primary-color);
+    margin-right: 50px;
   }
   
   .nav-links {
@@ -271,10 +272,10 @@
   
   /* Features Section */
   .features {
-    display: flex;
+    /* display: flex;
     justify-content: center;
-    align-items: center;
-    min-height: 60vh;
+    align-items: center; */
+    min-height: 80vh;
     background-color: #f5f5f5;
     padding: 20px;
   }
@@ -282,14 +283,14 @@
   .features h2 {
     text-align: center;
     margin-bottom: 3rem;
+    margin-top: 3rem;
   }
   
-  .container {
+  .card-container {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 200px;
-    max-width: 1200px;
+    align-items: center;
+    justify-content: space-evenly;
+    max-width: 2000px;
   }
   
   .card {
@@ -300,9 +301,68 @@
     perspective: 1000px;
   }
   
-  .card-default,
-  .card-hover {
+  .card-default {
     position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background-color: #1e293b;
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    backface-visibility: hidden;
+    transition: transform 0.6s;
+  }
+
+
+  .card-img1 {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .card-img2 {
+    font-size: 2.5rem;
+    color: #21b28b;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .card-img3 {
+    font-size: 2.5rem;
+    color: #b72edd;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .card-img-size{
+    width: 180px;
+    height: 200px;
+  }
+  
+  .card-info-default {
+    color: white;
+    text-align: center;
+  }
+
+  .card-name-default {
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 5px;
+  }
+
+  .card-hover{
     width: 100%;
     height: 100%;
     left: 0;
@@ -334,53 +394,43 @@
   .card:hover .card-hover {
     transform: rotateY(0deg);
   }
-  
-  .product-img-size{
-    width: 200px;
-    height: 200px;
+
+  .card-img-hover{
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
-  .product-img {
-    width: 180px;
-    height: 190px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  .card-img-size-hover{
+    width: 220px;
+    height: 200px;
   }
   
-  .product-img-hover {
-    max-width: 280px;
-    max-height: 40px;
+  .card-icon-hover {
+    font-size: 2.5rem;
     transform: rotate(-15deg);
     display: flex;
-    justify-content: center;
-    align-items: center;
+    align-self: flex-end;
   }
-  
-  .product-info {
+
+  .card-info-hover {
     color: white;
   }
   
-  .product-name {
+  .card-name {
+    margin-top: 3px;
     font-size: 18px;
     font-weight: bold;
     color: white;
-    margin-bottom: 5px;
   }
-  
-  .product-price {
-    font-size: 16px;
-    color: #f59e0b;
-    font-weight: bold;
-  }
-  
-  .product-description {
+
+  .card-description {
     font-size: 14px;
     color: #94a3b8;
-    margin: 10px 0;
+    margin: 0px 0;
   }
   
-  .add-to-cart {
+  .card-pages-link {
     background-color: #f59e0b;
     color: white;
     border: none;
@@ -389,7 +439,10 @@
     font-weight: bold;
     cursor: pointer;
     width: 100%;
-    margin-top: 15px;
+    margin-top: 5px;
+  }
+  .card-pages-link:hover {
+    background-color: #f59e0b98;
   }
   
   @media (max-width: 768px) {
