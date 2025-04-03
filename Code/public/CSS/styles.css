@@ -16,6 +16,7 @@
     --height: 220px;
     --duration: 5s;
     --primary-rgb: 59, 130, 246;
+    --foreground-rgb: 248, 250, 252;
   }
   
   * {
@@ -587,47 +588,12 @@
   .dot.active {
     background-color: var(--primary-color);
   }
-  
-  /* Statistics Section */
-  /* .statistics {
-    padding: 5rem 0;
-    color: var(--white);
-  }
-  
-  .gradient-section {
-    background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
-  }
-  
-  .statistics h2 {
-    text-align: center;
-    margin-bottom: 3rem;
-  }
-  
-  .stats-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 2rem;
-  }
-  
-  .stat-card {
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: var(--border-radius);
-    padding: 2rem;
-    text-align: center;
-    backdrop-filter: blur(10px);
-  }
-  
-  .stat-number {
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-  } */
 
-  /* Cosmic Statistics CSS */
+  /* Statistics CSS */
 .cosmic-stats {
   position: relative;
   padding: 2.5rem 2rem;
-  background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
+  background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
   overflow: hidden;
   color: white;
   isolation: isolate;
@@ -660,7 +626,7 @@
 .cosmic-title-text {
   font-size: 3.5rem;
   font-weight: 800;
-  background: linear-gradient(90deg, #FF8A00, #E52E71, #00B4DB);
+  background: linear-gradient(90deg, #2F3C7B, #911213);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -857,22 +823,45 @@
   .resource-content p {
     color: var(--text-light);
   }
-  
-  /* CTA Section */
-  .cta {
-    padding: 5rem 0;
-    text-align: center;
-    color: var(--white);
+
+  /* Marquee Section */
+.marquee {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background-color: var(--dark-bg);
+  padding: 4rem 0;
+}
+
+.marquee-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, var(--primary-color), transparent, var(--primary-color));
+  z-index: 1;
+}
+
+.marquee-content {
+  display: flex;
+  white-space: nowrap;
+  animation: marquee 20s linear infinite;
+}
+
+.marquee-item {
+  font-size: 6rem;
+  font-weight: 900;
+  padding: 0 1rem;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(var(--foreground-rgb), 0.3);
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
   }
-  
-  .cta h2 {
-    margin-bottom: 1rem;
+  100% {
+    transform: translateX(-50%);
   }
-  
-  .cta p {
-    max-width: 600px;
-    margin: 0 auto 2rem;
-  }
+}
   
   /* Footer */
   footer {
@@ -1061,5 +1050,583 @@
       transform: translateY(0);
     }
   }
+
+  /* Testimonials Page Styles */
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.testimonial-card {
+  background-color: var(--white);
+  border-radius: var(--border-radius);
+  padding: 2rem;
+  box-shadow: var(--shadow);
+  position: relative;
+}
+
+.testimonial-quote {
+  color: var(--primary-color);
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  opacity: 0.3;
+}
+
+.testimonial-text {
+  font-style: italic;
+  margin-bottom: 1.5rem;
+}
+
+.testimonial-author {
+  display: flex;
+  align-items: center;
+}
+
+.author-image {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 1rem;
+}
+
+.author-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.author-info h3 {
+  margin-bottom: 0.25rem;
+  font-size: 1.1rem;
+}
+
+.author-info p {
+  color: var(--text-light);
+  font-size: 0.9rem;
+}
+
+.expert-testimonials {
+  margin-top: 4rem;
+}
+
+.expert-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.expert-card {
+  background-color: var(--white);
+  border-radius: var(--border-radius);
+  padding: 2rem;
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: center;
+}
+
+.expert-image {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 1.5rem;
+}
+
+.expert-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.expert-content h3 {
+  margin-bottom: 0.25rem;
+}
+
+.expert-title {
+  color: var(--primary-color);
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.expert-quote {
+  font-style: italic;
+}
+
+.share-experience {
+  text-align: center;
+  margin-top: 4rem;
+  padding: 3rem;
+  background-color: var(--light-bg);
+  border-radius: var(--border-radius);
+}
+
+.share-experience h2 {
+  margin-bottom: 1rem;
+}
+
+.share-experience p {
+  margin-bottom: 1.5rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Q&A Page Styles */
+.qa-section {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+@media (min-width: 768px) {
+  .qa-section {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.qa-card {
+  background-color: var(--white);
+  border-radius: var(--border-radius);
+  padding: 2rem;
+  box-shadow: var(--shadow);
+}
+
+.faq-item {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.faq-item:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.faq-item h3 {
+  margin-bottom: 0.5rem;
+  color: var(--primary-color);
+}
+
+.question-form .form-group {
+  margin-bottom: 1.5rem;
+}
+
+.question-form label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.question-form input,
+.question-form textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: var(--border-radius);
+  font-family: inherit;
+}
+
+.question-form textarea {
+  resize: vertical;
+}
+
+.form-success {
+  text-align: center;
+  padding: 2rem;
+  color: #10b981;
+}
+
+.form-success i {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.counseling-section {
+  margin-top: 4rem;
+  text-align: center;
+}
+
+.counseling-section h2 {
+  margin-bottom: 1rem;
+}
+
+.counseling-section > p {
+  max-width: 800px;
+  margin: 0 auto 2rem;
+}
+
+.counselors-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.counselor-card {
+  background-color: var(--white);
+  border-radius: var(--border-radius);
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+
+.counselor-card img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-bottom: 1rem;
+  object-fit: cover;
+}
+
+.counselor-card h3 {
+  margin-bottom: 0.5rem;
+}
+
+.counselor-card p {
+  color: var(--text-light);
+}
+
+.counseling-cta {
+  margin-top: 2rem;
+}
+
+/* Scholarships Page Styles */
+.search-filter-section {
+  margin-bottom: 2rem;
+}
+
+.search-filter-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background-color: var(--white);
+  border-radius: var(--border-radius);
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+}
+
+@media (min-width: 768px) {
+  .search-filter-container {
+    flex-direction: row;
+    align-items: flex-end;
+  }
+
+  .search-box {
+    flex: 1;
+  }
+}
+
+.search-box label,
+.filter-box label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.search-input {
+  position: relative;
+}
+
+.search-input input {
+  width: 100%;
+  padding: 0.75rem;
+  padding-right: 2.5rem;
+  border: 1px solid #ddd;
+  border-radius: var(--border-radius);
+}
+
+.search-input i {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-light);
+}
+
+.filter-box select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: var(--border-radius);
+  background-color: var(--white);
+  font-family: inherit;
+}
+
+.scholarships-exams-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+@media (min-width: 768px) {
+  .scholarships-exams-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.scholarships-card,
+.exams-card {
+  background-color: var(--white);
+  border-radius: var(--border-radius);
+  padding: 2rem;
+  box-shadow: var(--shadow);
+}
+
+.scholarship-item,
+.exam-item {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.scholarship-item:last-child,
+.exam-item:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.scholarship-item h3,
+.exam-item h3 {
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+}
+
+.scholarship-detail,
+.exam-detail {
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.scholarship-description,
+.exam-description {
+  color: var(--text-light);
+  margin-top: 0.5rem;
+}
+
+.preparation-resources {
+  text-align: center;
+  margin-top: 4rem;
+}
+
+.preparation-resources h2 {
+  margin-bottom: 1rem;
+}
+
+.preparation-resources > p {
+  max-width: 800px;
+  margin: 0 auto 2rem;
+}
+
+.resources-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.resource-item {
+  background-color: var(--white);
+  border-radius: var(--border-radius);
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+
+.resource-item i {
+  font-size: 2rem;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+.resource-item h3 {
+  margin-bottom: 0.5rem;
+}
+
+.resource-item p {
+  color: var(--text-light);
+}
+
+.resources-cta {
+  margin-top: 2rem;
+}
+
+/* Parents Page Styles */
+.intro-section {
+  margin-bottom: 3rem;
+}
+
+.intro-text {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.resources-section {
+  margin-bottom: 3rem;
+}
+
+.resources-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.resource-card {
+  background-color: var(--white);
+  border-radius: var(--border-radius);
+  padding: 2rem;
+  box-shadow: var(--shadow);
+}
+
+.resource-card h2 {
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+.resource-card p {
+  margin-bottom: 1.5rem;
+}
+
+.resource-list {
+  margin-bottom: 1.5rem;
+}
+
+.resource-list li {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+}
+
+.resource-list li i {
+  color: var(--primary-color);
+  margin-right: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+.resource-link {
+  display: inline-flex;
+  align-items: center;
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.resource-link i {
+  margin-left: 0.5rem;
+  transition: var(--transition);
+}
+
+.resource-link:hover i {
+  transform: translateX(3px);
+}
+
+.reminder-section {
+  margin-bottom: 3rem;
+}
+
+.reminder-card {
+  background-color: var(--primary-color);
+  color: var(--white);
+  border-radius: var(--border-radius);
+  padding: 2rem;
+}
+
+.reminder-card h2 {
+  margin-bottom: 1.5rem;
+}
+
+.reminder-list li {
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: flex-start;
+}
+
+.reminder-list li:before {
+  content: "•";
+  margin-right: 0.5rem;
+}
+
+.parent-workshops {
+  margin-bottom: 3rem;
+}
+
+.parent-workshops h2 {
+  margin-bottom: 1rem;
+}
+
+.parent-workshops > p {
+  max-width: 800px;
+  margin: 0 auto 2rem;
+}
+
+.workshops-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .workshops-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.workshop-card {
+  background-color: var(--white);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  display: flex;
+  overflow: hidden;
+}
+
+.workshop-date {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--primary-color);
+  color: var(--white);
+  padding: 1rem;
+  min-width: 80px;
+}
+
+.workshop-date .month {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.workshop-date .day {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.workshop-details {
+  padding: 1.5rem;
+}
+
+.workshop-details h3 {
+  margin-bottom: 0.5rem;
+}
+
+.workshop-details p {
+  margin-bottom: 1rem;
+  color: var(--text-light);
+}
+
+.btn-small {
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+}
+
+
   
   
