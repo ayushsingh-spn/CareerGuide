@@ -40,7 +40,7 @@
 
         <div class="qa-card">
           <h2>Ask a Question</h2>
-          <form id="question-form" class="question-form">
+          <form id="question-form" class="question-form" action="/qa_added" method="POST">
             <div class="form-group">
               <label for="name">Your Name</label>
               <input type="text" id="name" name="name" required>
@@ -59,6 +59,17 @@
             <i class="fas fa-check-circle"></i>
             <p>Thank you for your question! Our career counselors will respond to you soon.</p>
           </div>
+          <% if (questions && questions.id) { %>
+            <form id="question-form" class="question-form" action="/qa/<%= questions.id %>" method="GET">
+          <% } else { %>
+            <p>Error: Question not found.</p>
+          <% } %>          
+            <div class="form-group">
+              <label for="name">Your Question ID</label>
+              <input type="text" id="name" name="name" >
+              <button type="submit" class="btn">Find Question</button>
+            </div>
+          </form>
         </div>
       </section>
 
