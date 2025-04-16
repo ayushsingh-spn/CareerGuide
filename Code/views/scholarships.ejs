@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scholarships & Entrance Exams - CareerGuide</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <%- include("header.ejs") %>
+
+  <main class="page-content">
+    <div class="container">
+      <section class="page-header">
+        <h1>Scholarships & Entrance Exams</h1>
+        <p>Find financial support and prepare for important exams</p>
+      </section>
+
+      <section class="search-filter-section">
+        <div class="search-filter-container">
+          <div class="search-box">
+            <label for="search">Search</label>
+            <div class="search-input">
+              <input type="text" id="search" placeholder="Search scholarships or exams...">
+              <i class="fas fa-search"></i>
+            </div>
+          </div>
+          <div class="filter-box">
+            <label for="stream-filter">Filter by Stream</label>
+            <select id="stream-filter">
+              <option value="All">All Streams</option>
+              <option value="Science">Science</option>
+              <option value="Commerce">Commerce</option>
+              <option value="Arts">Arts</option>
+            </select>
+          </div>
+        </div>
+      </section>
+
+      <section class="scholarships-exams-grid">
+        <div class="scholarships-card">
+          <h2>Scholarships</h2>
+          <div class="scholarships-list" id="scholarships-list">
+            <div class="scholarship-item" data-stream="All">
+              <h3>National Talent Search Examination</h3>
+              <p class="scholarship-detail">Stream: All</p>
+              <p class="scholarship-detail">Type: Merit-based</p>
+              <p class="scholarship-description">A national-level scholarship program to identify and nurture talented students.</p>
+            </div>
+            <div class="scholarship-item" data-stream="Science">
+              <h3>Kishore Vaigyanik Protsahan Yojana</h3>
+              <p class="scholarship-detail">Stream: Science</p>
+              <p class="scholarship-detail">Type: Merit-based</p>
+              <p class="scholarship-description">Encourages students to pursue research careers in basic sciences.</p>
+            </div>
+            <div class="scholarship-item" data-stream="All">
+              <h3>NTSE Scholarship</h3>
+              <p class="scholarship-detail">Stream: All</p>
+              <p class="scholarship-detail">Type: Merit-based</p>
+              <p class="scholarship-description">Identifies and nurtures talented students with financial assistance.</p>
+            </div>
+            <div class="scholarship-item" data-stream="Science">
+              <h3>Inspire Scholarship</h3>
+              <p class="scholarship-detail">Stream: Science</p>
+              <p class="scholarship-detail">Type: Merit-based</p>
+              <p class="scholarship-description">Attracts talented students to study natural and basic sciences.</p>
+            </div>
+            <div class="scholarship-item" data-stream="All">
+              <h3>Central Sector Scheme of Scholarships</h3>
+              <p class="scholarship-detail">Stream: All</p>
+              <p class="scholarship-detail">Type: Merit-cum-Means</p>
+              <p class="scholarship-description">Financial assistance to meritorious students from low-income families.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="exams-card">
+          <h2>Entrance Exams</h2>
+          <div class="exams-list" id="exams-list">
+            <div class="exam-item" data-stream="Science">
+              <h3>JEE Main</h3>
+              <p class="exam-detail">Stream: Science</p>
+              <p class="exam-detail">Field: Engineering</p>
+              <p class="exam-description">National level entrance exam for admission to engineering programs.</p>
+            </div>
+            <div class="exam-item" data-stream="Science">
+              <h3>NEET</h3>
+              <p class="exam-detail">Stream: Science</p>
+              <p class="exam-detail">Field: Medical</p>
+              <p class="exam-description">National eligibility entrance test for medical and dental courses.</p>
+            </div>
+            <div class="exam-item" data-stream="Arts">
+              <h3>CLAT</h3>
+              <p class="exam-detail">Stream: Arts</p>
+              <p class="exam-detail">Field: Law</p>
+              <p class="exam-description">Common Law Admission Test for entry into national law universities.</p>
+            </div>
+            <div class="exam-item" data-stream="Commerce">
+              <h3>CA Foundation</h3>
+              <p class="exam-detail">Stream: Commerce</p>
+              <p class="exam-detail">Field: Chartered Accountancy</p>
+              <p class="exam-description">Entry-level test for the Chartered Accountancy course.</p>
+            </div>
+            <div class="exam-item" data-stream="Arts">
+              <h3>NIFT Entrance Exam</h3>
+              <p class="exam-detail">Stream: Arts</p>
+              <p class="exam-detail">Field: Fashion Design</p>
+              <p class="exam-description">Entrance exam for admission to National Institute of Fashion Technology.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="preparation-resources">
+        <h2>Preparation Resources</h2>
+        <p>Access study materials, mock tests, and preparation tips for various entrance exams.</p>
+        <div class="resources-grid">
+          <div class="resource-item">
+            <i class="fas fa-book"></i>
+            <h3>Study Materials</h3>
+            <p>Comprehensive guides and reference books</p>
+          </div>
+          <div class="resource-item">
+            <i class="fas fa-clipboard-check"></i>
+            <h3>Mock Tests</h3>
+            <p>Practice with previous years' question papers</p>
+          </div>
+          <div class="resource-item">
+            <i class="fas fa-video"></i>
+            <h3>Video Lectures</h3>
+            <p>Expert explanations of complex topics</p>
+          </div>
+          <div class="resource-item">
+            <i class="fas fa-users"></i>
+            <h3>Study Groups</h3>
+            <p>Connect with peers for collaborative learning</p>
+          </div>
+        </div>
+        <div class="resources-cta">
+          <a href="#" class="btn btn-primary">Explore Resources</a>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <%- include("footer.ejs") %>
+
+  <script src="main.js"></script>
+  <script src="scholarships.js"></script>
+</body>
+</html>
+

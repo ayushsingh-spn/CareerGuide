@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Career Quiz - CareerGuide</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <%- include("header.ejs") %>
+
+  <main class="page-content">
+    <div class="container">
+      <section class="page-header">
+        <h1>Career Quiz</h1>
+      </section>
+
+      <section class="quiz-container">
+        <div class="quiz-card" id="quiz-card">
+          <div class="quiz-question" id="quiz-question">
+            <h2>Question <span id="question-number">1</span></h2>
+            <p id="question-text">Which subject do you enjoy the most?</p>
+            <div class="quiz-options">
+              <div class="option">
+                <input type="radio" id="option-0" name="quiz-option" value="Mathematics">
+                <label for="option-0">Mathematics</label>
+              </div>
+              <div class="option">
+                <input type="radio" id="option-1" name="quiz-option" value="Biology">
+                <label for="option-1">Biology</label>
+              </div>
+              <div class="option">
+                <input type="radio" id="option-2" name="quiz-option" value="Economics">
+                <label for="option-2">Economics</label>
+              </div>
+              <div class="option">
+                <input type="radio" id="option-3" name="quiz-option" value="Literature">
+                <label for="option-3">Literature</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="quiz-result" id="quiz-result" style="display: none;">
+            <h2>Your Result</h2>
+            <p id="result-text"></p>
+            <button class="btn btn-primary" id="retake-btn">Retake Quiz</button>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <%- include("footer.ejs") %>
+
+  <script src="main.js"></script>
+  <script src="quiz.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Testimonials - CareerGuide</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <%- include("header.ejs") %>
+
+  <main class="page-content">
+    <div class="container">
+      <section class="page-header">
+        <h1>Student & Expert Testimonials</h1>
+        <p>Hear from those who've walked the path before you</p>
+      </section>
+
+      <section class="testimonials-grid">
+        <div class="testimonial-card">
+          <div class="testimonial-quote">
+            <i class="fas fa-quote-left"></i>
+          </div>
+          <p class="testimonial-text">Choosing the science stream opened up a world of opportunities in tech for me. I'm now working on cutting-edge AI projects!</p>
+          <div class="testimonial-author">
+            <div class="author-image">
+              <img src="/placeholder.svg?height=100&width=100" alt="Priya Sharma">
+            </div>
+            <div class="author-info">
+              <h3>Priya Sharma</h3>
+              <p>Science Stream | Software Engineer</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="testimonial-quote">
+            <i class="fas fa-quote-left"></i>
+          </div>
+          <p class="testimonial-text">The commerce stream gave me a strong foundation in finance. It's been crucial in my journey to becoming a CA.</p>
+          <div class="testimonial-author">
+            <div class="author-image">
+              <img src="/placeholder.svg?height=100&width=100" alt="Rahul Patel">
+            </div>
+            <div class="author-info">
+              <h3>Rahul Patel</h3>
+              <p>Commerce Stream | Chartered Accountant</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="testimonial-quote">
+            <i class="fas fa-quote-left"></i>
+          </div>
+          <p class="testimonial-text">Studying arts honed my critical thinking and writing skills. It prepared me well for my career in journalism.</p>
+          <div class="testimonial-author">
+            <div class="author-image">
+              <img src="/placeholder.svg?height=100&width=100" alt="Ananya Gupta">
+            </div>
+            <div class="author-info">
+              <h3>Ananya Gupta</h3>
+              <p>Arts Stream | Journalist</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="testimonial-quote">
+            <i class="fas fa-quote-left"></i>
+          </div>
+          <p class="testimonial-text">The rigorous science curriculum was challenging but rewarding. It laid the groundwork for my medical career.</p>
+          <div class="testimonial-author">
+            <div class="author-image">
+              <img src="/placeholder.svg?height=100&width=100" alt="Arjun Singh">
+            </div>
+            <div class="author-info">
+              <h3>Arjun Singh</h3>
+              <p>Science Stream | Doctor</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="expert-testimonials">
+        <h2>Expert Opinions</h2>
+        <div class="expert-grid">
+          <div class="expert-card">
+            <div class="expert-image">
+              <img src="/placeholder.svg?height=150&width=150" alt="Dr. Rajesh Kumar">
+            </div>
+            <div class="expert-content">
+              <h3>Dr. Rajesh Kumar</h3>
+              <p class="expert-title">Career Counselor, Delhi University</p>
+              <p class="expert-quote">"Students should explore their interests before making a decision. The right stream aligns with both passion and aptitude."</p>
+            </div>
+          </div>
+          <div class="expert-card">
+            <div class="expert-image">
+              <img src="/placeholder.svg?height=150&width=150" alt="Prof. Meena Sharma">
+            </div>
+            <div class="expert-content">
+              <h3>Prof. Meena Sharma</h3>
+              <p class="expert-title">Education Researcher, IIT Bombay</p>
+              <p class="expert-quote">"The traditional boundaries between streams are blurring. Today's careers often require interdisciplinary knowledge."</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="share-experience">
+        <h2>Share Your Experience</h2>
+        <p>Are you a former student who wants to share your journey? We'd love to hear from you!</p>
+        <a href="/qa" class="btn btn-primary">Contact Us</a>
+      </section>
+    </div>
+  </main>
+
+  <%- include("footer.ejs") %>
+
+  <script src="main.js"></script>
+</body>
+</html>

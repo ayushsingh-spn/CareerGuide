@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stream Information - CareerGuide</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <%- include("header.ejs") %>
+
+  <main class="page-content">
+    <div class="container">
+      <section class="page-header">
+        <h1>Stream Information & Career Paths</h1>
+        <p>Explore the different academic streams and their potential career outcomes</p>
+      </section>
+
+      <section class="streams-grid">
+        <div class="stream-card science-bg">
+          <div class="stream-header">
+            <div class="stream-icon">
+              <i class="fas fa-flask"></i>
+            </div>
+            <h2>Science</h2>
+          </div>
+          <p>Ideal for students interested in mathematics, physics, chemistry, and biology. Leads to careers in engineering, medicine, research, and technology.</p>
+          <div class="stream-details">
+            <h3>Career Options:</h3>
+            <ul>
+              <li>Engineer</li>
+              <li>Doctor</li>
+              <li>Scientist</li>
+              <li>IT Professional</li>
+            </ul>
+            <h3>Famous Personalities:</h3>
+            <ul>
+              <li>A.P.J. Abdul Kalam</li>
+              <li>C.V. Raman</li>
+              <li>Sundar Pichai</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="stream-card commerce-bg">
+          <div class="stream-header">
+            <div class="stream-icon">
+              <i class="fas fa-calculator"></i>
+            </div>
+            <h2>Commerce</h2>
+          </div>
+          <p>Perfect for students with an aptitude for business, economics, and mathematics. Opens doors to careers in finance, business management, and entrepreneurship.</p>
+          <div class="stream-details">
+            <h3>Career Options:</h3>
+            <ul>
+              <li>Chartered Accountant</li>
+              <li>Business Manager</li>
+              <li>Economist</li>
+              <li>Banker</li>
+            </ul>
+            <h3>Famous Personalities:</h3>
+            <ul>
+              <li>Azim Premji</li>
+              <li>Kumar Mangalam Birla</li>
+              <li>Nirmala Sitharaman</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="stream-card arts-bg">
+          <div class="stream-header">
+            <div class="stream-icon">
+              <i class="fas fa-book"></i>
+            </div>
+            <h2>Arts</h2>
+          </div>
+          <p>Suited for students with a passion for literature, social sciences, and creative fields. Leads to careers in law, journalism, design, and social work.</p>
+          <div class="stream-details">
+            <h3>Career Options:</h3>
+            <ul>
+              <li>Lawyer</li>
+              <li>Journalist</li>
+              <li>Designer</li>
+              <li>Social Worker</li>
+            </ul>
+            <h3>Famous Personalities:</h3>
+            <ul>
+              <li>Amartya Sen</li>
+              <li>Arundhati Roy</li>
+              <li>Kiran Bedi</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <div class="cta-container">
+        <a href="/quiz" class="btn btn-primary">Take the Career Quiz <i class="fas fa-arrow-right"></i></a>
+      </div>
+    </div>
+  </main>
+
+  <%- include("footer.ejs") %>
+
+  <script src="main.js"></script>
+</body>
+</html>
+
