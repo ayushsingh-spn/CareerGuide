@@ -40,10 +40,10 @@
 
         <div class="qa-card">
           <h2>Your Question</h2>
-          <h3>Your Name : <%=questions.Name%></h3>
-          <h3>Your Email : <%= questions.email %></h3>
-          <h3>Your Question : <%= questions.Question %></h3>
-          <h3>Your Answer : <%= questions.Answers %></h3>
+          <h3>Your Name : <%= data.Name %></h3>
+          <h3>Your Email : <%= data.email %></h3>
+          <h3>Your Question : <%= data.Question %></h3>
+          <h3>Your Answer : <%= data.Answers %></h3>
         </div>
       </section>
 
@@ -76,8 +76,8 @@
 
   <%- include("footer.ejs") %>
 
-  <script src="main.js"></script>
-  <script src="qa.js"></script>
+  <script src="/main.js"></script>
+  <script src="/qa.js"></script>
 </body>
 </html>
 

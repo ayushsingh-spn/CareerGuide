@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>All Questions</title>
+    <style>
+      table,
+      th,
+      td {
+        border: 1px solid black;
+      }
+    </style>
+  </head>
+  <body>
+
+    <h2>List of all questions</h2>
+    <table>
+      <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Question</th>
+        <th>Answer</th>
+      </tr>
+      <% for(question of data) { %>
+      <tr>
+        <td><%= question.id %></td>
+        <td><%= question.Name %></td>
+        <td><%= question.email %></td>
+        <td><%= question.Question %></td>
+        <td><%= question.Answers %></td>
+        <td>
+          <form method="get" action="/answer/<%=question.id%>/edit">
+            <button>Edit answer</button>
+          </form>
+        </td>
+        <td>
+          <form method="get" action="/answer/<%=question.id%>/delete">
+            <button>Delete</button>
+          </form>
+        </td>
+      </tr>
+      <% } %>
+    </table>
+
+    <h3>Go back to <a href="http://localhost:8080/">Home Page</a></h3>
+  </body>
+</html>

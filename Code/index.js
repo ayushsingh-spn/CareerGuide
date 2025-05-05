@@ -114,20 +114,121 @@ app.post("/qa_added", (req, res) => {
 
   //for finding question
   app.get("/qa/:id", (req, res) => {
-    let { id } = req.params;
-    let q = `SELECT * FROM questions WHERE id='${id}'`;
+    let { givenid } = req.query;
+    let q = `SELECT * FROM questions WHERE id='${givenid}'`;
   
     try {
       connection.query(q, (err, result) => {
         if (err) throw err;
-        let questions = result[0];
-        res.render("viewQuestion.ejs", { questions });
+        let data = result[0];
+        res.render("viewQuestion.ejs", { data });
       });
     } catch (err) {
       res.send("some error with DB");
     }
   });
 
+  app.get("/answer", (req, res) => {
+    let q = `SELECT * FROM questions`;
+    try {
+      connection.query(q, (err, result) => {
+        if (err) throw err;
+        let data = result;
+        res.render("answer.ejs", { data });
+      });
+    } catch (err) {
+      res.send("some error occurred");
+    }
+  });
+
+  app.get("/answer/:id/edit", (req, res) => {
+    let { id } = req.params;
+    let q = `SELECT * FROM questions WHERE id='${id}'`;
+  
+    try {
+      connection.query(q, (err, result) => {
+        if (err) throw err;
+        let data = result[0];
+        res.render("edit.ejs", { data });
+      });
+    } catch (err) {
+      res.send("some error with DB");
+    }
+  });
+
+  app.patch("/answer/:id", (req, res) => {
+    let { id } = req.params;
+    let { Answers, password } = req.body;
+    let pass = "Ayush";
+    console.log(Answers);
+    let q = `SELECT * FROM questions WHERE id='${id}'`;
+  
+    try {
+      connection.query(q, (err, result) => {
+        if (err) throw err;
+  
+        if (password != pass) {
+          res.send("WRONG Password entered!");
+        } else {
+          let q2 = `UPDATE questions SET Answers='${Answers}' WHERE id='${id}'`;
+          connection.query(q2, (err, result) => {
+            if (err) throw err;
+            else {
+              console.log(result);
+              console.log("updated!");
+              res.redirect("/answer");
+            }
+          });
+        }
+      });
+    } catch (err) {
+      res.send("some error with DB");
+    }
+  });
+
+  app.get("/answer/:id/delete", (req, res) => {
+    let { id } = req.params;
+    let q = `SELECT * FROM questions WHERE id='${id}'`;
+  
+    try {
+      connection.query(q, (err, result) => {
+        if (err) throw err;
+        let question = result[0];
+        res.render("delete.ejs", { question });
+      });
+    } catch (err) {
+      res.send("some error with DB");
+    }
+  });
+  
+  app.delete("/answer/:id/", (req, res) => {
+    let { id } = req.params;
+    let { password } = req.body;
+    let pass = "Ayush";
+    let q = `SELECT * FROM questions WHERE id='${id}'`;
+  
+    try {
+      connection.query(q, (err, result) => {
+        if (err) throw err;
+  
+        if (pass != password) {
+          res.send("WRONG Password entered!");
+        } else {
+          let q2 = `DELETE FROM questions WHERE id='${id}'`; //Query to Delete
+          connection.query(q2, (err, result) => {
+            if (err) throw err;
+            else {
+              console.log(result);
+              console.log("deleted!");
+              res.redirect("/answer");
+            }
+          });
+        }
+      });
+    } catch (err) {
+      res.send("some error with DB");
+    }
+  });
 
 
 

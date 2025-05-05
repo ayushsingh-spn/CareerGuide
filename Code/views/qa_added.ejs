@@ -60,12 +60,17 @@
             <p>Thank you for your question! Our career counselors will respond to you soon. Your ID is <%= questions.id %></p>
           </div>
             <form id="question-form" class="question-form" action="/qa/<%= questions.id %>" method="GET">      
-            <div class="form-group">
-              <label for="name">Your Question ID</label>
-              <input type="text" id="name" name="name" >
-              <button type="submit" class="btn">Find Question</button>
-            </div>
-          </form>
+              <% if (questions && questions.id) { %>
+                <form id="question-form" class="question-form" action="/qa/<%= questions.id %>" method="GET">
+              <% } else { %>
+                <p>Error: Question not found.</p>
+              <% } %>          
+                <div class="form-group">
+                  <label for="name">Your Question ID</label>
+                  <input type="text" id="name" name="givenid" >
+                  <button type="submit" class="btn">Find Question</button>
+                </div>
+              </form>
         </div>
       </section>
 
