@@ -6,8 +6,8 @@
     <title>Delete User</title>
   </head>
   <body>
-    <h3>To delete this question : <%= question.Question %> <br><br> enter the password</h3>
-    <form method="post" action="/answer/<%= question.randomid%>?_method=DELETE">
+    <h3>To delete this question : <%= question.question %> <br><br> enter the password</h3>
+    <form method="post" action="/answer/<%= question.id%>?_method=DELETE">
       <input placeholder="enter admin password to delete" name="password" type="password" size="50" />
       <button>Delete</button>
     </form>

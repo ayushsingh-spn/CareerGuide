@@ -83,41 +83,41 @@
           <div class="dashboard-section">
             <h3>Recent Questions</h3>
             <div class="question-list">
-              <div class="question-item">
-                <div class="question-header">
-                  <span class="question-author">Neha Singh</span>
-                  <span class="question-date">Today, 10:45 AM</span>
+              <% if (questions && questions.length > 0) { %>
+                <% questions.forEach(question => { %>
+                  <div class="question-item">
+                    <div class="question-header">
+                      <span class="question-author"><%= question.name %></span>
+                      <span class="question-date">
+                        <% 
+                          const date = new Date(question.created_at);
+                          const formattedDate = date.toLocaleString('en-US', { 
+                            year: 'numeric', 
+                            month: 'short', 
+                            day: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                          });
+                        %>
+                        <%= formattedDate %>
+                      </span>
+                    </div>
+                    <p class="question-text"><%= question.question %></p>
+                    <div class="question-actions">
+                      <a href="/answer/<%= question.id %>/edit" class="btn btn-small">Answer</a>
+                      <a href="/answer/<%= question.id %>/delete" class="btn btn-small btn-danger">Delete</a>
+                    </div>
+                  </div>
+                <% }) %>
+              <% } else { %>
+                <div class="no-questions">
+                  <p>No questions available.</p>
                 </div>
-                <p class="question-text">How do I decide between Science and Commerce if I'm interested in both mathematics and economics?</p>
-                <div class="question-actions">
-                  <a href="#" class="btn btn-small">Answer</a>
-                </div>
-              </div>
-              
-              <div class="question-item">
-                <div class="question-header">
-                  <span class="question-author">Vikram Mehta</span>
-                  <span class="question-date">Yesterday, 3:20 PM</span>
-                </div>
-                <p class="question-text">What are the career prospects for a student pursuing Arts with Psychology?</p>
-                <div class="question-actions">
-                  <a href="#" class="btn btn-small">Answer</a>
-                </div>
-              </div>
-              
-              <div class="question-item">
-                <div class="question-header">
-                  <span class="question-author">Ravi Desai</span>
-                  <span class="question-date">2 days ago</span>
-                </div>
-                <p class="question-text">Are there any good scholarships available for engineering students from low-income families?</p>
-                <div class="question-actions">
-                  <a href="#" class="btn btn-small">Answer</a>
-                </div>
-              </div>
+              <% } %>
             </div>
             <a href="/answer" class="view-all">View All Questions</a>
           </div>
+              
           
           <div class="dashboard-section">
             <h3>Recent Users</h3>

@@ -104,7 +104,13 @@
                   <div class="question-card">
                     <div class="question-header">
                       <h4>Question</h4>
-                      <span class="question-date"><%= new Date(q.created_at).toLocaleDateString() %></span>
+                      <% if (q.created_at) { %>
+                        <span class="question-date">
+                          <%= new Date(q.created_at).toLocaleDateString() %> at <%= new Date(q.created_at).toLocaleTimeString() %>
+                        </span>
+                      <% } else { %>
+                        <span class="question-date">Date not available</span>
+                      <% } %>
                     </div>
                     <p class="question-text"><%= q.question %></p>
                     

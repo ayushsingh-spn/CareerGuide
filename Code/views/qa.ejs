@@ -40,37 +40,41 @@
 
         <div class="qa-card">
           <h2>Ask a Question</h2>
-          <form id="question-form" class="question-form" action="/qa_added" method="POST">
-            <div class="form-group">
-              <label for="name">Your Name</label>
-              <input type="text" id="name" name="name" required>
+          
+          <% if (locals.user) { %>
+            <!-- Question form for logged-in users -->
+            <form id="question-form" class="question-form" action="/qa_added" method="POST">
+              <div class="form-group">
+                <label for="name">Your Name</label>
+                <input type="text" id="name" name="name" value="<%= locals.user.name %>" readonly class="readonly-field">
+                <small class="field-note">Name is automatically filled from your profile</small>
+              </div>
+              <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" value="<%= locals.user.email %>" readonly class="readonly-field">
+                <small class="field-note">Email is automatically filled from your profile</small>
+              </div>
+              <div class="form-group">
+                <label for="question">Your Question</label>
+                <textarea id="question" name="question" rows="4" required></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary">Submit Question</button>
+            </form>
+          <% } else { %>
+            <!-- Login prompt for non-logged in users -->
+            <div class="login-prompt">
+              <p><i class="fas fa-lock"></i> You need to be logged in to ask questions.</p>
+              <div class="login-buttons">
+                <a href="/login" class="btn btn-primary">Log In</a>
+                <a href="/signup" class="btn btn-secondary">Sign Up</a>
+              </div>
             </div>
-            <div class="form-group">
-              <label for="email">Email Address</label>
-              <input type="email" id="email" name="email" required>
-            </div>
-            <div class="form-group">
-              <label for="question">Your Question</label>
-              <textarea id="question" name="question" rows="4" required></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Submit Question</button>
-          </form>
+          <% } %>
+          
           <div id="form-success" class="form-success" style="display: none;">
             <i class="fas fa-check-circle"></i>
             <p>Thank you for your question! Our career counselors will respond to you soon.</p>
           </div>
-          <% if (questions && questions.randomid) { %>
-            <form id="question-form" class="question-form" action="/qa/<%= questions.randomid %>" method="GET">
-          <% } else { %>
-            <p>Error: Question not found.</p>
-          <% } %>          
-            <div class="form-group">
-              <label for="name">Your Question ID</label>
-              <input type="text" id="name" name="givenid" >
-              <button type="submit" class="btn">Find Question</button>
-            </div>
-          </form>
-        </div>
       </section>
 
       <section class="counseling-section">

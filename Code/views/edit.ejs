@@ -6,11 +6,11 @@
     <title>Edit User</title>
   </head>
   <body>
-    <h3>Fill in the answer for : <%= data.Name %> @ <%= data.email %></h3>
+    <h3>Fill in the answer for : <%= data.name %> @ <%= data.email %></h3>
 
-    <form method="post" action="/answer/<%= data.randomid %>?_method=PATCH">
+    <form method="post" action="/answer/<%= data.id %>?_method=PATCH">
         <p>Fill in the answer below</p>
-      <textarea name="Answers" rows="4" cols="50"><%= data.Answers %></textarea>
+      <textarea name="Answers" rows="4" cols="50"><%= data.answers %></textarea>
       <br><br>
       <input name="password" placeholder="enter your admin password" type="password" size="50"/>
 

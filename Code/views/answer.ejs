@@ -18,7 +18,7 @@
     <table>
       <tr>
         <th>Id</th>
-        <th>RandomId</th>
+        <th>User Id</th>
         <th>Name</th>
         <th>Email</th>
         <th>Question</th>
@@ -27,18 +27,18 @@
       <% for(question of data) { %>
       <tr>
         <td><%= question.id %></td>
-        <td><%= question.randomid %></td>
-        <td><%= question.Name %></td>
+        <td><%= question.user_id %></td>
+        <td><%= question.name %></td>
         <td><%= question.email %></td>
-        <td><%= question.Question %></td>
-        <td><%= question.Answers %></td>
+        <td><%= question.question %></td>
+        <td><%= question.answers %></td>
         <td>
-          <form method="get" action="/answer/<%=question.randomid%>/edit">
+          <form method="get" action="/answer/<%=question.id%>/edit">
             <button>Edit answer</button>
           </form>
         </td>
         <td>
-          <form method="get" action="/answer/<%=question.randomid%>/delete">
+          <form method="get" action="/answer/<%=question.id%>/delete">
             <button>Delete</button>
           </form>
         </td>
