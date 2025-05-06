@@ -59,8 +59,8 @@
             <i class="fas fa-check-circle"></i>
             <p>Thank you for your question! Our career counselors will respond to you soon.</p>
           </div>
-          <% if (questions && questions.id) { %>
-            <form id="question-form" class="question-form" action="/qa/<%= questions.id %>" method="GET">
+          <% if (questions && questions.randomid) { %>
+            <form id="question-form" class="question-form" action="/qa/<%= questions.randomid %>" method="GET">
           <% } else { %>
             <p>Error: Question not found.</p>
           <% } %>          

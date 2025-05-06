@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - CareerGuide</title>
+  <link rel="stylesheet" href="/admin.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="admin-body">
+  <div class="admin-sidebar">
+    <div class="admin-logo">
+      <h1>CareerGuide</h1>
+    </div>
+    <nav class="admin-nav">
+      <ul>
+        <li><a href="/admin/dashboard" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+        <li><a href="/answer"><i class="fas fa-question-circle"></i> Questions</a></li>
+        <li><a href="/admin/users"><i class="fas fa-users"></i> Users</a></li>
+        <li><a href="/admin/settings"><i class="fas fa-cog"></i> Settings</a></li>
+      </ul>
+    </nav>
+    <div class="admin-logout">
+      <a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
+  </div>
+  
+  <div class="admin-content">
+    <header class="admin-header">
+      <div class="admin-header-title">
+        <h2>Admin Dashboard</h2>
+      </div>
+      <div class="admin-header-user">
+        <span>Welcome, <%= user.name %></span>
+      </div>
+    </header>
+    
+    <main class="admin-main">
+      <div class="dashboard-container">
+        <div class="dashboard-stats">
+          <div class="stat-box">
+            <div class="stat-icon">
+              <i class="fas fa-users"></i>
+            </div>
+            <div class="stat-content">
+              <h3>Total Users</h3>
+              <p class="stat-number">1,245</p>
+            </div>
+          </div>
+          
+          <div class="stat-box">
+            <div class="stat-icon">
+              <i class="fas fa-question-circle"></i>
+            </div>
+            <div class="stat-content">
+              <h3>Total Questions</h3>
+              <p class="stat-number">0</p>
+            </div>
+          </div>
+          
+          <div class="stat-box">
+            <div class="stat-icon">
+              <i class="fas fa-comment"></i>
+            </div>
+            <div class="stat-content">
+              <h3>Answered Questions</h3>
+              <p class="stat-number">0</p>
+            </div>
+          </div>
+          
+          <div class="stat-box">
+            <div class="stat-icon">
+              <i class="fas fa-clock"></i>
+            </div>
+            <div class="stat-content">
+              <h3>Pending Questions</h3>
+              <p class="stat-number">23</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="dashboard-sections">
+          <div class="dashboard-section">
+            <h3>Recent Questions</h3>
+            <div class="question-list">
+              <div class="question-item">
+                <div class="question-header">
+                  <span class="question-author">Neha Singh</span>
+                  <span class="question-date">Today, 10:45 AM</span>
+                </div>
+                <p class="question-text">How do I decide between Science and Commerce if I'm interested in both mathematics and economics?</p>
+                <div class="question-actions">
+                  <a href="#" class="btn btn-small">Answer</a>
+                </div>
+              </div>
+              
+              <div class="question-item">
+                <div class="question-header">
+                  <span class="question-author">Vikram Mehta</span>
+                  <span class="question-date">Yesterday, 3:20 PM</span>
+                </div>
+                <p class="question-text">What are the career prospects for a student pursuing Arts with Psychology?</p>
+                <div class="question-actions">
+                  <a href="#" class="btn btn-small">Answer</a>
+                </div>
+              </div>
+              
+              <div class="question-item">
+                <div class="question-header">
+                  <span class="question-author">Ravi Desai</span>
+                  <span class="question-date">2 days ago</span>
+                </div>
+                <p class="question-text">Are there any good scholarships available for engineering students from low-income families?</p>
+                <div class="question-actions">
+                  <a href="#" class="btn btn-small">Answer</a>
+                </div>
+              </div>
+            </div>
+            <a href="/answer" class="view-all">View All Questions</a>
+          </div>
+          
+          <div class="dashboard-section">
+            <h3>Recent Users</h3>
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Joined</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Rahul Sharma</td>
+                  <td>rahul.s@example.com</td>
+                  <td>2 hours ago</td>
+                  <td>
+                    <a href="#" class="table-action"><i class="fas fa-eye"></i></a>
+                    <a href="#" class="table-action"><i class="fas fa-edit"></i></a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Priya Patel</td>
+                  <td>priya.p@example.com</td>
+                  <td>5 hours ago</td>
+                  <td>
+                    <a href="#" class="table-action"><i class="fas fa-eye"></i></a>
+                    <a href="#" class="table-action"><i class="fas fa-edit"></i></a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Amit Kumar</td>
+                  <td>amit.k@example.com</td>
+                  <td>Yesterday</td>
+                  <td>
+                    <a href="#" class="table-action"><i class="fas fa-eye"></i></a>
+                    <a href="#" class="table-action"><i class="fas fa-edit"></i></a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <a href="/admin/users" class="view-all">View All Users</a>
+          </div>
+        </div>
+      </div>
+    </main>
+    
+    <footer class="admin-footer">
+      <p>&copy; <%= new Date().getFullYear() %> CareerGuide Admin Panel. All rights reserved.</p>
+    </footer>
+  </div>
+
+  <script src="/admin.js"></script>
+</body>
+</html>

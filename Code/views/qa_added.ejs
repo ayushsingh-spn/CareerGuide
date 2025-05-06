@@ -57,11 +57,11 @@
           </form>
           <div id="form-success" class="form-success">
             <i class="fas fa-check-circle"></i>
-            <p>Thank you for your question! Our career counselors will respond to you soon. Your ID is <%= questions.id %></p>
+            <p>Thank you for your question! Our career counselors will respond to you soon. Your ID is <%= questions.randomid %></p>
           </div>
-            <form id="question-form" class="question-form" action="/qa/<%= questions.id %>" method="GET">      
-              <% if (questions && questions.id) { %>
-                <form id="question-form" class="question-form" action="/qa/<%= questions.id %>" method="GET">
+            <form id="question-form" class="question-form" action="/qa/<%= questions.randomid %>" method="GET">      
+              <% if (questions && questions.randomid) { %>
+                <form id="question-form" class="question-form" action="/qa/<%= questions.randomid %>" method="GET">
               <% } else { %>
                 <p>Error: Question not found.</p>
               <% } %>          

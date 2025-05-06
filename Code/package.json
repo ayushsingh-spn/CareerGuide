@@ -9,8 +9,11 @@
   "author": "Ayush Singh",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.1.1",
+    "connect-flash": "^0.1.1",
     "ejs": "^3.1.10",
     "express": "^5.1.0",
+    "express-session": "^1.18.1",
     "method-override": "^3.0.0",
     "mysql2": "^3.14.0",
     "nodemon": "^3.1.9",

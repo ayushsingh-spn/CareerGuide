@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Profile - CareerGuide</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/profile.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <%- include("header.ejs") %>
+
+  <main class="page-content">
+    <div class="container">
+      <section class="page-header">
+        <h1>Your Profile</h1>
+        <p>Manage your account and preferences</p>
+      </section>
+
+      <div class="profile-container">
+        <div class="profile-sidebar">
+          <div class="profile-avatar">
+            <img src="/images.jpeg?height=150&width=150" alt="<%= user.name %>">
+            
+          </div>
+          <h2 class="profile-name"><%= user.name %></h2>
+          <p class="profile-email"><%= user.email %></p>
+          <div class="profile-menu">
+            <a href="#personal-info" class="active">Personal Information</a>
+            <a href="#preferences">Preferences</a>
+            <a href="#saved-careers">Saved Careers</a>
+            <a href="#quiz-results">Quiz Results</a>
+            <a href="#change-password">Change Password</a>
+          </div>
+        </div>
+        
+        <div class="profile-content">
+          <div id="personal-info" class="profile-section active">
+            <h3>Personal Information</h3>
+            <form class="profile-form" id="personal-info-form">
+              <div class="form-group">
+                <label for="profile-name">Full Name</label>
+                <input type="text" id="profile-name" name="name" value="<%= user.name %>">
+              </div>
+              
+              <div class="form-group">
+                <label for="profile-email">Email Address</label>
+                <input type="email" id="profile-email" name="email" value="<%= user.email %>">
+              </div>
+              
+              <div class="form-group">
+                <label for="profile-phone">Phone Number</label>
+                <input type="tel" id="profile-phone" name="phone" placeholder="Enter your phone number">
+              </div>
+              
+              <div class="form-group">
+                <label for="profile-school">School/College</label>
+                <input type="text" id="profile-school" name="school" placeholder="Enter your school or college name">
+              </div>
+              
+              <div class="form-group">
+                <label for="profile-grade">Grade/Year</label>
+                <select id="profile-grade" name="grade">
+                  <option value="">Select your grade</option>
+                  <option value="10">10th Grade</option>
+                  <option value="11">11th Grade</option>
+                  <option value="12">12th Grade</option>
+                  <option value="college">College</option>
+                </select>
+              </div>
+              
+              <button type="submit" class="btn btn-primary">Save Changes</button>
+            </form>
+          </div>
+          
+          <div id="change-password" class="profile-section">
+            <h3>Change Password</h3>
+            <form class="profile-form" id="password-form">
+              <div class="form-group">
+                <label for="current-password">Current Password</label>
+                <input type="password" id="current-password" name="currentPassword" required>
+              </div>
+              
+              <div class="form-group">
+                <label for="new-password">New Password</label>
+                <input type="password" id="new-password" name="newPassword" required>
+              </div>
+              
+              <div class="form-group">
+                <label for="confirm-password">Confirm New Password</label>
+                <input type="password" id="confirm-password" name="confirmPassword" required>
+              </div>
+              
+              <button type="submit" class="btn btn-primary">Update Password</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <h3>CareerGuide</h3>
+          <p>Empowering students to make informed career decisions.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="/streams">Streams</a></li>
+            <li><a href="/quiz">Career Quiz</a></li>
+            <li><a href="/compare">Compare Streams</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Contact Us</h4>
+          <p>Email: info@careerguide.com</p>
+          <p>Phone: +91 1234567890</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; <%= new Date().getFullYear() %> CareerGuide. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/profile.js"></script>
+</body>
+</html>
