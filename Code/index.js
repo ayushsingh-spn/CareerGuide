@@ -214,11 +214,30 @@ app.get("/logout", (req, res) => {
 })
 
 app.get("/profile", isLoggedIn, (req, res) => {
-  connection.query("SELECT * FROM users WHERE id = ?", [req.session.user.id], (err, results) => {
-    if (err) throw err
+  // First, get the user information
+  connection.query("SELECT * FROM users WHERE id = ?", [req.session.user.id], (err, userResults) => {
+    if (err) {
+      console.error("Error fetching user:", err)
+      req.flash("error", "An error occurred while loading your profile")
+      return res.redirect("/")
+    }
 
-    const user = results[0]
-    res.render("profile", { user })
+    const user = userResults[0]
+
+    // Then, get the user's questions
+    connection.query(
+      "SELECT * FROM question WHERE user_id = ? ORDER BY id DESC",
+      [req.session.user.id],
+      (err, questionResults) => {
+        if (err) {
+          console.error("Error fetching questions:", err)
+          req.flash("error", "An error occurred while loading your questions")
+          return res.render("profile", { user, userQuestions: [] })
+        }
+
+        res.render("profile", { user, userQuestions: questionResults })
+      },
+    )
   })
 })
 

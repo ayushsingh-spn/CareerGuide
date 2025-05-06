@@ -28,7 +28,7 @@
           <p class="profile-email"><%= user.email %></p>
           <div class="profile-menu">
             <a href="#personal-info" class="active">Personal Information</a>
-            <a href="#preferences">Preferences</a>
+            <a href="#my-questions">My Questions</a>
             <a href="#saved-careers">Saved Careers</a>
             <a href="#quiz-results">Quiz Results</a>
             <a href="#change-password">Change Password</a>
@@ -95,6 +95,39 @@
               <button type="submit" class="btn btn-primary">Update Password</button>
             </form>
           </div>
+
+          <div id="my-questions" class="profile-section">
+            <h3>My Questions</h3>
+            <div class="my-questions-container">
+              <% if (userQuestions && userQuestions.length > 0) { %>
+                <% userQuestions.forEach(q => { %>
+                  <div class="question-card">
+                    <div class="question-header">
+                      <h4>Question</h4>
+                      <span class="question-date"><%= new Date(q.created_at).toLocaleDateString() %></span>
+                    </div>
+                    <p class="question-text"><%= q.question %></p>
+                    
+                    <div class="answer-section">
+                      <h4>Answer</h4>
+                      <% if (q.answers) { %>
+                        <p class="answer-text"><%= q.answers %></p>
+                      <% } else { %>
+                        <p class="pending-answer">Waiting for answer...</p>
+                      <% } %>
+                    </div>
+                  </div>
+                <% }) %>
+              <% } else { %>
+                <div class="no-questions">
+                  <i class="fas fa-question-circle"></i>
+                  <p>You haven't asked any questions yet.</p>
+                  <a href="/qa" class="btn btn-primary">Ask a Question</a>
+                </div>
+              <% } %>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
