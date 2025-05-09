@@ -8,6 +8,8 @@ const methodOverride = require("method-override");
 const { v4: uuidv4 } = require("uuid");
 const bcrypt = require("bcrypt");
 const flash = require("connect-flash");
+const crypto = require("crypto")
+const { sendVerificationEmail, sendPasswordResetEmail } = require('../Code/public/JS/mailer');
 
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
@@ -68,6 +70,11 @@ const isAdmin = (req, res, next) => {
   next()
 }
 
+// Helper function to generate a random token
+const generateToken = () => {
+  return crypto.randomBytes(32).toString("hex")
+}
+
 app.post("/signup", async (req, res) => {
   try {
     const { name, email, password, confirmPassword } = req.body
@@ -92,16 +99,37 @@ app.post("/signup", async (req, res) => {
         return res.redirect("/signup")
       }
 
+      const hashedPassword = await bcrypt.hash(password, 10)
       const id = uuidv4()
 
+      // Generate verification token
+      const verificationToken = generateToken()
+      const verificationExpiry = new Date(Date.now() + 24 * 60 * 60 * 1000) // 24 hours from now
+
       // Insert user into database
-      const q = `INSERT INTO users (id, name, email, password) VALUES (?, ?, ?, ?)`
-      connection.query(q, [id, name, email, password], (err, result) => {
+      const q = `INSERT INTO users (id, name, email, password, verification_token, verification_expiry) 
+                VALUES (?, ?, ?, ?, ?, ?)`
+
+      connection.query(
+        q,
+        [id, name, email, password, verificationToken, verificationExpiry],
+        async (err, result) => {
         if (err) throw err
 
-        req.flash("success", "Registration successful! Please log in")
+        // Send verification email
+        const emailSent = await sendVerificationEmail(email, verificationToken, name)
+
+        if (emailSent) {
+          req.flash("success", "Registration successful! Please check your email to verify your account.")
+        } else {
+          req.flash(
+            "success",
+            "Registration successful! However, we couldn't send a verification email. Please contact support.",
+          )
+        }
         res.redirect("/login")
-      })
+      },
+    )
     })
   } catch (error) {
     console.error("Error during signup:", error)
@@ -109,6 +137,142 @@ app.post("/signup", async (req, res) => {
     res.redirect("/signup")
   }
 })
+
+
+// Email verification route
+app.get("/verify-email", (req, res) => {
+  const { token } = req.query
+
+  if (!token) {
+    return res.render("verify-email", {
+      verified: false,
+      expired: false,
+      email: "",
+      layout: "auth-layout",
+    })
+  }
+
+  // Check if token is valid
+  connection.query("SELECT * FROM users WHERE verification_token = ?", [token], (err, results) => {
+    if (err) {
+      console.error("Error verifying email:", err)
+      return res.render("verify-email", {
+        verified: false,
+        expired: false,
+        email: "",
+        layout: "auth-layout",
+      })
+    }
+
+    if (results.length === 0) {
+      return res.render("verify-email", {
+        verified: false,
+        expired: false,
+        email: "",
+        layout: "auth-layout",
+      })
+    }
+
+    const user = results[0]
+    const now = new Date()
+    const expiryDate = new Date(user.verification_expiry)
+
+    // Check if token has expired
+    if (now > expiryDate) {
+      return res.render("verify-email", {
+        verified: false,
+        expired: true,
+        email: user.email,
+        layout: "auth-layout",
+      })
+    }
+
+    // Update user as verified
+    connection.query(
+      "UPDATE users SET email_verified = TRUE, verification_token = NULL, verification_expiry = NULL WHERE id = ?",
+      [user.id],
+      (err, result) => {
+        if (err) {
+          console.error("Error updating user verification status:", err)
+          return res.render("verify-email", {
+            verified: false,
+            expired: false,
+            email: user.email,
+            layout: "auth-layout",
+          })
+        }
+
+        return res.render("verify-email", {
+          verified: true,
+          expired: false,
+          email: user.email,
+          layout: "auth-layout",
+        })
+      },
+    )
+  })
+})
+
+// Resend verification email
+app.post("/resend-verification", async (req, res) => {
+  const { email } = req.body
+
+  if (!email) {
+    req.flash("error", "Email is required")
+    return res.redirect("/login")
+  }
+
+  // Check if user exists
+  connection.query("SELECT * FROM users WHERE email = ?", [email], async (err, results) => {
+    if (err) {
+      console.error("Error finding user:", err)
+      req.flash("error", "An error occurred. Please try again.")
+      return res.redirect("/login")
+    }
+
+    if (results.length === 0) {
+      req.flash("error", "No account found with that email address")
+      return res.redirect("/login")
+    }
+
+    const user = results[0]
+
+    // Check if already verified
+    if (user.email_verified) {
+      req.flash("success", "Your email is already verified. You can log in.")
+      return res.redirect("/login")
+    }
+
+    // Generate new verification token
+    const verificationToken = generateToken()
+    const verificationExpiry = new Date(Date.now() + 24 * 60 * 60 * 1000) // 24 hours from now
+
+    // Update user with new token
+    connection.query(
+      "UPDATE users SET verification_token = ?, verification_expiry = ? WHERE id = ?",
+      [verificationToken, verificationExpiry, user.id],
+      async (err, result) => {
+        if (err) {
+          console.error("Error updating verification token:", err)
+          req.flash("error", "An error occurred. Please try again.")
+          return res.redirect("/login")
+        }
+
+        // Send verification email
+        const emailSent = await sendVerificationEmail(user.email, verificationToken, user.name)
+
+        if (emailSent) {
+          req.flash("success", "Verification email sent! Please check your inbox.")
+        } else {
+          req.flash("error", "Failed to send verification email. Please try again later.")
+        }
+
+        res.redirect("/login")
+      },
+    )
+  })
+})
+
 
 app.post("/login", (req, res) => {
   try {
@@ -136,6 +300,17 @@ app.post("/login", (req, res) => {
         return res.redirect("/login")
       }
 
+      // Check if email is verified (skip for admin users)
+      if (!user.is_admin && !user.email_verified) {
+        req.flash(
+          "error",
+          "Please verify your email before logging in. <a href='/resend-verification?email=" +
+            email +
+            "'>Resend verification email</a>",
+        )
+        return res.redirect("/login")
+      }
+
       // Set session
       req.session.user = {
         id: user.id,
@@ -153,6 +328,158 @@ app.post("/login", (req, res) => {
     req.flash("error", "An error occurred during login")
     res.redirect("/login")
   }
+})
+
+// Forgot password route
+app.get("/forgot-password", (req, res) => {
+  res.render("forgot-password", { layout: "auth-layout" })
+})
+
+app.post("/forgot-password", (req, res) => {
+  const { email } = req.body
+
+  if (!email) {
+    req.flash("error", "Email is required")
+    return res.redirect("/forgot-password")
+  }
+
+  // Check if user exists
+  connection.query("SELECT * FROM users WHERE email = ?", [email], async (err, results) => {
+    if (err) {
+      console.error("Error finding user:", err)
+      req.flash("error", "An error occurred. Please try again.")
+      return res.redirect("/forgot-password")
+    }
+
+    // Always show success message even if email doesn't exist (security best practice)
+    if (results.length === 0) {
+      req.flash("success", "If an account with that email exists, we've sent a password reset link.")
+      return res.redirect("/forgot-password")
+    }
+
+    const user = results[0]
+
+    // Generate password reset token
+    const resetToken = generateToken()
+    const resetTokenExpiry = new Date(Date.now() + 1 * 60 * 60 * 1000) // 1 hour from now
+
+    // Update user with reset token
+    connection.query(
+      "UPDATE users SET reset_token = ?, reset_token_expiry = ? WHERE id = ?",
+      [resetToken, resetTokenExpiry, user.id],
+      async (err, result) => {
+        if (err) {
+          console.error("Error updating reset token:", err)
+          req.flash("error", "An error occurred. Please try again.")
+          return res.redirect("/forgot-password")
+        }
+
+        // Send password reset email
+        const emailSent = await sendPasswordResetEmail(user.email, resetToken, user.name)
+
+        req.flash("success", "If an account with that email exists, we've sent a password reset link.")
+        res.redirect("/forgot-password")
+      },
+    )
+  })
+})
+
+// Reset password routes
+app.get("/reset-password", (req, res) => {
+  const { token } = req.query
+
+  if (!token) {
+    req.flash("error", "Invalid or missing reset token")
+    return res.redirect("/login")
+  }
+
+  // Check if token is valid
+  connection.query("SELECT * FROM users WHERE reset_token = ?", [token], (err, results) => {
+    if (err) {
+      console.error("Error verifying reset token:", err)
+      req.flash("error", "An error occurred. Please try again.")
+      return res.redirect("/login")
+    }
+
+    if (results.length === 0) {
+      req.flash("error", "Invalid or expired reset token")
+      return res.redirect("/login")
+    }
+
+    const user = results[0]
+    const now = new Date()
+    const expiryDate = new Date(user.reset_token_expiry)
+
+    // Check if token has expired
+    if (now > expiryDate) {
+      req.flash("error", "Reset token has expired. Please request a new one.")
+      return res.redirect("/forgot-password")
+    }
+
+    res.render("reset-password", {
+      token: token,
+      error: req.flash("error"),
+      layout: "auth-layout",
+    })
+  })
+})
+
+app.post("/reset-password", async (req, res) => {
+  const { token, password, confirmPassword } = req.body
+
+  // Validate input
+  if (!token || !password || !confirmPassword) {
+    req.flash("error", "All fields are required")
+    return res.redirect(`/reset-password?token=${token}`)
+  }
+
+  if (password !== confirmPassword) {
+    req.flash("error", "Passwords do not match")
+    return res.redirect(`/reset-password?token=${token}`)
+  }
+
+  // Check if token is valid
+  connection.query("SELECT * FROM users WHERE reset_token = ?", [token], async (err, results) => {
+    if (err) {
+      console.error("Error verifying reset token:", err)
+      req.flash("error", "An error occurred. Please try again.")
+      return res.redirect("/login")
+    }
+
+    if (results.length === 0) {
+      req.flash("error", "Invalid or expired reset token")
+      return res.redirect("/login")
+    }
+
+    const user = results[0]
+    const now = new Date()
+    const expiryDate = new Date(user.reset_token_expiry)
+
+    // Check if token has expired
+    if (now > expiryDate) {
+      req.flash("error", "Reset token has expired. Please request a new one.")
+      return res.redirect("/forgot-password")
+    }
+
+    // Hash new password
+    const hashedPassword = await bcrypt.hash(password, 10)
+
+    // Update user password and clear reset token
+    connection.query(
+      "UPDATE users SET password = ?, reset_token = NULL, reset_token_expiry = NULL WHERE id = ?",
+      [password, user.id],
+      (err, result) => {
+        if (err) {
+          console.error("Error updating password:", err)
+          req.flash("error", "An error occurred. Please try again.")
+          return res.redirect(`/reset-password?token=${token}`)
+        }
+
+        req.flash("success", "Password has been reset successfully. You can now log in with your new password.")
+        res.redirect("/login")
+      },
+    )
+  })
 })
 
 app.post("/admin/login", (req, res) => {
@@ -336,24 +663,24 @@ app.get("/parents", (req, res) => {
 
 //For signup page
 app.get("/signup", (req, res) => {
-    res.render('signup');
+    res.render('signup', { layout: "auth-layout" });
 });
 
 //For login page
 app.get("/login", (req, res) => {
-    res.render('login');
+    res.render('login', { layout: "auth-layout" });
 });
 
 //For admin-login page
 app.get("/admin/login", (req, res) => {
-    res.render('admin-login');
+  res.render("admin-login", { layout: "auth-layout" })
 });
 
 //QA Page
 app.get("/qa", (req, res) => {
 
     let { id } = req.params;
-    let q = `SELECT * FROM questions;`;
+    let q = `SELECT * FROM question;`;
   
     try {
       connection.query(q, (err, result) => {

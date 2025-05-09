@@ -1,0 +1,31 @@
+<div class="auth-form-container">
+    <h2>Email Verification</h2>
+    
+    <% if (verified) { %>
+      <div class="auth-success">
+        <i class="fas fa-check-circle"></i>
+        Your email has been successfully verified! You can now log in to your account.
+      </div>
+      <div class="auth-links">
+        <a href="/login" class="auth-button">Log In</a>
+      </div>
+    <% } else if (expired) { %>
+      <div class="auth-error">
+        <i class="fas fa-exclamation-circle"></i>
+        The verification link has expired. Please request a new verification email.
+      </div>
+      <form action="/resend-verification" method="POST" class="auth-form">
+        <input type="hidden" name="email" value="<%= email %>">
+        <button type="submit" class="auth-button">Resend Verification Email</button>
+      </form>
+    <% } else { %>
+      <div class="auth-error">
+        <i class="fas fa-exclamation-circle"></i>
+        Invalid verification link. Please check your email or request a new verification email.
+      </div>
+      <div class="auth-links">
+        <a href="/login" class="auth-button">Back to Login</a>
+      </div>
+    <% } %>
+  </div>
+  
