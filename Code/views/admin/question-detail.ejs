@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Question Details - CareerGuide Admin</title>
+  <link rel="stylesheet" href="/admin.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="admin-body">
+  <div class="admin-sidebar">
+    <div class="admin-logo">
+        <a href="http://localhost:8080/" class="logo" style="text-decoration: none;"><img src="/creative.png" alt="" style="height: 60px; width: 60px;"></a>
+    </div>
+    <nav class="admin-nav">
+      <ul>
+        <li><a href="/dashboard" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+        <li><a href="/admin/questions"><i class="fas fa-question-circle"></i> Questions</a></li>
+        <li><a href="/admin/users"><i class="fas fa-users"></i> Users</a></li>
+        <li><a href="/admin/settings"><i class="fas fa-cog"></i> Settings</a></li>
+      </ul>
+    </nav>
+    <div class="admin-logout">
+      <a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
+  </div>
+
+  <div class="admin-content">
+    <header class="admin-header">
+      <div class="admin-header-title">
+        <h2>Question Details</h2>
+      </div>
+      <div class="admin-header-user">
+        <span>Welcome, <%= user.name %></span>
+      </div>
+    </header>
+    
+    <main class="admin-main">
+      <div class="question-detail-container">
+        <% if (success && success.length > 0) { %>
+          <div class="alert alert-success">
+            <%= success %>
+          </div>
+        <% } %>
+        
+        <% if (error && error.length > 0) { %>
+          <div class="alert alert-error">
+            <%= error %>
+          </div>
+        <% } %>
+        
+        <div class="question-detail-header">
+          <h3>Question Information</h3>
+          <div class="question-detail-actions">
+            <a href="/admin/questions" class="btn btn-secondary">
+              <i class="fas fa-arrow-left"></i> Back to Questions
+            </a>
+            <a href="/admin/questions/<%= question.id %>/edit" class="btn btn-primary">
+              <i class="fas fa-edit"></i> Edit Question
+            </a>
+          </div>
+        </div>
+        
+        <div class="question-detail-card">
+          <div class="question-meta">
+            <div class="question-meta-item">
+              <span class="label">Question ID:</span>
+              <span class="value"><%= question.id %></span>
+            </div>
+            <div class="question-meta-item">
+              <span class="label">Asked By:</span>
+              <span class="value"><%= question.name %> (<%= question.email %>)</span>
+            </div>
+            <div class="question-meta-item">
+              <span class="label">Date Asked:</span>
+              <span class="value">
+                <% 
+                  const date = new Date(question.created_at);
+                  const formattedDate = date.toLocaleString('en-US', { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                  });
+                %>
+                <%= formattedDate %>
+              </span>
+            </div>
+            <div class="question-meta-item">
+              <span class="label">Status:</span>
+              <span class="value">
+                <% if (question.answers) { %>
+                  <span class="status-badge status-answered">Answered</span>
+                <% } else { %>
+                  <span class="status-badge status-pending">Pending</span>
+                <% } %>
+              </span>
+            </div>
+          </div>
+          
+          <div class="question-content-section">
+            <h4>Question</h4>
+            <div class="question-content">
+              <%= question.question %>
+            </div>
+          </div>
+          
+          <% if (question.answers) { %>
+            <div class="answer-section">
+              <h4>Answer</h4>
+              <div class="answer-content">
+                <%= question.answers %>
+              </div>
+            </div>
+          <% } else { %>
+            <div class="no-answer-section">
+              <p><i class="fas fa-info-circle"></i> This question has not been answered yet.</p>
+              <a href="/admin/questions/<%= question.id %>/edit" class="btn btn-primary">
+                <i class="fas fa-reply"></i> Provide an Answer
+              </a>
+            </div>
+          <% } %>
+        </div>
+        
+        <% if (userData) { %>
+          <div class="user-info-section">
+            <h3>User Information</h3>
+            <div class="user-info-card">
+              <div class="user-info">
+                <div class="user-info-item">
+                  <span class="label">User ID:</span>
+                  <span class="value"><%= userData.id %></span>
+                </div>
+                <div class="user-info-item">
+                  <span class="label">Name:</span>
+                  <span class="value"><%= userData.name %></span>
+                </div>
+                <div class="user-info-item">
+                  <span class="label">Email:</span>
+                  <span class="value"><%= userData.email %></span>
+                </div>
+                <div class="user-info-item">
+                  <span class="label">Joined:</span>
+                  <span class="value">
+                    <% 
+                      const userDate = new Date(userData.created_at);
+                      const userFormattedDate = userDate.toLocaleString('en-US', { 
+                        year: 'numeric', 
+                        month: 'long', 
+                        day: 'numeric'
+                      });
+                    %>
+                    <%= userFormattedDate %>
+                  </span>
+                </div>
+                <div class="user-info-item">
+                  <span class="label">Email Verified:</span>
+                  <span class="value">
+                    <% if (userData.email_verified) { %>
+                      <span class="verified"><i class="fas fa-check-circle"></i> Verified</span>
+                    <% } else { %>
+                      <span class="not-verified"><i class="fas fa-times-circle"></i> Not Verified</span>
+                    <% } %>
+                  </span>
+                </div>
+              </div>
+              <div class="user-actions">
+                <a href="/admin/users/<%= userData.id %>" class="btn btn-secondary">
+                  <i class="fas fa-user"></i> View User Profile
+                </a>
+              </div>
+            </div>
+          </div>
+        <% } %>
+        
+        <% if (userQuestions && userQuestions.length > 0) { %>
+          <div class="other-questions-section">
+            <h3>Other Questions by this User</h3>
+            <div class="other-questions-list">
+              <% userQuestions.forEach(q => { %>
+                <% if (q.id !== question.id) { %>
+                  <div class="other-question-item">
+                    <div class="other-question-header">
+                      <span class="other-question-date">
+                        <% 
+                          const qDate = new Date(q.created_at);
+                          const qFormattedDate = qDate.toLocaleString('en-US', { 
+                            year: 'numeric', 
+                            month: 'short', 
+                            day: 'numeric'
+                          });
+                        %>
+                        <%= qFormattedDate %>
+                      </span>
+                      <span class="other-question-status">
+                        <% if (q.answers) { %>
+                          <span class="status-badge status-answered">Answered</span>
+                        <% } else { %>
+                          <span class="status-badge status-pending">Pending</span>
+                        <% } %>
+                      </span>
+                    </div>
+                    <div class="other-question-content">
+                      <%= q.question.length > 100 ? q.question.substring(0, 100) + '...' : q.question %>
+                    </div>
+                    <div class="other-question-actions">
+                      <a href="/admin/questions/<%= q.id %>" class="btn btn-small">View</a>
+                    </div>
+                  </div>
+                <% } %>
+              <% }) %>
+            </div>
+          </div>
+        <% } %>
+      </div>
+    </main>
+    
+    <footer class="admin-footer">
+      <p>&copy; <%= new Date().getFullYear() %> CareerGuide Admin Panel. All rights reserved.</p>
+    </footer>
+  </div>
+</body>
+</html>

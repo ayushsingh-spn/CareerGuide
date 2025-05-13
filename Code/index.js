@@ -570,22 +570,54 @@ app.get("/profile", isLoggedIn, (req, res) => {
 
 // Admin routes
 app.get("/dashboard", isAdmin, (req, res) => {
-  // Get questions from the question table
-  const q = `SELECT * FROM question ORDER BY created_at DESC LIMIT 10;`
 
-  connection.query(q, (err, result) => {
+    // Helper function to format time since
+    function timeSince(date) {
+      const seconds = Math.floor((new Date() - date) / 1000)
+  
+      let interval = seconds / 31536000
+      if (interval > 1) return Math.floor(interval) + " years ago"
+  
+      interval = seconds / 2592000
+      if (interval > 1) return Math.floor(interval) + " months ago"
+  
+      interval = seconds / 86400
+      if (interval > 1) return Math.floor(interval) + " days ago"
+  
+      interval = seconds / 3600
+      if (interval > 1) return Math.floor(interval) + " hours ago"
+  
+      interval = seconds / 60
+      if (interval > 1) return Math.floor(interval) + " minutes ago"
+  
+      return Math.floor(seconds) + " seconds ago"
+    }  
+
+    // Make timeSince available to the template
+    res.locals.timeSince = timeSince
+
+  // Get questions from the question table
+  const q = `SELECT * FROM question ORDER BY created_at DESC LIMIT 5;`
+
+  connection.query(q, (err, questions) => {
     if (err) {
       console.error("Error fetching questions:", err)
       req.flash("error", "An error occurred while loading questions")
-      return res.render("dashboard", { questions: [] })
+      return res.render("admin/dashboard.ejs", { questions: [], recentUsers: [] })
     }
 
     // Count total questions
     connection.query("SELECT COUNT(*) as total FROM question", (err, countResult) => {
       if (err) {
         console.error("Error counting questions:", err)
-        return res.render("dashboard", { questions: result, totalQuestions: 0 })
+        return res.render("admin/dashboard", {
+          questions,
+          totalQuestions: 0,
+          recentUsers: [],
+        })
       }
+
+      const totalQuestions = countResult[0].total
 
       // Count answered questions
       connection.query(
@@ -593,31 +625,60 @@ app.get("/dashboard", isAdmin, (req, res) => {
         (err, answeredResult) => {
           if (err) {
             console.error("Error counting answered questions:", err)
-            return res.render("dashboard", {
-              questions: result,
-              totalQuestions: countResult[0].total,
+            return res.render("admin/dashboard", {
+              questions,
+              totalQuestions,
               answeredQuestions: 0,
+              pendingQuestions: totalQuestions,
+              recentUsers: [],
             })
           }
+
+          const answeredQuestions = answeredResult[0].answered
+          const pendingQuestions = totalQuestions - answeredQuestions
 
           // Count users
           connection.query("SELECT COUNT(*) as total FROM users WHERE is_admin = 0", (err, usersResult) => {
             if (err) {
               console.error("Error counting users:", err)
-              return res.render("dashboard", {
-                questions: result,
-                totalQuestions: countResult[0].total,
-                answeredQuestions: answeredResult[0].answered,
+              return res.render("admin/dashboard", {
+                questions,
+                totalQuestions,
+                answeredQuestions,
+                pendingQuestions,
                 totalUsers: 0,
+                recentUsers: [],
               })
             }
 
-            res.render("dashboard", {
-              questions: result,
-              totalQuestions: countResult[0].total,
-              answeredQuestions: answeredResult[0].answered,
-              totalUsers: usersResult[0].total,
-            })
+            const totalUsers = usersResult[0].total
+
+            // Get recent users
+            connection.query(
+              "SELECT id, name, email, created_at, email_verified FROM users WHERE is_admin = 0 ORDER BY created_at DESC LIMIT 5",
+              (err, recentUsers) => {
+                if (err) {
+                  console.error("Error fetching recent users:", err)
+                  return res.render("admin/dashboard", {
+                    questions,
+                    totalQuestions,
+                    answeredQuestions,
+                    pendingQuestions,
+                    totalUsers,
+                    recentUsers: [],
+                  })
+                }
+
+                res.render("admin/dashboard", {
+                  questions,
+                  totalQuestions,
+                  answeredQuestions,
+                  pendingQuestions,
+                  totalUsers,
+                  recentUsers,
+                })
+              },
+            )
           })
         },
       )
@@ -625,6 +686,284 @@ app.get("/dashboard", isAdmin, (req, res) => {
   })
 })
 
+// Admin User Management Routes
+app.get("/admin/users", isAdmin, (req, res) => {
+  connection.query(
+    "SELECT id, name, email, created_at, email_verified FROM users WHERE is_admin = 0 ORDER BY created_at DESC",
+    (err, users) => {
+      if (err) {
+        console.error("Error fetching users:", err)
+        req.flash("error", "An error occurred while loading users")
+        return res.render("admin/users", { users: [] })
+      }
+
+      res.render("admin/users", { users })
+    },
+  )
+})
+
+app.get("/admin/users/:id", isAdmin, (req, res) => {
+  const { id } = req.params
+
+  // Get user details
+  connection.query("SELECT * FROM users WHERE id = ?", [id], (err, results) => {
+    if (err) {
+      console.error("Error fetching user:", err)
+      req.flash("error", "An error occurred while loading user details")
+      return res.redirect("/admin/users")
+    }
+
+    if (results.length === 0) {
+      req.flash("error", "User not found")
+      return res.redirect("/admin/users")
+    }
+
+    const user = results[0]
+
+    // Get user's questions
+    connection.query("SELECT * FROM question WHERE user_id = ? ORDER BY created_at DESC", [id], (err, questions) => {
+      if (err) {
+        console.error("Error fetching user questions:", err)
+        return res.render("admin/user-detail", { user, questions: [] })
+      }
+
+      res.render("admin/user-detail", { user, questions })
+    })
+  })
+})
+
+app.get("/admin/users/:id/edit", isAdmin, (req, res) => {
+  const { id } = req.params
+
+  connection.query("SELECT * FROM users WHERE id = ?", [id], (err, results) => {
+    if (err) {
+      console.error("Error fetching user:", err)
+      req.flash("error", "An error occurred while loading user details")
+      return res.redirect("/admin/users")
+    }
+
+    if (results.length === 0) {
+      req.flash("error", "User not found")
+      return res.redirect("/admin/users")
+    }
+
+    const user = results[0]
+    res.render("admin/edit-user", { user })
+  })
+})
+
+app.post("/admin/users/:id", isAdmin, async (req, res) => {
+  const { id } = req.params
+  const { name, email, password, email_verified } = req.body
+  const isVerified = email_verified === "on"
+
+  try {
+    // First check if user exists
+    connection.query("SELECT * FROM users WHERE id = ?", [id], async (err, results) => {
+      if (err) {
+        console.error("Error fetching user:", err)
+        req.flash("error", "An error occurred while updating user")
+        return res.redirect(`/admin/users/${id}/edit`)
+      }
+
+      if (results.length === 0) {
+        req.flash("error", "User not found")
+        return res.redirect("/admin/users")
+      }
+
+      const user = results[0]
+
+      // Check if email is being changed and if it's already in use
+      if (email !== user.email) {
+        connection.query("SELECT * FROM users WHERE email = ? AND id != ?", [email, id], (err, emailResults) => {
+          if (err) {
+            console.error("Error checking email:", err)
+            req.flash("error", "An error occurred while updating user")
+            return res.redirect(`/admin/users/${id}/edit`)
+          }
+
+          if (emailResults.length > 0) {
+            req.flash("error", "Email is already in use by another user")
+            return res.redirect(`/admin/users/${id}/edit`)
+          }
+        })
+      }
+
+      // Prepare update query
+      let updateQuery = "UPDATE users SET name = ?, email = ?, email_verified = ?"
+      const queryParams = [name, email, isVerified]
+
+      // If password is provided, hash it and include in update
+      if (password && password.trim() !== "") {
+        const hashedPassword = await bcrypt.hash(password, 10)
+        updateQuery += ", password = ?"
+        queryParams.push(hashedPassword)
+      }
+
+      // Add WHERE clause
+      updateQuery += " WHERE id = ?"
+      queryParams.push(id)
+
+      // Execute update
+      connection.query(updateQuery, queryParams, (err, result) => {
+        if (err) {
+          console.error("Error updating user:", err)
+          req.flash("error", "An error occurred while updating user")
+          return res.redirect(`/admin/users/${id}/edit`)
+        }
+
+        req.flash("success", "User updated successfully")
+        res.redirect("/admin/users")
+      })
+    })
+  } catch (error) {
+    console.error("Error updating user:", error)
+    req.flash("error", "An error occurred while updating user")
+    res.redirect(`/admin/users/${id}/edit`)
+  }
+})
+
+
+// Admin Question Management Routes
+app.get("/admin/questions", isAdmin, (req, res) => {
+  connection.query("SELECT * FROM question ORDER BY created_at DESC", (err, questions) => {
+    if (err) {
+      console.error("Error fetching questions:", err)
+      req.flash("error", "An error occurred while loading questions")
+      return res.render("admin/questions", { questions: [] })
+    }
+
+    res.render("admin/questions", { questions })
+  })
+})
+
+app.get("/admin/questions/:id", isAdmin, (req, res) => {
+  const { id } = req.params
+
+  // Get question details
+  connection.query("SELECT * FROM question WHERE id = ?", [id], (err, results) => {
+    if (err) {
+      console.error("Error fetching question:", err)
+      req.flash("error", "An error occurred while loading question details")
+      return res.redirect("/admin/questions")
+    }
+
+    if (results.length === 0) {
+      req.flash("error", "Question not found")
+      return res.redirect("/admin/questions")
+    }
+
+    const question = results[0]
+
+    // Get user details if user_id exists
+    if (question.user_id) {
+      connection.query("SELECT * FROM users WHERE id = ?", [question.user_id], (err, userResults) => {
+        if (err) {
+          console.error("Error fetching user:", err)
+          return res.render("admin/question-detail", { question, userData: null, userQuestions: [] })
+        }
+
+        const userData = userResults.length > 0 ? userResults[0] : null
+
+        // Get other questions by the same user
+        if (userData) {
+          connection.query(
+            "SELECT * FROM question WHERE user_id = ? ORDER BY created_at DESC",
+            [userData.id],
+            (err, questionResults) => {
+              if (err) {
+                console.error("Error fetching user questions:", err)
+                return res.render("admin/question-detail", { question, userData, userQuestions: [] })
+              }
+
+              res.render("admin/question-detail", { question, userData, userQuestions: questionResults })
+            },
+          )
+        } else {
+          res.render("admin/question-detail", { question, userData: null, userQuestions: [] })
+        }
+      })
+    } else {
+      res.render("admin/question-detail", { question, userData: null, userQuestions: [] })
+    }
+  })
+})
+
+app.get("/admin/questions/:id/edit", isAdmin, (req, res) => {
+  const { id } = req.params
+
+  connection.query("SELECT * FROM question WHERE id = ?", [id], (err, results) => {
+    if (err) {
+      console.error("Error fetching question:", err)
+      req.flash("error", "An error occurred while loading question details")
+      return res.redirect("/admin/questions")
+    }
+
+    if (results.length === 0) {
+      req.flash("error", "Question not found")
+      return res.redirect("/admin/questions")
+    }
+
+    const question = results[0]
+    res.render("admin/edit-question", { question })
+  })
+})
+
+app.post("/admin/questions/:id", isAdmin, (req, res) => {
+  const { id } = req.params
+  const { answer } = req.body
+
+  if (!answer || answer.trim() === "") {
+    req.flash("error", "Answer cannot be empty")
+    return res.redirect(`/admin/questions/${id}/edit`)
+  }
+
+  connection.query("UPDATE question SET answers = ? WHERE id = ?", [answer, id], (err, result) => {
+    if (err) {
+      console.error("Error updating question:", err)
+      req.flash("error", "An error occurred while updating the answer")
+      return res.redirect(`/admin/questions/${id}/edit`)
+    }
+
+    req.flash("success", "Answer updated successfully")
+    res.redirect(`/admin/questions/${id}`)
+  })
+})
+
+app.get("/admin/questions/:id/delete", isAdmin, (req, res) => {
+  const { id } = req.params
+
+  connection.query("SELECT * FROM question WHERE id = ?", [id], (err, results) => {
+    if (err) {
+      console.error("Error fetching question:", err)
+      req.flash("error", "An error occurred while loading question details")
+      return res.redirect("/admin/questions")
+    }
+
+    if (results.length === 0) {
+      req.flash("error", "Question not found")
+      return res.redirect("/admin/questions")
+    }
+
+    const question = results[0]
+    res.render("admin/delete-question", { question })
+  })
+})
+
+app.delete("/admin/questions/:id", isAdmin, (req, res) => {
+  const { id } = req.params
+
+  connection.query("DELETE FROM question WHERE id = ?", [id], (err, result) => {
+    if (err) {
+      console.error("Error deleting question:", err)
+      req.flash("error", "An error occurred while deleting the question")
+      return res.redirect(`/admin/questions/${id}`)
+    }
+
+    req.flash("success", "Question deleted successfully")
+    res.redirect("/admin/questions")
+  })
+})
 
 //Home page
 app.get("/", (req, res) => {
@@ -784,114 +1123,114 @@ app.get("/qa/:id", (req, res) => {
   }
 })
 
-app.get("/answer", isAdmin, (req, res) => {
-  const q = `SELECT * FROM question ORDER BY created_at DESC`
-  try {
-    connection.query(q, (err, result) => {
-      if (err) throw err
-      const data = result
-      res.render("answer.ejs", { data })
-    })
-  } catch (err) {
-    res.send("some error occurred")
-  }
-})
+// app.get("/answer", isAdmin, (req, res) => {
+//   const q = `SELECT * FROM question ORDER BY created_at DESC`
+//   try {
+//     connection.query(q, (err, result) => {
+//       if (err) throw err
+//       const data = result
+//       res.render("answer.ejs", { data })
+//     })
+//   } catch (err) {
+//     res.send("some error occurred")
+//   }
+// })
 
-app.get("/answer/:id/edit", isAdmin, (req, res) => {
-  const { id } = req.params
-  const q = `SELECT * FROM question WHERE id=?`
+// app.get("/answer/:id/edit", isAdmin, (req, res) => {
+//   const { id } = req.params
+//   const q = `SELECT * FROM question WHERE id=?`
 
-  try {
-    connection.query(q, [id], (err, result) => {
-      if (err) throw err
-      const data = result[0]
-      res.render("edit.ejs", { data })
-    })
-  } catch (err) {
-    res.send("some error with DB")
-  }
-})
+//   try {
+//     connection.query(q, [id], (err, result) => {
+//       if (err) throw err
+//       const data = result[0]
+//       res.render("edit.ejs", { data })
+//     })
+//   } catch (err) {
+//     res.send("some error with DB")
+//   }
+// })
 
-app.patch("/answer/:id", isAdmin, (req, res) => {
-  const { id } = req.params
-  const { Answers, password } = req.body
-  const pass = "Ayush"
-  console.log(Answers)
+// app.patch("/answer/:id", isAdmin, (req, res) => {
+//   const { id } = req.params
+//   const { Answers, password } = req.body
+//   const pass = "Ayush"
+//   console.log(Answers)
 
-  // Check if the question exists in the question table
-  const q1 = `SELECT * FROM question WHERE id=?`
+//   // Check if the question exists in the question table
+//   const q1 = `SELECT * FROM question WHERE id=?`
 
-  try {
-    connection.query(q1, [id], (err, result) => {
-      if (err) throw err
+//   try {
+//     connection.query(q1, [id], (err, result) => {
+//       if (err) throw err
 
-      if (password != pass) {
-        res.send("WRONG Password entered!")
-      } else {
-        // Update the question table
-        if (result.length > 0) {
-          const q2 = `UPDATE question SET answers=? WHERE id=?`
-          connection.query(q2, [Answers, id], (err, result) => {
-            if (err) throw err
-            console.log("Updated in question table")
-            req.flash("success", "Answer updated successfully")
-            res.redirect("/answer")
-          })
-        } else {
-          req.flash("error", "Question not found")
-          res.redirect("/answer")
-        }
-      }
-    })
-  } catch (err) {
-    res.send("some error with DB")
-  }
-})
+//       if (password != pass) {
+//         res.send("WRONG Password entered!")
+//       } else {
+//         // Update the question table
+//         if (result.length > 0) {
+//           const q2 = `UPDATE question SET answers=? WHERE id=?`
+//           connection.query(q2, [Answers, id], (err, result) => {
+//             if (err) throw err
+//             console.log("Updated in question table")
+//             req.flash("success", "Answer updated successfully")
+//             res.redirect("/dashboard")
+//           })
+//         } else {
+//           req.flash("error", "Question not found")
+//           res.redirect("/dashboard")
+//         }
+//       }
+//     })
+//   } catch (err) {
+//     res.send("some error with DB")
+//   }
+// })
 
-app.get("/answer/:id/delete", isAdmin, (req, res) => {
-  const { id } = req.params
-  const q = `SELECT * FROM question WHERE id=?`
+// app.get("/answer/:id/delete", isAdmin, (req, res) => {
+//   const { id } = req.params
+//   const q = `SELECT * FROM question WHERE id=?`
 
-  try {
-    connection.query(q, [id], (err, result) => {
-      if (err) throw err
-      const question = result[0]
-      res.render("delete.ejs", { question })
-    })
-  } catch (err) {
-    res.send("some error with DB")
-  }
-})
+//   try {
+//     connection.query(q, [id], (err, result) => {
+//       if (err) throw err
+//       const question = result[0]
+//       res.render("delete.ejs", { question })
+//     })
+//   } catch (err) {
+//     res.send("some error with DB")
+//   }
+// })
 
-app.delete("/answer/:id/", isAdmin, (req, res) => {
-  const { id } = req.params
-  const { password } = req.body
-  const pass = "Ayush"
-  const q = `SELECT * FROM question WHERE id=?`
+// app.delete("/answer/:id/", isAdmin, (req, res) => {
+//   const { id } = req.params
+//   const { password } = req.body
+//   const pass = "Ayush"
+//   const q = `SELECT * FROM question WHERE id=?`
 
-  try {
-    connection.query(q, [id], (err, result) => {
-      if (err) throw err
+//   try {
+//     connection.query(q, [id], (err, result) => {
+//       if (err) throw err
 
-      if (pass != password) {
-        res.send("WRONG Password entered!")
-      } else {
-        const q2 = `DELETE FROM question WHERE id=?` //Query to Delete
-        connection.query(q2, [id], (err, result) => {
-          if (err) throw err
-          else {
-            console.log(result)
-            console.log("deleted!")
-            req.flash("success", "Question deleted successfully")
-            res.redirect("/answer")
-          }
-        })
-      }
-    })
-  } catch (err) {
-    res.send("some error with DB")
-  }
-})
+//       if (pass != password) {
+//         res.send("WRONG Password entered!")
+//       } else {
+//         const q2 = `DELETE FROM question WHERE id=?` //Query to Delete
+//         connection.query(q2, [id], (err, result) => {
+//           if (err) throw err
+//           else {
+//             console.log(result)
+//             console.log("deleted!")
+//             req.flash("success", "Question deleted successfully")
+//             res.redirect("/dashboard")
+//           }
+//         })
+//       }
+//     })
+//   } catch (err) {
+//     res.send("some error with DB")
+//   }
+// })
 
 
 

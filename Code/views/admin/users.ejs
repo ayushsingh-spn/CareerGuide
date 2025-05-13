@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Management - CareerGuide</title>
+  <link rel="stylesheet" href="/admin.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="admin-body">
+  <div class="admin-sidebar">
+    <div class="admin-logo">
+        <a href="http://localhost:8080/" class="logo" style="text-decoration: none;"><img src="/creative.png" alt="" style="height: 60px; width: 60px;"></a>
+    </div>
+    <nav class="admin-nav">
+      <ul>
+        <li><a href="/dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+        <li><a href="/admin/questions"><i class="fas fa-question-circle"></i> Questions</a></li>
+        <li><a href="/admin/users" class="active"><i class="fas fa-users"></i> Users</a></li>
+        <li><a href="/admin/settings"><i class="fas fa-cog"></i> Settings</a></li>
+      </ul>
+    </nav>
+    <div class="admin-logout">
+      <a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
+  </div>
+  
+  <div class="admin-content">
+    <header class="admin-header">
+      <div class="admin-header-title">
+        <h2>User Management</h2>
+      </div>
+      <div class="admin-header-user">
+        <span>Welcome, <%= user.name %></span>
+      </div>
+    </header>
+    
+    <main class="admin-main">
+      <div class="users-container">
+        <div class="users-header">
+          <h3>All Users</h3>
+          <div class="users-actions">
+            <input type="text" id="user-search" placeholder="Search users..." class="search-input">
+          </div>
+        </div>
+        
+        <% if (success && success.length > 0) { %>
+          <div class="alert alert-success">
+            <%= success %>
+          </div>
+        <% } %>
+        
+        <% if (error && error.length > 0) { %>
+          <div class="alert alert-error">
+            <%= error %>
+          </div>
+        <% } %>
+        
+        <div class="users-table-container">
+          <% if (users && users.length > 0) { %>
+            <table class="admin-table users-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Joined</th>
+                  <th>Verified</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% users.forEach(user => { %>
+                  <tr>
+                    <td><%= user.name %></td>
+                    <td><%= user.email %></td>
+                    <td>
+                      <% 
+                        const date = new Date(user.created_at);
+                        const formattedDate = date.toLocaleString('en-US', { 
+                          year: 'numeric', 
+                          month: 'short', 
+                          day: 'numeric'
+                        });
+                      %>
+                      <%= formattedDate %>
+                    </td>
+                    <td>
+                      <% if (user.email_verified) { %>
+                        <span class="verified"><i class="fas fa-check-circle"></i> Verified</span>
+                      <% } else { %>
+                        <span class="not-verified"><i class="fas fa-times-circle"></i> Not Verified</span>
+                      <% } %>
+                    </td>
+                    <td>
+                      <a href="/admin/users/<%= user.id %>" class="table-action" title="View User"><i class="fas fa-eye"></i></a>
+                      <a href="/admin/users/<%= user.id %>/edit" class="table-action" title="Edit User"><i class="fas fa-edit"></i></a>
+                    </td>
+                  </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          <% } else { %>
+            <div class="no-users">
+              <p>No users available.</p>
+            </div>
+          <% } %>
+        </div>
+      </div>
+    </main>
+    
+    <footer class="admin-footer">
+      <p>&copy; <%= new Date().getFullYear() %> CareerGuide Admin Panel. All rights reserved.</p>
+    </footer>
+  </div>
+
+  <script src="/admin.js"></script>
+  <script>
+    // Simple search functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const searchInput = document.getElementById('user-search');
+      const tableRows = document.querySelectorAll('.users-table tbody tr');
+      
+      if (searchInput && tableRows.length > 0) {
+        searchInput.addEventListener('input', function() {
+          const searchTerm = this.value.toLowerCase();
+          
+          tableRows.forEach(row => {
+            const name = row.cells[0].textContent.toLowerCase();
+            const email = row.cells[1].textContent.toLowerCase();
+            
+            if (name.includes(searchTerm) || email.includes(searchTerm)) {
+              row.style.display = '';
+            } else {
+              row.style.display = 'none';
+            }
+          });
+        });
+      }
+    });
+  </script>
+</body>
+</html>

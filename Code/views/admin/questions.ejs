@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manage Questions - CareerGuide Admin</title>
+  <link rel="stylesheet" href="/admin.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="admin-body">
+  <div class="admin-sidebar">
+    <div class="admin-logo">
+        <a href="http://localhost:8080/" class="logo" style="text-decoration: none;"><img src="/creative.png" alt="" style="height: 60px; width: 60px;"></a>
+    </div>
+    <nav class="admin-nav">
+      <ul>
+        <li><a href="/dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+        <li><a href="/admin/questions" class="active"><i class="fas fa-question-circle"></i> Questions</a></li>
+        <li><a href="/admin/users"><i class="fas fa-users"></i> Users</a></li>
+        <li><a href="/admin/settings"><i class="fas fa-cog"></i> Settings</a></li>
+      </ul>
+    </nav>
+    <div class="admin-logout">
+      <a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
+  </div>
+
+  <div class="admin-content">
+    <header class="admin-header">
+      <div class="admin-header-title">
+        <h2>Manage Questions</h2>
+      </div>
+      <div class="admin-header-user">
+        <span>Welcome, <%= user.name %></span>
+      </div>
+    </header>
+    
+    <main class="admin-main">
+      <div class="questions-container">
+        <% if (success && success.length > 0) { %>
+          <div class="alert alert-success">
+            <%= success %>
+          </div>
+        <% } %>
+        
+        <% if (error && error.length > 0) { %>
+          <div class="alert alert-error">
+            <%= error %>
+          </div>
+        <% } %>
+        
+        <div class="questions-header">
+          <h3>All Questions</h3>
+          <div class="questions-filter">
+            <input type="text" id="searchInput" class="search-input" placeholder="Search questions...">
+            <select id="statusFilter" class="filter-select">
+              <option value="all">All Questions</option>
+              <option value="answered">Answered</option>
+              <option value="unanswered">Unanswered</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="questions-table-container">
+          <% if (questions && questions.length > 0) { %>
+            <table class="admin-table questions-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Question</th>
+                  <th>Asked By</th>
+                  <th>Date</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% questions.forEach(question => { %>
+                  <tr class="question-row <%= question.answers ? 'answered' : 'unanswered' %>">
+                    <td><%= String(question.id).substring(0, 8) %>...</td>
+                    <td>
+                      <div class="question-preview">
+                        <%= question.question.length > 50 ? question.question.substring(0, 50) + '...' : question.question %>
+                      </div>
+                    </td>
+                    <td><%= question.name %></td>
+                    <td>
+                      <% 
+                        const date = new Date(question.created_at);
+                        const formattedDate = date.toLocaleString('en-US', { 
+                          year: 'numeric', 
+                          month: 'short', 
+                          day: 'numeric'
+                        });
+                      %>
+                      <%= formattedDate %>
+                    </td>
+                    <td>
+                      <% if (question.answers) { %>
+                        <span class="status-badge status-answered">Answered</span>
+                      <% } else { %>
+                        <span class="status-badge status-pending">Pending</span>
+                      <% } %>
+                    </td>
+                    <td>
+                      <div class="action-buttons">
+                        <a href="/admin/questions/<%= question.id %>" class="table-action" title="View">
+                          <i class="fas fa-eye"></i>
+                        </a>
+                        <a href="/admin/questions/<%= question.id %>/edit" class="table-action" title="Edit">
+                          <i class="fas fa-edit"></i>
+                        </a>
+                        <a href="/admin/questions/<%= question.id %>/delete" class="table-action text-danger" title="Delete">
+                          <i class="fas fa-trash"></i>
+                        </a>
+                      </div>
+                    </td>
+                  </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          <% } else { %>
+            <div class="no-questions">
+              <p>No questions found.</p>
+            </div>
+          <% } %>
+        </div>
+      </div>
+    </main>
+    
+    <footer class="admin-footer">
+      <p>&copy; <%= new Date().getFullYear() %> CareerGuide Admin Panel. All rights reserved.</p>
+    </footer>
+  </div>
+
+  <script>
+    // Search and filter functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const searchInput = document.getElementById('searchInput');
+      const statusFilter = document.getElementById('statusFilter');
+      const questionRows = document.querySelectorAll('.question-row');
+      
+      function filterQuestions() {
+        const searchTerm = searchInput.value.toLowerCase();
+        const filterValue = statusFilter.value;
+        
+        questionRows.forEach(row => {
+          const questionText = row.querySelector('.question-preview').textContent.toLowerCase();
+          const askedBy = row.cells[2].textContent.toLowerCase();
+          const isAnswered = row.classList.contains('answered');
+          
+          const matchesSearch = questionText.includes(searchTerm) || askedBy.includes(searchTerm);
+          const matchesFilter = 
+            filterValue === 'all' || 
+            (filterValue === 'answered' && isAnswered) || 
+            (filterValue === 'unanswered' && !isAnswered);
+          
+          row.style.display = matchesSearch && matchesFilter ? '' : 'none';
+        });
+      }
+      
+      searchInput.addEventListener('input', filterQuestions);
+      statusFilter.addEventListener('change', filterQuestions);
+    });
+  </script>
+</body>
+</html>
