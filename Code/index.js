@@ -10,7 +10,16 @@ const bcrypt = require("bcrypt");
 const flash = require("connect-flash");
 const crypto = require("crypto")
 const { sendVerificationEmail, sendPasswordResetEmail } = require('../Code/public/JS/mailer');
+const { generateText } = require("ai")
+const { openai } = require("@ai-sdk/openai")
+const dotenv = require("dotenv")
+const { GoogleGenerativeAI } = require('@google/generative-ai');
 
+// Load environment variables
+dotenv.config()
+
+// Add JSON body parser middleware
+app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 
@@ -1232,7 +1241,217 @@ app.get("/qa/:id", (req, res) => {
 //   }
 // })
 
+// AI-powered quiz analysis endpoint
+app.post("/api/analyze-quiz", async (req, res) => {
+  try {
+    const { answers, userProfile } = req.body
 
+    if (!answers || answers.length === 0) {
+      return res.status(400).json({ error: "No answers provided" })
+    }
+
+    // Format the user's answers for the AI prompt
+    const formattedAnswers = answers
+      .map((answer) => `Question: ${answer.questionId}. Category: ${answer.category}. Answer: ${answer.answer}`)
+      .join("\n")
+
+    // Create a comprehensive prompt for the AI
+    const prompt = `
+      You are a career guidance expert. Analyze the following quiz responses from a student seeking career advice.
+      
+      QUIZ RESPONSES:
+      ${formattedAnswers}
+      
+      Based on these responses, provide:
+      1. A personalized career stream recommendation (Science, Commerce, Arts, etc.)
+      2. 3-5 specific career paths that match their interests and strengths
+      4. Key strengths identified from their answers
+      5. Suggested next steps for career exploration
+      
+      Format your response as a JSON object with the following structure:
+      {
+        "recommendation": "Your main recommendation as a paragraph",
+        "details": [
+          {
+            "title": "Potential Careers",
+            "content": "List of recommended careers"
+          },
+          {
+            "title": "Your Strengths",
+            "content": "List of identified strengths"
+          },
+          {
+            "title": "Next Steps",
+            "content": "Suggested actions for career exploration"
+          }
+        ]
+      }
+      
+      Keep your response focused on career guidance for students.
+    `
+
+    // Try Google's Gemini API first
+    const geminiApiKey = process.env.GEMINI_API_KEY
+
+    if (geminiApiKey) {
+      try {
+        // Initialize the Gemini API
+        const genAI = new GoogleGenerativeAI(geminiApiKey)
+        
+        // For text-only input, use the gemini-pro model
+        const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" })
+
+        const result = await model.generateContent(prompt)
+        const response = await result.response
+        const text = response.text()
+
+        try {
+          // Extract JSON from the response
+          const jsonMatch = text.match(/\{[\s\S]*\}/)
+          if (jsonMatch) {
+            const result = JSON.parse(jsonMatch[0])
+            return res.json(result)
+          }
+        } catch (parseError) {
+          console.error("Error parsing Gemini response:", parseError)
+          // Fall through to OpenAI or fallback
+        }
+      } catch (geminiError) {
+        console.error("Error with Gemini analysis:", geminiError)
+        // Fall through to OpenAI or fallback
+      }
+    }
+
+    // Try OpenAI as a backup if Hugging Face fails
+    const openaiApiKey = process.env.OPENAI_API_KEY
+
+    if (openaiApiKey) {
+      try {
+        // Call the AI model
+        const { text } = await generateText({
+          model: openai("gpt-3.5-turbo"), // Use a less expensive model
+          prompt: prompt,
+          temperature: 0.7,
+          max_tokens: 1000,
+        })
+
+        // Parse the AI response
+        try {
+          // Extract JSON from the response
+          const jsonMatch = text.match(/\{[\s\S]*\}/)
+          if (jsonMatch) {
+            const result = JSON.parse(jsonMatch[0])
+            return res.json(result)
+          }
+        } catch (parseError) {
+          console.error("Error parsing OpenAI response:", parseError)
+          // Fall through to the fallback analysis
+        }
+      } catch (aiError) {
+        console.error("Error with OpenAI analysis:", aiError)
+        // Fall through to the fallback analysis
+      }
+    }
+
+    // If we reach here, use the enhanced fallback analysis
+    const result = performBasicAnalysis(answers)
+    res.json(result)
+  } catch (error) {
+    console.error("Error analyzing quiz:", error)
+    res.status(500).json({
+      error: "Failed to analyze quiz results",
+      recommendation:
+        "Based on your answers, you might be interested in exploring multiple career paths. Consider consulting with a career counselor for personalized advice.",
+      details: [
+        {
+          title: "Next Steps",
+          content:
+            "Try retaking the quiz or explore our streams information pages for more details about different career paths.",
+        },
+      ],
+    })
+  }
+})
+
+// Fallback analysis function
+function performBasicAnalysis(answers) {
+  // Simple algorithm as fallback (similar to the client-side one)
+  const categories = {
+    science: 0,
+    commerce: 0,
+    arts: 0,
+    technology: 0,
+    healthcare: 0,
+    social: 0,
+  }
+
+  // Map answers to categories (simplified version)
+  answers.forEach((answer) => {
+    const value = answer.answer
+
+    if (["Mathematics", "Biology", "Solving complex problems", "Conducting experiments"].includes(value)) {
+      categories.science++
+    }
+
+    if (["Economics", "Analyzing market trends", "Running a business"].includes(value)) {
+      categories.commerce++
+    }
+
+    if (["Literature", "Creative writing", "In a creative field"].includes(value)) {
+      categories.arts++
+    }
+
+    // Add more mappings as needed
+  })
+
+  // Find top category
+  const topCategory = Object.entries(categories).sort((a, b) => b[1] - a[1])[0][0]
+
+  // Generate basic recommendation
+  const recommendations = {
+    science: {
+      recommendation: "Based on your answers, you might be well-suited for the Science stream.",
+      careers: "Research Scientist, Data Analyst, Environmental Scientist",
+      strengths: "Analytical thinking, Problem-solving, Attention to detail",
+    },
+    commerce: {
+      recommendation: "Based on your answers, you might be well-suited for the Commerce stream.",
+      careers: "Business Analyst, Financial Advisor, Marketing Specialist",
+      strengths: "Business acumen, Numerical skills, Strategic thinking",
+    },
+    arts: {
+      recommendation: "Based on your answers, you might be well-suited for the Arts stream.",
+      careers: "Content Creator, Graphic Designer, Journalist",
+      strengths: "Creativity, Communication skills, Artistic expression",
+    },
+    // Add more recommendations as needed
+  }
+
+  const result = recommendations[topCategory] || {
+    recommendation:
+      "Your interests seem diverse. Consider exploring multiple streams or consult with a career counselor for personalized advice.",
+    careers: "Various fields based on your diverse interests",
+    strengths: "Adaptability, Diverse skill set",
+  }
+
+  return {
+    recommendation: result.recommendation,
+    details: [
+      {
+        title: "Potential Careers",
+        content: result.careers,
+      },
+      {
+        title: "Your Strengths",
+        content: result.strengths,
+      },
+      {
+        title: "Next Steps",
+        content: "Consider researching specific careers in this field and the educational requirements for each.",
+      },
+    ],
+  }
+}
 
 
 

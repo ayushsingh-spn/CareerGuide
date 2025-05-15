@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Career Quiz - CareerGuide</title>
   <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/quiz.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -13,37 +14,45 @@
   <main class="page-content">
     <div class="container">
       <section class="page-header">
-        <h1>Career Quiz</h1>
+        <h1>AI-Powered Career Quiz</h1>
+        <p class="quiz-intro">Answer these questions to get personalized career recommendations based on your interests, skills, and preferences.</p>
       </section>
 
-      <section class="quiz-container">
+      <section class="quiz-container" id="quiz-container">
+        <!-- Progress Bar -->
+        <div class="quiz-progress">
+          <div class="progress-bar-container">
+            <div class="progress-bar" id="quiz-progress-bar"></div>
+          </div>
+          <p class="progress-text" id="quiz-progress-text">Question 1 of 10</p>
+        </div>
+
+        <!-- Quiz Card -->
         <div class="quiz-card" id="quiz-card">
+          <!-- Question Section -->
           <div class="quiz-question" id="quiz-question">
             <h2>Question <span id="question-number">1</span></h2>
             <p id="question-text">Which subject do you enjoy the most?</p>
             <div class="quiz-options">
-              <div class="option">
-                <input type="radio" id="option-0" name="quiz-option" value="Mathematics">
-                <label for="option-0">Mathematics</label>
-              </div>
-              <div class="option">
-                <input type="radio" id="option-1" name="quiz-option" value="Biology">
-                <label for="option-1">Biology</label>
-              </div>
-              <div class="option">
-                <input type="radio" id="option-2" name="quiz-option" value="Economics">
-                <label for="option-2">Economics</label>
-              </div>
-              <div class="option">
-                <input type="radio" id="option-3" name="quiz-option" value="Literature">
-                <label for="option-3">Literature</label>
-              </div>
+              <!-- Options will be dynamically inserted here -->
             </div>
           </div>
 
+          <!-- Loading Indicator -->
+          <div class="loading-indicator" id="loading-indicator" style="display: none;">
+            <div class="spinner"></div>
+            <p>Analyzing your responses with AI...</p>
+          </div>
+
+          <!-- Result Section -->
           <div class="quiz-result" id="quiz-result" style="display: none;">
-            <h2>Your Result</h2>
-            <p id="result-text"></p>
+            <h2>Your Career Recommendation</h2>
+            <div class="result-card">
+              <p id="result-text" class="result-main"></p>
+              <div id="detailed-results" class="detailed-results">
+                <!-- Detailed results will be inserted here -->
+              </div>
+            </div>
             <button class="btn btn-primary" id="retake-btn">Retake Quiz</button>
           </div>
         </div>
@@ -54,7 +63,6 @@
   <%- include("footer.ejs") %>
 
   <script src="main.js"></script>
-  <script src="quiz.js"></script>
+  <script src="enhanced-quiz.js"></script>
 </body>
 </html>
-

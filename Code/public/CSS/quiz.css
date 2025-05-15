@@ -1,0 +1,233 @@
+/* Quiz Container Styles */
+.quiz-container {
+    max-width: 800px;
+    margin: 0 auto 60px;
+  }
+  
+  .quiz-intro {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 1.1rem;
+    color: #555;
+  }
+  
+  /* Progress Bar */
+  .quiz-progress {
+    margin-bottom: 20px;
+  }
+  
+  .progress-bar-container {
+    width: 100%;
+    height: 8px;
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  
+  .progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+    width: 10%;
+    transition: width 0.3s ease;
+  }
+  
+  .progress-text {
+    text-align: center;
+    margin-top: 8px;
+    font-size: 0.9rem;
+    color: #666;
+  }
+  
+  /* Quiz Card */
+  .quiz-card {
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    padding: 30px;
+    transition: all 0.3s ease;
+  }
+  
+  .quiz-card h2 {
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 1.5rem;
+  }
+  
+  #question-text {
+    font-size: 1.2rem;
+    margin-bottom: 25px;
+    color: #444;
+  }
+  
+  /* Options */
+  .quiz-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .option {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .option:hover {
+    background-color: #f5f9ff;
+    border-color: #4facfe;
+  }
+  
+  .option input[type="radio"] {
+    margin-right: 12px;
+    cursor: pointer;
+    accent-color: #4facfe;
+    width: 18px;
+    height: 18px;
+  }
+  
+  .option label {
+    cursor: pointer;
+    font-size: 1.05rem;
+    color: #333;
+    flex: 1;
+  }
+  
+  /* Loading Indicator */
+  .loading-indicator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 0;
+  }
+  
+  .spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid rgba(79, 172, 254, 0.2);
+    border-radius: 50%;
+    border-top-color: #4facfe;
+    animation: spin 1s ease-in-out infinite;
+    margin-bottom: 20px;
+  }
+  
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  .loading-indicator p {
+    color: #666;
+    font-size: 1.1rem;
+  }
+  
+  /* Results */
+  .quiz-result h2 {
+    text-align: center;
+    margin-bottom: 25px;
+  }
+  
+  .result-card {
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    padding: 25px;
+    margin-bottom: 25px;
+  }
+  
+  .result-main {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .detailed-results {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .result-section {
+    border-top: 1px solid #e0e0e0;
+    padding-top: 15px;
+  }
+  
+  .result-section h3 {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    color: #4facfe;
+  }
+  
+  .result-section p {
+    color: #555;
+    line-height: 1.5;
+  }
+  
+  .resources ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .resources li {
+    margin-bottom: 8px;
+  }
+  
+  .resources a {
+    color: #4facfe;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+  }
+  
+  .resources a:hover {
+    text-decoration: underline;
+  }
+  
+  .resources a::before {
+    content: "→";
+    margin-right: 8px;
+  }
+  
+  #retake-btn {
+    display: block;
+    margin: 0 auto;
+    padding: 12px 30px;
+    background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  #retake-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(79, 172, 254, 0.4);
+  }
+  
+  /* Responsive Styles */
+  @media (max-width: 768px) {
+    .quiz-card {
+      padding: 20px;
+    }
+  
+    .option {
+      padding: 10px 12px;
+    }
+  
+    .option label {
+      font-size: 1rem;
+    }
+  
+    .result-main {
+      font-size: 1.1rem;
+    }
+  }
+  
