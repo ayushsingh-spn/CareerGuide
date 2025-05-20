@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // Grabbing references to key DOM elements needed for quiz UI updates
   const quizContainer = document.getElementById("quiz-container")
   const questionElement = document.getElementById("question-text")
   const optionsContainer = document.querySelector(".quiz-options")
@@ -12,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const questionNumber = document.getElementById("question-number")
   const quizQuestion = document.getElementById("quiz-question")
 
-  // Enhanced question set with categories
+  // Defining the array of quiz questions, each with a unique ID, category, and a set of multiple-choice options
   const questions = [
     {
       id: 1,
@@ -139,31 +140,32 @@ document.addEventListener("DOMContentLoaded", () => {
     },
   ]
 
+  // Variables to track current quiz progress, selected answers, and categorized user preferences
   let currentQuestion = 0
   let answers = []
   let userProfile = {}
 
-  // Initialize quiz
+  // Function to initialize the quiz, reset states, and load the first question
   function initQuiz() {
     currentQuestion = 0
     answers = []
     userProfile = {}
     showQuestion(currentQuestion)
     updateProgress()
-
     quizQuestion.style.display = "block"
     resultContainer.style.display = "none"
   }
 
+  // Function to render a question and its corresponding options based on the index
   function showQuestion(index) {
     const question = questions[index]
     questionNumber.textContent = index + 1
     questionElement.textContent = question.text
 
-    // Clear previous options
+    // Clear previously displayed options from the DOM
     optionsContainer.innerHTML = ""
 
-    // Create new options
+    // Dynamically create radio buttons and labels for each option in the current question
     question.options.forEach((option, i) => {
       const optionDiv = document.createElement("div")
       optionDiv.className = "option"
@@ -178,20 +180,21 @@ document.addEventListener("DOMContentLoaded", () => {
       label.setAttribute("for", `option-${i}`)
       label.textContent = option
 
+      // Append input and label to the option container div
       optionDiv.appendChild(input)
       optionDiv.appendChild(label)
       optionsContainer.appendChild(optionDiv)
 
-      // Add event listener to each option
+      // Attach an event listener to handle answer selection
       input.addEventListener("change", function () {
-        // Save answer with category
+        // Store the user's answer along with the question ID and category
         answers.push({
           questionId: question.id,
           category: question.category,
           answer: this.value,
         })
 
-        // Move to next question or show result
+        // Automatically move to the next question or trigger result processing
         setTimeout(() => {
           if (currentQuestion < questions.length - 1) {
             currentQuestion++
@@ -205,19 +208,21 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   }
 
+  // Function to update the quiz progress bar and status text
   function updateProgress() {
     const progress = ((currentQuestion + 1) / questions.length) * 100
     progressBar.style.width = `${progress}%`
     progressText.textContent = `Question ${currentQuestion + 1} of ${questions.length}`
   }
 
+  // Function to handle result processing after the last question is answered
   async function processResults() {
-    // Show loading indicator
+    // Hide quiz and show loading indicator while results are calculated
     quizQuestion.style.display = "none"
     loadingIndicator.style.display = "flex"
 
     try {
-      // Organize answers by category
+      // Organize answers into userProfile object, grouped by category
       questions.forEach((question, index) => {
         if (answers[index]) {
           if (!userProfile[question.category]) {
@@ -227,7 +232,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       })
 
-      // Send to server for AI analysis
+      // Send collected answers and profile to backend API for AI-based analysis
       const response = await fetch("/api/analyze-quiz", {
         method: "POST",
         headers: {
@@ -242,21 +247,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const result = await response.json()
 
-      // Display results
+      // Display final AI-generated result
       displayResults(result)
     } catch (error) {
       console.error("Error processing results:", error)
-      // Fallback to basic analysis if AI fails
+
+      // If AI fails, fallback to simple in-browser logic to analyze answers
       const basicResult = performBasicAnalysis()
       displayResults(basicResult)
     } finally {
+      // Hide loading and show results
       loadingIndicator.style.display = "none"
       resultContainer.style.display = "block"
     }
   }
 
+  // Fallback function for analyzing quiz results if backend is unavailable
   function performBasicAnalysis() {
-    // Simple algorithm as fallback
+    // Define scoring buckets for different career-oriented streams
     const categories = {
       science: 0,
       commerce: 0,
@@ -266,11 +274,10 @@ document.addEventListener("DOMContentLoaded", () => {
       social: 0,
     }
 
-    // Map answers to categories
+    // Manually map certain answer values to these predefined categories
     answers.forEach((answer) => {
       const value = answer.answer
 
-      // Science indicators
       if (
         [
           "Mathematics",
@@ -288,7 +295,6 @@ document.addEventListener("DOMContentLoaded", () => {
         categories.science++
       }
 
-      // Commerce indicators
       if (
         [
           "Economics",
@@ -303,7 +309,6 @@ document.addEventListener("DOMContentLoaded", () => {
         categories.commerce++
       }
 
-      // Arts indicators
       if (
         [
           "Literature",
@@ -318,7 +323,6 @@ document.addEventListener("DOMContentLoaded", () => {
         categories.arts++
       }
 
-      // Technology indicators
       if (
         [
           "Computer Science",
@@ -331,7 +335,6 @@ document.addEventListener("DOMContentLoaded", () => {
         categories.technology++
       }
 
-      // Healthcare indicators
       if (
         ["Biology", "In a hospital or research lab", "Helping others", "Making a difference", "Biotechnology"].includes(
           value,
@@ -340,7 +343,6 @@ document.addEventListener("DOMContentLoaded", () => {
         categories.healthcare++
       }
 
-      // Social indicators
       if (
         [
           "Psychology",
@@ -355,18 +357,19 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     })
 
-    // Find top categories
+    // Sort categories by highest count
     const sortedCategories = Object.entries(categories)
       .sort((a, b) => b[1] - a[1])
       .filter((category) => category[1] > 0)
 
-    // Generate basic recommendation
+    // Initialize response message
     let recommendation = "Based on your answers, you might be well-suited for "
     let details = []
 
     if (sortedCategories.length > 0) {
       const topCategory = sortedCategories[0][0]
 
+      // Define result content based on top category
       const categoryRecommendations = {
         science: {
           stream: "the Science stream",
@@ -417,12 +420,13 @@ document.addEventListener("DOMContentLoaded", () => {
         },
       ]
 
-      // Add secondary recommendation if applicable
+      // Optionally add second-highest category if score is high enough
       if (sortedCategories.length > 1 && sortedCategories[1][1] > 1) {
         const secondCategory = sortedCategories[1][0]
         recommendation += `. You also show potential for ${categoryRecommendations[secondCategory].stream}.`
       }
     } else {
+      // If no clear dominant category, show general advice
       recommendation =
         "Your interests seem diverse. Consider exploring multiple streams or consult with a career counselor for personalized advice."
     }
@@ -433,13 +437,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  // Function to render the final results on the screen
   function displayResults(result) {
     resultText.textContent = result.recommendation
 
-    // Clear previous detailed results
+    // Clear any previously shown detailed result sections
     detailedResults.innerHTML = ""
 
-    // Add detailed sections
+    // Create and insert each detailed section such as careers or strengths
     if (result.details && result.details.length > 0) {
       result.details.forEach((detail) => {
         const section = document.createElement("div")
@@ -457,7 +462,7 @@ document.addEventListener("DOMContentLoaded", () => {
       })
     }
 
-    // Add career resources section
+    // Create section for external resources (links to more content)
     const resourcesSection = document.createElement("div")
     resourcesSection.className = "result-section resources"
 
@@ -487,11 +492,11 @@ document.addEventListener("DOMContentLoaded", () => {
     detailedResults.appendChild(resourcesSection)
   }
 
-  // Retake quiz button
+  // Setup retake button to restart the quiz when clicked
   if (retakeBtn) {
     retakeBtn.addEventListener("click", initQuiz)
   }
 
-  // Initialize the quiz
+  // Kick off the quiz as soon as DOM is ready
   initQuiz()
 })

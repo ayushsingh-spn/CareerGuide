@@ -3,20 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Scholarships & Entrance Exams - CareerGuide</title>
+  <title>Scholarships & Entrance Exams - VistaeGuide</title>
   <link rel="stylesheet" href="/styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+  <!-- Header include -->
   <%- include("header.ejs") %>
 
   <main class="page-content">
     <div class="container">
+      <!-- Page Header -->
       <section class="page-header">
         <h1>Scholarships & Entrance Exams</h1>
         <p>Find financial support and prepare for important exams</p>
       </section>
 
+      <!-- Search and Filter Section -->
       <section class="search-filter-section">
         <div class="search-filter-container">
           <div class="search-box">
@@ -38,7 +41,9 @@
         </div>
       </section>
 
+      <!-- Scholarships and Exams Display Section -->
       <section class="scholarships-exams-grid">
+        <!-- Scholarships List -->
         <div class="scholarships-card">
           <h2>Scholarships</h2>
           <div class="scholarships-list" id="scholarships-list">
@@ -75,6 +80,7 @@
           </div>
         </div>
 
+        <!-- Entrance Exams List -->
         <div class="exams-card">
           <h2>Entrance Exams</h2>
           <div class="exams-list" id="exams-list">
@@ -112,6 +118,7 @@
         </div>
       </section>
 
+      <!-- Preparation Resources Section -->
       <section class="preparation-resources">
         <h2>Preparation Resources</h2>
         <p>Access study materials, mock tests, and preparation tips for various entrance exams.</p>
@@ -144,10 +151,10 @@
     </div>
   </main>
 
+  <!-- Footer include -->
   <%- include("footer.ejs") %>
 
   <script src="main.js"></script>
   <script src="scholarships.js"></script>
 </body>
 </html>
-

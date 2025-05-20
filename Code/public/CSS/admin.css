@@ -1,3 +1,4 @@
+/* Admin page */
 .admin-body {
   display: flex;
   min-height: 100vh;
@@ -210,6 +211,12 @@
   border-collapse: collapse;
 }
 
+/* Make the table container scrollable if content overflows */
+.table-responsive {
+  min-height: 300px; /* Adjust height as needed */
+  overflow-y: auto;
+}
+
 .admin-table th,
 .admin-table td {
   padding: 0.75rem;
@@ -372,8 +379,6 @@
 .not-verified {
   color: #ef4444;
 }
-
-/* Add these styles to the end of your admin.css file */
 
 /* User management styles */
 .users-container {
@@ -594,4 +599,40 @@
   display: flex;
   gap: 1rem;
   margin-top: 1rem;
+}
+
+/* Mentor details */
+
+.mentor-image {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.mentor-details {
+  text-align: left;
+}
+
+.status-badge {
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+.status-pending {
+  background-color: #ffeeba;
+  color: #856404;
+}
+.status-confirmed {
+  background-color: #d4edda;
+  color: #155724;
+}
+.status-completed {
+  background-color: #c3e6cb;
+  color: #0f5132;
+}
+.status-cancelled {
+  background-color: #f8d7da;
+  color: #721c24;
 }

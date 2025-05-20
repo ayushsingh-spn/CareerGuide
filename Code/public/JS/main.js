@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // Your existing mobile menu toggle code
+  // Toggle mobile navigation menu visibility when the menu button is clicked
   const mobileMenuBtn = document.querySelector(".mobile-menu-btn")
   const mobileMenu = document.querySelector(".mobile-menu")
 
@@ -9,20 +9,20 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   }
 
-  // Your existing career path visualization code
+  // Handle dynamic switching of career path content when a path button is clicked
   const pathBtns = document.querySelectorAll(".path-btn")
   const pathContainers = document.querySelectorAll(".path-container")
 
   if (pathBtns.length > 0) {
     pathBtns.forEach((btn) => {
       btn.addEventListener("click", function () {
-        const path = this.getAttribute("data-path")
+        const path = this.getAttribute("data-path") // Get associated path identifier
 
-        // Update active button
+        // Remove 'active' class from all buttons and apply to the clicked one
         pathBtns.forEach((b) => b.classList.remove("active"))
         this.classList.add("active")
 
-        // Update active path
+        // Display the corresponding path container and hide others
         pathContainers.forEach((container) => {
           container.classList.remove("active")
           if (container.classList.contains(path + "-path")) {
@@ -33,22 +33,21 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   }
 
-  // Your existing testimonial slider code
+  // Setup and control testimonial slider functionality
   const testimonialSlides = document.querySelectorAll(".testimonial-slide")
   const dots = document.querySelectorAll(".dot")
   let currentSlide = 0
 
   if (testimonialSlides.length > 0) {
-    // Initialize slider
-    showSlide(currentSlide)
+    showSlide(currentSlide) // Display the initial slide
 
-    // Auto slide
+    // Automatically change slide every 5 seconds
     setInterval(() => {
       currentSlide = (currentSlide + 1) % testimonialSlides.length
       showSlide(currentSlide)
     }, 5000)
 
-    // Dot navigation
+    // Allow users to navigate to a specific slide via dot indicators
     dots.forEach((dot, index) => {
       dot.addEventListener("click", () => {
         currentSlide = index
@@ -57,6 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   }
 
+  // Function to update slide visibility and dot indicator based on index
   function showSlide(index) {
     testimonialSlides.forEach((slide) => slide.classList.remove("active"))
     dots.forEach((dot) => dot.classList.remove("active"))
@@ -65,7 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
     dots[index].classList.add("active")
   }
 
-  // Your existing scroll animation code
+  // Scroll smoothly to the next viewport height when scroll indicator is clicked
   const scrollIndicator = document.querySelector(".scroll-indicator")
   if (scrollIndicator) {
     scrollIndicator.addEventListener("click", () => {
@@ -76,7 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   }
 
-  // Your existing animate on scroll function
+  // Animate elements when they enter the viewport on scroll
   const animateOnScroll = () => {
     const elements = document.querySelectorAll(".feature-card, .stat-card, .resource-card")
 
@@ -91,7 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   }
 
-  // Your existing initial styles setup
+  // Prepare animated elements by setting initial hidden state and transition effects
   const elementsToAnimate = document.querySelectorAll(".feature-card, .stat-card, .resource-card")
   elementsToAnimate.forEach((element) => {
     element.style.opacity = "0"
@@ -99,12 +99,13 @@ document.addEventListener("DOMContentLoaded", () => {
     element.style.transition = "opacity 0.5s ease, transform 0.5s ease"
   })
 
-  // Your existing scroll event listener
+  // Bind scroll event to animate eligible elements on scroll
   window.addEventListener("scroll", animateOnScroll)
-  // Run once on page load
-  animateOnScroll()
+  animateOnScroll() // Trigger once at page load
 
   /* ========== COSMIC STATISTICS ANIMATION ========== */
+
+  // ParticleGalaxy class creates a particle system that visually simulates a galaxy
   class ParticleGalaxy {
     constructor(container, color) {
       this.container = container;
@@ -117,32 +118,33 @@ document.addEventListener("DOMContentLoaded", () => {
       this.init();
       window.addEventListener('resize', () => this.resize());
     }
-    
+
+    // Randomly choose one of the predefined hue colors for particles
     getRandomColor() {
       const hues = [200, 260, 320, 30]; // Blue, Purple, Pink, Orange
       return `hsl(${hues[Math.floor(Math.random() * hues.length)]}, 100%, 70%)`;
     }
-    
+
+    // Resize the canvas to fit the container whenever the window resizes
     resize() {
       this.width = this.canvas.width = this.container.offsetWidth;
       this.height = this.canvas.height = this.container.offsetHeight;
     }
-    
+
+    // Initialize and distribute galaxy-like particles in spiral formation
     init() {
-      // Create particles in a galaxy formation
       const particleCount = 150;
       const centerX = this.width / 2;
       const centerY = this.height / 2;
-      
+
       for (let i = 0; i < particleCount; i++) {
-        // Create spiral arms
         const angle = Math.random() * Math.PI * 2;
         const radius = Math.random() * Math.min(this.width, this.height) * 0.4;
         const armOffset = Math.random() * 0.2 - 0.1;
-        
+
         const x = centerX + Math.cos(angle) * (radius + armOffset * radius);
         const y = centerY + Math.sin(angle) * (radius + armOffset * radius);
-        
+
         this.particles.push({
           x, y,
           size: Math.random() * 2 + 0.5,
@@ -152,30 +154,29 @@ document.addEventListener("DOMContentLoaded", () => {
           color: this.color
         });
       }
-      
+
       this.animate();
     }
-    
+
+    // Animate particle orbits and connecting lines
     animate() {
       this.ctx.clearRect(0, 0, this.width, this.height);
-      
-      // Draw particles
+
       this.particles.forEach(particle => {
-        // Create orbiting motion
         particle.x = particle.baseX + Math.cos(Date.now() * 0.0005 * particle.density) * 10;
         particle.y = particle.baseY + Math.sin(Date.now() * 0.0005 * particle.density) * 10;
-        
+
         this.ctx.beginPath();
         this.ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
         this.ctx.fillStyle = particle.color;
         this.ctx.fill();
-        
-        // Create connections between close particles
+
+        // Draw subtle lines between particles that are within proximity
         for (let i = 0; i < this.particles.length; i++) {
           const dx = particle.x - this.particles[i].x;
           const dy = particle.y - this.particles[i].y;
           const distance = Math.sqrt(dx * dx + dy * dy);
-          
+
           if (distance < 100) {
             this.ctx.beginPath();
             this.ctx.strokeStyle = particle.color;
@@ -186,44 +187,44 @@ document.addEventListener("DOMContentLoaded", () => {
           }
         }
       });
-      
+
       requestAnimationFrame(() => this.animate());
     }
   }
 
-  // Animate numbers with galaxy particles
+  // Animate numeric counters along with galaxy effect visuals
   const animateCosmicStats = () => {
     const statCards = document.querySelectorAll('.cosmic-stat');
     const colors = ['#4facfe', '#a18cd1', '#ff7e5f'];
-    
+
     statCards.forEach((card, index) => {
       const canvasContainer = card.querySelector('.cosmic-particle-canvas');
       const counter = card.querySelector('.cosmic-counter');
       const target = parseInt(card.getAttribute('data-value'));
       const duration = 2000;
       const startTime = Date.now();
-      
-      // Initialize galaxy particle system
+
+      // Start galaxy particle animation on card
       new ParticleGalaxy(canvasContainer, colors[index]);
-      
-      // Animate counter
+
+      // Animate numeric counter from 0 to target
       const animateCounter = () => {
         const elapsed = Date.now() - startTime;
         const progress = Math.min(elapsed / duration, 1);
         const current = Math.floor(progress * target);
-        
+
         counter.textContent = current;
-        
+
         if (progress < 1) {
           requestAnimationFrame(animateCounter);
         }
       };
-      
+
       animateCounter();
     });
   };
 
-  // Initialize when section is in view
+  // Observe when cosmic section enters viewport and trigger animations once
   const cosmicObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {

@@ -1,31 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Character encoding and responsive display settings -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>User Management - CareerGuide</title>
+
+  <!-- Page title displayed on browser tab -->
+  <title>User Management - VistaeGuide</title>
+
+  <!-- Link to admin panel stylesheet and Font Awesome icons -->
   <link rel="stylesheet" href="/admin.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+
 <body class="admin-body">
+  <!-- Sidebar navigation section -->
   <div class="admin-sidebar">
+
+    <!-- Logo at top of sidebar -->
     <div class="admin-logo">
-        <a href="http://localhost:8080/" class="logo" style="text-decoration: none;"><img src="/creative.png" alt="" style="height: 60px; width: 60px;"></a>
+      <a href="http://localhost:8080/" class="logo" style="text-decoration: none;">
+        <img src="/creative.png" alt="" style="height: 60px; width: 60px;">
+      </a>
     </div>
+
+    <!-- Admin navigation links -->
     <nav class="admin-nav">
       <ul>
         <li><a href="/dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
         <li><a href="/admin/questions"><i class="fas fa-question-circle"></i> Questions</a></li>
         <li><a href="/admin/users" class="active"><i class="fas fa-users"></i> Users</a></li>
+        <li><a href="/admin/mentors"><i class="fas fa-user-tie"></i> Mentors</a></li>
+        <li><a href="/admin/bookings"><i class="fas fa-calendar-alt"></i> Bookings</a></li>
         <li><a href="/admin/settings"><i class="fas fa-cog"></i> Settings</a></li>
       </ul>
     </nav>
+
+    <!-- Logout button -->
     <div class="admin-logout">
       <a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
     </div>
   </div>
-  
+
+  <!-- Main admin panel content -->
   <div class="admin-content">
+
+    <!-- Top header showing current page and logged-in admin -->
     <header class="admin-header">
       <div class="admin-header-title">
         <h2>User Management</h2>
@@ -34,29 +54,37 @@
         <span>Welcome, <%= user.name %></span>
       </div>
     </header>
-    
+
+    <!-- Main body: user table and search -->
     <main class="admin-main">
       <div class="users-container">
+
+        <!-- Header with page title and search input -->
         <div class="users-header">
           <h3>All Users</h3>
           <div class="users-actions">
             <input type="text" id="user-search" placeholder="Search users..." class="search-input">
           </div>
         </div>
-        
+
+        <!-- Success message if provided -->
         <% if (success && success.length > 0) { %>
           <div class="alert alert-success">
             <%= success %>
           </div>
         <% } %>
-        
+
+        <!-- Error message if provided -->
         <% if (error && error.length > 0) { %>
           <div class="alert alert-error">
             <%= error %>
           </div>
         <% } %>
-        
+
+        <!-- Users table wrapper -->
         <div class="users-table-container">
+
+          <!-- Only render table if users are available -->
           <% if (users && users.length > 0) { %>
             <table class="admin-table users-table">
               <thead>
@@ -69,10 +97,17 @@
                 </tr>
               </thead>
               <tbody>
+
+                <!-- Loop through each user and display data in table rows -->
                 <% users.forEach(user => { %>
                   <tr>
+                    <!-- User name -->
                     <td><%= user.name %></td>
+
+                    <!-- User email -->
                     <td><%= user.email %></td>
+
+                    <!-- Formatted account creation date -->
                     <td>
                       <% 
                         const date = new Date(user.created_at);
@@ -84,6 +119,8 @@
                       %>
                       <%= formattedDate %>
                     </td>
+
+                    <!-- Email verification badge -->
                     <td>
                       <% if (user.email_verified) { %>
                         <span class="verified"><i class="fas fa-check-circle"></i> Verified</span>
@@ -91,14 +128,23 @@
                         <span class="not-verified"><i class="fas fa-times-circle"></i> Not Verified</span>
                       <% } %>
                     </td>
+
+                    <!-- Action buttons: View and Edit -->
                     <td>
-                      <a href="/admin/users/<%= user.id %>" class="table-action" title="View User"><i class="fas fa-eye"></i></a>
-                      <a href="/admin/users/<%= user.id %>/edit" class="table-action" title="Edit User"><i class="fas fa-edit"></i></a>
+                      <a href="/admin/users/<%= user.id %>" class="table-action" title="View User">
+                        <i class="fas fa-eye"></i>
+                      </a>
+                      <a href="/admin/users/<%= user.id %>/edit" class="table-action" title="Edit User">
+                        <i class="fas fa-edit"></i>
+                      </a>
                     </td>
                   </tr>
                 <% }) %>
+
               </tbody>
             </table>
+
+          <!-- If no users exist, show message -->
           <% } else { %>
             <div class="no-users">
               <p>No users available.</p>
@@ -107,36 +153,14 @@
         </div>
       </div>
     </main>
-    
+
+    <!-- Footer with dynamic current year -->
     <footer class="admin-footer">
-      <p>&copy; <%= new Date().getFullYear() %> CareerGuide Admin Panel. All rights reserved.</p>
+      <p>&copy; <%= new Date().getFullYear() %> VistaeGuide Admin Panel. All rights reserved.</p>
     </footer>
   </div>
 
+  <!-- JavaScript for user search functionality -->
   <script src="/admin.js"></script>
-  <script>
-    // Simple search functionality
-    document.addEventListener('DOMContentLoaded', function() {
-      const searchInput = document.getElementById('user-search');
-      const tableRows = document.querySelectorAll('.users-table tbody tr');
-      
-      if (searchInput && tableRows.length > 0) {
-        searchInput.addEventListener('input', function() {
-          const searchTerm = this.value.toLowerCase();
-          
-          tableRows.forEach(row => {
-            const name = row.cells[0].textContent.toLowerCase();
-            const email = row.cells[1].textContent.toLowerCase();
-            
-            if (name.includes(searchTerm) || email.includes(searchTerm)) {
-              row.style.display = '';
-            } else {
-              row.style.display = 'none';
-            }
-          });
-        });
-      }
-    });
-  </script>
 </body>
 </html>

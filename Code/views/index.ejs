@@ -1,41 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Meta and page info -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CareerGuide - Shape Your Future</title>
+  <title>VistaeGuide - Shape Your Future</title>
+
+  <!-- Stylesheets and Icons -->
   <link rel="stylesheet" href="/styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.77/build/spline-viewer.js"></script>
 
+  <!-- Spline 3D viewer -->
+  <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.77/build/spline-viewer.js"></script>
 </head>
+
 <body>
-  
+  <!-- Include site header -->
   <%- include("header.ejs") %>
 
   <main>
-    <!-- Hero Section -->
+    <!-- Landing Hero Section -->
     <section class="hero">
       <div class="hero-content">
-        <h1 class="animate-fade-in">Shape Your Future with CareerGuide</h1>
+        <h1 class="animate-fade-in">Shape Your Future with VistaeGuide</h1>
         <p class="animate-fade-in delay-200">Empowering Class 10 students to make informed decisions about their academic and career paths.</p>
-        <a href="http://localhost:8080/quiz" class="btn btn-primary animate-fade-in delay-400">Take Career Quiz <i class="fas fa-arrow-right"></i></a>
+        <a href="/quiz" class="btn btn-primary animate-fade-in delay-400">Take Career Quiz <i class="fas fa-arrow-right"></i></a>
       </div>
       <div class="scroll-indicator">
         <i class="fas fa-chevron-down"></i>
       </div>
     </section>
 
-    <!-- Features Section -->
+    <!-- Feature Cards Section -->
     <section class="features">
       <h2>Discover your path</h2>
       <div class="card-container">
-        <!-- Card 1 -->
+
+        <!-- Stream Information Card -->
         <div class="card">
             <div class="card-default">
               <div class="card-img1">
                   <img class="card-img-size" src="/image.webp" alt="Information">
-                  <!-- <i class="fas fa-book-open" style="color: #3b82f6;"></i> -->
               </div>
               <div class="card-info-default">
                   <div class="card-name-default">Stream Information</div>
@@ -51,12 +56,12 @@
               <div class="card-info-hover">
                   <div class="card-name">Stream Information</div>
                   <div class="card-description">Explore Science, Commerce, and Arts streams</div>
-                  <button class="card-pages-link">Check it out</button>
+                  <a href="/streams" class="btn btn-primary animate-fade-in delay-400 card-pages-link">Check it out</a>
               </div>
             </div>
         </div>
 
-        <!-- Card 2 -->
+        <!-- Career Quiz Card -->
         <div class="card">
             <div class="card-default">
                 <div class="card-img2">
@@ -76,19 +81,19 @@
                 <div class="card-info-hover">
                     <div class="card-name">Career Quiz</div>
                     <div class="card-description">Get personalized stream recommendations</div>
-                    <button class="card-pages-link">Check it out</button>
+                    <a href="/quiz" class="btn btn-primary animate-fade-in delay-400 card-pages-link">Check it out</a>
                 </div>
             </div>
         </div>
 
-        <!-- Card 3 -->
+        <!-- Testimonials Card -->
         <div class="card">
             <div class="card-default">
                 <div class="card-img3">
                   <img class="card-img-size" src="/image3.webp" alt="Information">
                 </div>
                 <div class="card-info-default">
-                    <div class="card-name">Stream Comparison</div>
+                    <div class="card-name">Testimonials</div>
                 </div>
             </div>
             <div class="icon-hover">
@@ -99,25 +104,24 @@
                 <img class="card-img-size-hover" src="/image3.webp" alt="Information">
               </div>
                 <div class="card-info-hover">
-                    <div class="card-name">Stream Comparison</div>
-                    <div class="card-description">Compare different streams side by side</div>
-                    <button class="card-pages-link">Check it out</button>
+                    <div class="card-name">Testimonials</div>
+                    <div class="card-description">Read experiences from students and professionals</div>
+                    <a href="/testimonials" class="btn btn-primary animate-fade-in delay-400 card-pages-link">Check it out</a>
                 </div>
               </div>
           </div>
       </div>
     </section>
 
-    <!-- Collaborations section -->
+    <!-- Collaboration Logos Carousel -->
     <section class="career-path dark-section">
       <div class="slider">
-        <!-- Relpace your own images  -->
-        <img class="collaborations_image" src="/bcb11f01328f14e405fe46fe855aadce.jpg" alt="first" style="--pos: 1">
-        <img class="collaborations_image" src="/2.webp" alt="second" style="--pos: 2">
-        <img class="collaborations_image" src="/3.webp" alt="third" style="--pos: 3">
-        <img class="collaborations_image" src="/4.webp" alt="fourth" style="--pos: 4">
-        <img class="collaborations_image" src="/5.webp" alt="fifth" style="--pos: 5">
-        <img class="collaborations_image" src="/6.webp" alt="sixth" style="--pos: 6">
+        <img class="collaborations_image" src="/1.svg" alt="first" style="--pos: 1">
+        <img class="collaborations_image" src="/2.png" alt="second" style="--pos: 2">
+        <img class="collaborations_image" src="/6.png" alt="third" style="--pos: 3">
+        <img class="collaborations_image" src="/4.png" alt="fourth" style="--pos: 4">
+        <img class="collaborations_image" src="/5.png" alt="fifth" style="--pos: 5">
+        <img class="collaborations_image" src="/3.png" alt="sixth" style="--pos: 6">
       </div>
     </section>
 
@@ -126,9 +130,10 @@
       <div class="container">
         <h2>What Our Users Say</h2>
         <div class="testimonial-slider">
+          <!-- Individual Testimonial -->
           <div class="testimonial-slide active">
             <div class="testimonial-content">
-              <p>"CareerGuide helped me choose the perfect stream. I'm now confidently pursuing my dreams!"</p>
+              <p>"VistaeGuide helped me choose the perfect stream. I'm now confidently pursuing my dreams!"</p>
               <div class="testimonial-author">- Priya S., Science Stream</div>
             </div>
           </div>
@@ -145,6 +150,7 @@
             </div>
           </div>
         </div>
+        <!-- Navigation Dots -->
         <div class="testimonial-dots">
           <span class="dot active"></span>
           <span class="dot"></span>
@@ -153,67 +159,68 @@
       </div>
     </section>
 
-    <!-- Cosmic Statistics Section -->
-<section class="cosmic-stats">
-  <div class="cosmic-bg"></div>
-  <div class="cosmic-container">
-    <h2 class="cosmic-title">
-      <span class="cosmic-title-text">Our Impact</span>
-      <span class="cosmic-title-underline"></span>
-    </h2>
-    
-    <div class="cosmic-grid">
-      <!-- Stat 1 -->
-      <div class="cosmic-stat" data-value="50000">
-        <div class="cosmic-stat-inner">
-          <div class="cosmic-particle-canvas"></div>
-          <div class="cosmic-stat-content">
-            <div class="cosmic-number">
-              <span class="cosmic-counter">0</span><span class="cosmic-plus">+</span>
+    <!-- Statistics/Impact Section -->
+    <section class="cosmic-stats">
+      <div class="cosmic-bg"></div>
+      <div class="cosmic-container">
+        <h2 class="cosmic-title">
+          <span class="cosmic-title-text">Our Impact</span>
+          <span class="cosmic-title-underline"></span>
+        </h2>
+        
+        <div class="cosmic-grid">
+          <!-- Total Students Reached -->
+          <div class="cosmic-stat" data-value="50000">
+            <div class="cosmic-stat-inner">
+              <div class="cosmic-particle-canvas"></div>
+              <div class="cosmic-stat-content">
+                <div class="cosmic-number">
+                  <span class="cosmic-counter">0</span><span class="cosmic-plus">+</span>
+                </div>
+                <div class="cosmic-label">Students Guided</div>
+                <div class="cosmic-icon">🚀</div>
+              </div>
             </div>
-            <div class="cosmic-label">Students Guided</div>
-            <div class="cosmic-icon">🚀</div>
           </div>
-        </div>
-      </div>
-      
-      <!-- Stat 2 -->
-      <div class="cosmic-stat" data-value="95">
-        <div class="cosmic-stat-inner">
-          <div class="cosmic-particle-canvas"></div>
-          <div class="cosmic-stat-content">
-            <div class="cosmic-number">
-              <span class="cosmic-counter">0</span><span class="cosmic-percent">%</span>
-            </div>
-            <div class="cosmic-label">Satisfaction Rate</div>
-            <div class="cosmic-icon">✨</div>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Stat 3 -->
-      <div class="cosmic-stat" data-value="1000">
-        <div class="cosmic-stat-inner">
-          <div class="cosmic-particle-canvas"></div>
-          <div class="cosmic-stat-content">
-            <div class="cosmic-number">
-              <span class="cosmic-counter">0</span><span class="cosmic-plus">+</span>
-            </div>
-            <div class="cosmic-label">Career Paths Explored</div>
-            <div class="cosmic-icon">🌌</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
 
-    <!-- Resources Section -->
+          <!-- User Satisfaction Rate -->
+          <div class="cosmic-stat" data-value="95">
+            <div class="cosmic-stat-inner">
+              <div class="cosmic-particle-canvas"></div>
+              <div class="cosmic-stat-content">
+                <div class="cosmic-number">
+                  <span class="cosmic-counter">95</span><span class="cosmic-percent">%</span>
+                </div>
+                <div class="cosmic-label">Satisfaction Rate</div>
+                <div class="cosmic-icon">✨</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Career Options Explored -->
+          <div class="cosmic-stat" data-value="1000">
+            <div class="cosmic-stat-inner">
+              <div class="cosmic-particle-canvas"></div>
+              <div class="cosmic-stat-content">
+                <div class="cosmic-number">
+                  <span class="cosmic-counter">0</span><span class="cosmic-plus">+</span>
+                </div>
+                <div class="cosmic-label">Career Paths Explored</div>
+                <div class="cosmic-icon">🌌</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Additional Career Resources -->
     <section class="resources">
       <div class="container">
         <h2>Additional Resources</h2>
         <div class="resource-grid">
-          <a href="http://localhost:8080/scholarships" class="resource-card">
+          <!-- Scholarships Resource -->
+          <a href="/scholarships" class="resource-card">
             <div class="resource-icon">
               <i class="fas fa-award"></i>
             </div>
@@ -222,7 +229,9 @@
               <p>Find scholarships and entrance exam information</p>
             </div>
           </a>
-          <a href="http://localhost:8080/qa" class="resource-card">
+
+          <!-- Q&A Section -->
+          <a href="/qa" class="resource-card">
             <div class="resource-icon">
               <i class="fas fa-comment"></i>
             </div>
@@ -231,29 +240,33 @@
               <p>Get answers to your career-related questions</p>
             </div>
           </a>
-          <a href="http://localhost:8080/testimonials" class="resource-card">
+
+          <!-- Mentor Chat -->
+          <a href="/qa#mentor-section" class="resource-card">
             <div class="resource-icon">
               <i class="fas fa-graduation-cap"></i>
             </div>
             <div class="resource-content">
-              <h3>Student Testimonials</h3>
-              <p>Read experiences from students and professionals</p>
+              <h3>Speak to Experts</h3>
+              <p>Talk to experts about your career choices and goals</p>
             </div>
           </a>
-          <a href="http://localhost:8080/parents" class="resource-card">
+
+          <!-- User Profile -->
+          <a href="/profile" class="resource-card">
             <div class="resource-icon">
               <i class="fas fa-users"></i>
             </div>
             <div class="resource-content">
-              <h3>Parental Guidance</h3>
-              <p>Resources for parents to support their children</p>
+              <h3>Check your Profile</h3>
+              <p>Check your profile to see your progress and past interactions</p>
             </div>
           </a>
         </div>
       </div>
     </section>
 
-    <!-- Marquee Section -->
+    <!-- Marquee / Tagline Animation -->
     <section class="marquee">
       <div class="marquee-overlay"></div>
       <div class="marquee-content">
@@ -266,9 +279,10 @@
 
   </main>
 
+  <!-- Include site footer -->
   <%- include("footer.ejs") %>
 
+  <!-- Main JavaScript -->
   <script src="main.js"></script>
 </body>
 </html>
-

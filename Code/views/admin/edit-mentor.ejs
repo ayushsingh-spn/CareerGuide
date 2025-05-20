@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Basic setup for character encoding and responsive display -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Title of the page shown on browser tab -->
+  <title>Edit Mentor - VistaeGuide</title>
+
+  <!-- Link to custom admin panel stylesheet -->
+  <link rel="stylesheet" href="/admin.css">
+
+  <!-- Font Awesome for using icon sets in the UI -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Bootstrap for responsive layout and UI components -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="admin-body">
+
+  <!-- Sidebar navigation area for admin dashboard -->
+  <div class="admin-sidebar">
+
+    <!-- Application logo linking to homepage -->
+    <div class="admin-logo">
+      <a href="http://localhost:8080/" class="logo" style="text-decoration: none;">
+        <img src="/creative.png" alt="" style="height: 60px; width: 60px;">
+      </a>
+    </div>
+
+    <!-- Navigation menu with active section highlighted -->
+    <nav class="admin-nav">
+      <ul>
+        <li><a href="/dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+        <li><a href="/admin/questions"><i class="fas fa-question-circle"></i> Questions</a></li>
+        <li><a href="/admin/users"><i class="fas fa-users"></i> Users</a></li>
+        <li><a href="/admin/mentors" class="active"><i class="fas fa-user-tie"></i> Mentors</a></li>
+        <li><a href="/admin/bookings"><i class="fas fa-calendar-alt"></i> Bookings</a></li>
+        <li><a href="/admin/settings"><i class="fas fa-cog"></i> Settings</a></li>
+      </ul>
+    </nav>
+
+    <!-- Logout option for current admin user -->
+    <div class="admin-logout">
+      <a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
+  </div>
+
+  <!-- Main content area for mentor editing -->
+  <div class="admin-content">
+
+    <!-- Top header showing page title and admin greeting -->
+    <header class="admin-header">
+      <div class="admin-header-title">
+        <h2>Edit Mentor</h2>
+      </div>
+      <div class="admin-header-user">
+        <span>Welcome, <%= user.name %></span>
+      </div>
+    </header>
+
+    <!-- Page body: edit mentor form -->
+    <main class="admin-main">
+
+      <!-- Back to mentors list button -->
+      <div class="admin-actions mb-4">
+        <a href="/admin/mentors" class="btn btn-secondary">
+          <i class="fas fa-arrow-left"></i> Back to Mentors
+        </a>
+      </div>
+
+      <!-- Conditional block to show error message if present -->
+      <% if (error && error.length > 0) { %>
+        <div class="alert alert-danger mb-4">
+          <%= error %>
+        </div>
+      <% } %>
+
+      <!-- Card component containing form to edit mentor -->
+      <div class="card">
+        <div class="card-body">
+
+          <!-- Form submitting updated mentor details -->
+          <form action="/admin/mentors/<%= mentor.id %>/edit" method="POST">
+
+            <!-- Input field: Mentor Name -->
+            <div class="form-group mb-3">
+              <label for="name">Name</label>
+              <input type="text" class="form-control" id="name" name="name" value="<%= mentor.name %>" required>
+            </div>
+
+            <!-- Input field: Specialty / Area of expertise -->
+            <div class="form-group mb-3">
+              <label for="specialty">Specialty</label>
+              <input type="text" class="form-control" id="specialty" name="specialty" value="<%= mentor.specialty %>" required>
+            </div>
+
+            <!-- Input field: Years of experience or background -->
+            <div class="form-group mb-3">
+              <label for="experience">Experience</label>
+              <input type="text" class="form-control" id="experience" name="experience" value="<%= mentor.experience %>" required>
+            </div>
+
+            <!-- Textarea: Short biography about the mentor -->
+            <div class="form-group mb-3">
+              <label for="bio">Bio</label>
+              <textarea class="form-control" id="bio" name="bio" rows="5" required><%= mentor.bio %></textarea>
+            </div>
+
+            <!-- Input field: Price per session in Indian rupees -->
+            <div class="form-group mb-3">
+              <label for="rate">Session Rate (₹)</label>
+              <input type="number" class="form-control" id="rate" name="rate" min="0" value="<%= mentor.rate %>" required>
+            </div>
+
+            <!-- Textarea: Mentor availability timing description -->
+            <div class="form-group mb-3">
+              <label for="availability">Availability</label>
+              <textarea class="form-control" id="availability" name="availability" rows="3" required><%= mentor.availability %></textarea>
+            </div>
+
+            <!-- Submit button to apply updates -->
+            <button type="submit" class="btn btn-primary">Update Mentor</button>
+
+          </form>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer with current year and admin branding -->
+    <footer class="admin-footer">
+      <p>&copy; <%= new Date().getFullYear() %> VistaeGuide Admin Panel. All rights reserved.</p>
+    </footer>
+  </div>
+
+  <!-- JavaScript files for Bootstrap and admin functionalities -->
+  <script src="/admin.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

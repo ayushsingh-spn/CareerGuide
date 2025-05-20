@@ -3,44 +3,56 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Q&A - CareerGuide</title>
+  <title>Q&A - VistaeGuide</title>
+  
+  <!-- Stylesheets -->
   <link rel="stylesheet" href="/styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+
+  <!-- Header include -->
   <%- include("header.ejs") %>
 
   <main class="page-content">
     <div class="container">
+
+      <!-- Q&A page header -->
       <section class="page-header">
         <h1>Career Counseling Q&A</h1>
         <p>Get answers to your career-related questions</p>
       </section>
 
+      <!-- FAQ section -->
       <section class="qa-section">
         <div class="qa-card">
           <h2>Frequently Asked Questions</h2>
+
           <div class="faq-item">
             <h3>How do I choose between Science and Commerce?</h3>
             <p>Consider your interests and strengths. If you enjoy mathematics and scientific concepts, Science might be a good fit. If you're interested in business and economics, Commerce could be the right choice. It's also helpful to think about your long-term career goals.</p>
           </div>
+
           <div class="faq-item">
             <h3>What careers can I pursue with an Arts stream?</h3>
             <p>The Arts stream opens up various career paths including journalism, law, teaching, social work, psychology, design, and many more. It's a versatile choice that allows you to develop critical thinking and creativity.</p>
           </div>
+
           <div class="faq-item">
             <h3>Is it possible to change streams after 12th grade?</h3>
             <p>Yes, it is possible to change streams after 12th grade, although it may require additional coursework or bridge programs depending on the field you want to enter. Many universities offer foundation courses to help students transition between streams.</p>
           </div>
+
           <div class="faq-item">
             <h3>How important are board exam results for my future career?</h3>
             <p>While board exam results are important for college admissions, they don't define your entire career. Many successful professionals didn't score the highest marks. Focus on learning concepts thoroughly and developing skills relevant to your chosen field.</p>
           </div>
         </div>
 
+        <!-- Ask a Question Section -->
         <div class="qa-card">
           <h2>Ask a Question</h2>
-          
+
           <% if (locals.user) { %>
             <!-- Question form for logged-in users -->
             <form id="question-form" class="question-form" action="/qa_added" method="POST">
@@ -61,7 +73,7 @@
               <button type="submit" class="btn btn-primary">Submit Question</button>
             </form>
           <% } else { %>
-            <!-- Login prompt for non-logged in users -->
+            <!-- Prompt for non-logged-in users -->
             <div class="login-prompt">
               <p><i class="fas fa-lock"></i> You need to be logged in to ask questions.</p>
               <div class="login-buttons">
@@ -70,44 +82,38 @@
               </div>
             </div>
           <% } %>
-          
+
+          <!-- Form success message placeholder -->
           <div id="form-success" class="form-success" style="display: none;">
             <i class="fas fa-check-circle"></i>
             <p>Thank you for your question! Our career counselors will respond to you soon.</p>
           </div>
+        </div>
       </section>
 
+      <!-- Personalized counseling call-to-action -->
       <section class="counseling-section">
-        <h2>Need Personalized Guidance?</h2>
-        <p>Our team of experienced career counselors is available for one-on-one sessions to provide personalized advice based on your specific situation.</p>
-        <div class="counselors-grid">
-          <div class="counselor-card">
-            <img src="/images.jpeg?height=150&width=150" alt="Dr. Anita Desai">
-            <h3>Dr. Anita Desai</h3>
-            <p>Specializes in Science stream guidance</p>
+        <div class="qa-card">
+          <div id="mentor-section">
+            <h2>Need Personalized Guidance?</h2>
+            <p>Our team of experienced career counselors is available for one-on-one sessions to provide personalized advice based on your specific situation.</p>
+
+            <div class="counseling-cta">
+              <a href="/mentors" class="btn btn-primary">Book a Session</a>
+            </div>
           </div>
-          <div class="counselor-card">
-            <img src="/images.jpeg?height=150&width=150" alt="Mr. Vikram Mehta">
-            <h3>Mr. Vikram Mehta</h3>
-            <p>Specializes in Commerce stream guidance</p>
-          </div>
-          <div class="counselor-card">
-            <img src="/images.jpeg?height=150&width=150" alt="Ms. Priya Sharma">
-            <h3>Ms. Priya Sharma</h3>
-            <p>Specializes in Arts stream guidance</p>
-          </div>
-        </div>
-        <div class="counseling-cta">
-          <a href="#" class="btn btn-secondary">Book a Session</a>
         </div>
       </section>
+
     </div>
   </main>
 
+  <!-- Footer include -->
   <%- include("footer.ejs") %>
 
+  <!-- Scripts -->
   <script src="main.js"></script>
   <script src="qa.js"></script>
+
 </body>
 </html>
-

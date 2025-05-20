@@ -3,22 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login - CareerGuide</title>
+  <title>Login - VistaeGuide</title>
   <link rel="stylesheet" href="/auth.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body class="auth-body">
   <div class="auth-container">
+    <!-- Logo/Header Section -->
     <div class="auth-logo">
       <a href="/">
-        <h1>CareerGuide</h1>
+        <h1>VistaeGuide</h1>
       </a>
     </div>
     
+    <!-- Login Form Section -->
     <div class="auth-form-container">
       <h2>Welcome Back</h2>
-      <p class="auth-subtitle">Log in to access your CareerGuide account</p>
+      <p class="auth-subtitle">Log in to access your VistaeGuide account</p>
       
+      <!-- Display success message if any -->
       <% if (locals.success && success.length > 0) { %>
         <div class="auth-success">
           <i class="fas fa-check-circle"></i>
@@ -26,6 +29,7 @@
         </div>
       <% } %>
       
+      <!-- Display error message if any -->
       <% if (locals.error && error.length > 0) { %>
         <div class="auth-error">
           <i class="fas fa-exclamation-circle"></i>
@@ -33,6 +37,7 @@
         </div>
       <% } %>
       
+      <!-- Login form -->
       <form class="auth-form" action="/login" method="POST">
         <div class="form-group">
           <label for="email">Email Address</label>
@@ -48,6 +53,7 @@
             <i class="fas fa-lock"></i>
             <input type="password" id="password" name="password" required>
           </div>
+          <!-- Forgot password link -->
           <div class="forgot-password">
             <a href="/forgot-password">Forgot password?</a>
           </div>
@@ -56,14 +62,16 @@
         <button type="submit" class="auth-button">Log In</button>
       </form>
       
+      <!-- Additional navigation links -->
       <div class="auth-links">
         <p>Don't have an account? <a href="/signup">Sign Up</a></p>
         <p>Are you an admin? <a href="/admin/login">Admin Login</a></p>
       </div>
     </div>
     
+    <!-- Footer Section -->
     <div class="auth-footer">
-      <p>&copy; <%= new Date().getFullYear() %> CareerGuide. All rights reserved.</p>
+      <p>&copy; <%= new Date().getFullYear() %> VistaeGuide. All rights reserved.</p>
     </div>
   </div>
 

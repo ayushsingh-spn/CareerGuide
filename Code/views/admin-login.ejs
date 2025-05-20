@@ -3,22 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Login - CareerGuide</title>
+  <title>Admin Login - VistaeGuide</title>
+
+  <!-- Link to custom authentication CSS and font awesome icons -->
   <link rel="stylesheet" href="/auth.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body class="auth-body">
   <div class="auth-container">
+    
+    <!-- Logo/Header -->
     <div class="auth-logo">
       <a href="/">
-        <h1>CareerGuide</h1>
+        <h1>VistaeGuide</h1>
       </a>
     </div>
     
+    <!-- Admin Login Form Container -->
     <div class="auth-form-container admin-auth">
       <h2>Admin Login</h2>
-      <p class="auth-subtitle">Access the CareerGuide admin panel</p>
+      <p class="auth-subtitle">Access the VistaeGuide admin panel</p>
       
+      <!-- Error Message Section (only shows if error exists) -->
       <% if (locals.error && error.length > 0) { %>
         <div class="auth-error">
           <i class="fas fa-exclamation-circle"></i>
@@ -26,7 +32,10 @@
         </div>
       <% } %>
       
+      <!-- Admin Login Form -->
       <form class="auth-form" action="/admin/login" method="POST">
+        
+        <!-- Email Input Field -->
         <div class="form-group">
           <label for="email">Admin Email</label>
           <div class="input-with-icon">
@@ -35,6 +44,7 @@
           </div>
         </div>
         
+        <!-- Password Input Field -->
         <div class="form-group">
           <label for="password">Password</label>
           <div class="input-with-icon">
@@ -43,19 +53,23 @@
           </div>
         </div>
         
+        <!-- Submit Button -->
         <button type="submit" class="auth-button admin-button">Admin Login</button>
       </form>
       
+      <!-- Navigation Link to User Login -->
       <div class="auth-links">
         <p><a href="/login">Back to User Login</a></p>
       </div>
     </div>
     
+    <!-- Footer -->
     <div class="auth-footer">
-      <p>&copy; <%= new Date().getFullYear() %> CareerGuide Admin Panel. All rights reserved.</p>
+      <p>&copy; <%= new Date().getFullYear() %> VistaeGuide Admin Panel. All rights reserved.</p>
     </div>
   </div>
 
+  <!-- External JS for authentication page behaviors -->
   <script src="/auth.js"></script>
 </body>
 </html>

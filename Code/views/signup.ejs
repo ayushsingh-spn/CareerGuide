@@ -3,22 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sign Up - CareerGuide</title>
+  <title>Sign Up - VistaeGuide</title>
+
+  <!-- Stylesheets -->
   <link rel="stylesheet" href="/auth.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body class="auth-body">
+
+  <!-- Signup form container -->
   <div class="auth-container">
+
+    <!-- Logo / brand title -->
     <div class="auth-logo">
       <a href="/">
-        <h1>CareerGuide</h1>
+        <h1>VistaeGuide</h1>
       </a>
     </div>
     
+    <!-- Signup form content -->
     <div class="auth-form-container">
       <h2>Create an Account</h2>
-      <p class="auth-subtitle">Join CareerGuide to access personalized career guidance</p>
+      <p class="auth-subtitle">Join VistaeGuide to access personalized career guidance</p>
       
+      <!-- Error message display -->
       <% if (locals.error && error.length > 0) { %>
         <div class="auth-error">
           <i class="fas fa-exclamation-circle"></i>
@@ -26,7 +34,10 @@
         </div>
       <% } %>
       
+      <!-- Signup form -->
       <form class="auth-form" action="/signup" method="POST" id="signup-form">
+
+        <!-- Full name input -->
         <div class="form-group">
           <label for="name">Full Name</label>
           <div class="input-with-icon">
@@ -35,6 +46,7 @@
           </div>
         </div>
         
+        <!-- Email input -->
         <div class="form-group">
           <label for="email">Email Address</label>
           <div class="input-with-icon">
@@ -43,6 +55,7 @@
           </div>
         </div>
         
+        <!-- Password input with strength indicator -->
         <div class="form-group">
           <label for="password">Password</label>
           <div class="input-with-icon">
@@ -57,6 +70,7 @@
           </div>
         </div>
         
+        <!-- Confirm password input -->
         <div class="form-group">
           <label for="confirmPassword">Confirm Password</label>
           <div class="input-with-icon">
@@ -65,19 +79,23 @@
           </div>
         </div>
         
+        <!-- Submit button -->
         <button type="submit" class="auth-button">Sign Up</button>
       </form>
       
+      <!-- Redirect to login -->
       <div class="auth-links">
         <p>Already have an account? <a href="/login">Log In</a></p>
       </div>
     </div>
     
+    <!-- Footer -->
     <div class="auth-footer">
-      <p>&copy; <%= new Date().getFullYear() %> CareerGuide. All rights reserved.</p>
+      <p>&copy; <%= new Date().getFullYear() %> VistaeGuide. All rights reserved.</p>
     </div>
   </div>
 
+  <!-- Scripts -->
   <script src="/auth.js"></script>
 </body>
 </html>

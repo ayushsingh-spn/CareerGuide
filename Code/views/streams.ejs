@@ -3,21 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Stream Information - CareerGuide</title>
+  <title>Stream Information - VistaeGuide</title>
+
+  <!-- Stylesheets -->
   <link rel="stylesheet" href="/styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+
+  <!-- Header include -->
   <%- include("header.ejs") %>
 
   <main class="page-content">
     <div class="container">
+
+      <!-- Page heading -->
       <section class="page-header">
         <h1>Stream Information & Career Paths</h1>
         <p>Explore the different academic streams and their potential career outcomes</p>
       </section>
 
+      <!-- Stream cards section -->
       <section class="streams-grid">
+
+        <!-- Science Stream -->
         <div class="stream-card science-bg">
           <div class="stream-header">
             <div class="stream-icon">
@@ -36,13 +45,14 @@
             </ul>
             <h3>Famous Personalities:</h3>
             <ul>
-              <li>A.P.J. Abdul Kalam</li>
-              <li>C.V. Raman</li>
-              <li>Sundar Pichai</li>
+              <li><a href="https://en.wikipedia.org/wiki/A._P._J._Abdul_Kalam">A.P.J. Abdul Kalam</a></li>
+              <li><a href="https://en.wikipedia.org/wiki/C._V._Raman">C.V. Raman</a></li>
+              <li><a href="https://en.wikipedia.org/wiki/Sundar_Pichai">Sundar Pichai</a></li>
             </ul>
           </div>
         </div>
 
+        <!-- Commerce Stream -->
         <div class="stream-card commerce-bg">
           <div class="stream-header">
             <div class="stream-icon">
@@ -61,13 +71,14 @@
             </ul>
             <h3>Famous Personalities:</h3>
             <ul>
-              <li>Azim Premji</li>
-              <li>Kumar Mangalam Birla</li>
-              <li>Nirmala Sitharaman</li>
+              <li><a href="https://en.wikipedia.org/wiki/Azim_Premji">Azim Premji</a></li>
+              <li><a href="https://en.wikipedia.org/wiki/Kumar_Mangalam_Birla">Kumar Mangalam Birla</a></li>
+              <li><a href="https://en.wikipedia.org/wiki/Nirmala_Sitharaman">Nirmala Sitharaman</a></li>
             </ul>
           </div>
         </div>
 
+        <!-- Arts Stream -->
         <div class="stream-card arts-bg">
           <div class="stream-header">
             <div class="stream-icon">
@@ -86,23 +97,27 @@
             </ul>
             <h3>Famous Personalities:</h3>
             <ul>
-              <li>Amartya Sen</li>
-              <li>Arundhati Roy</li>
-              <li>Kiran Bedi</li>
+              <li><a href="https://en.wikipedia.org/wiki/Amartya_Sen">Amartya Sen</a></li>
+              <li><a href="https://en.wikipedia.org/wiki/Arundhati_Roy">Arundhati Roy</a></li>
+              <li><a href="https://en.wikipedia.org/wiki/Kiran_Bedi">Kiran Bedi</a></li>
             </ul>
           </div>
         </div>
+
       </section>
 
+      <!-- Call to action -->
       <div class="cta-container">
         <a href="/quiz" class="btn btn-primary">Take the Career Quiz <i class="fas fa-arrow-right"></i></a>
       </div>
+
     </div>
   </main>
 
+  <!-- Footer include -->
   <%- include("footer.ejs") %>
 
+  <!-- Scripts -->
   <script src="main.js"></script>
 </body>
 </html>
-

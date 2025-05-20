@@ -1,31 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Set document character encoding and make page responsive -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>User Details - CareerGuide</title>
+
+  <!-- Title shown in browser tab -->
+  <title>User Details - VistaeGuide</title>
+
+  <!-- Load admin dashboard stylesheet and Font Awesome icons -->
   <link rel="stylesheet" href="/admin.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+
 <body class="admin-body">
+  <!-- Sidebar containing navigation links for admin -->
   <div class="admin-sidebar">
+    
+    <!-- Logo redirecting to homepage -->
     <div class="admin-logo">
-        <a href="http://localhost:8080/" class="logo" style="text-decoration: none;"><img src="/creative.png" alt="" style="height: 60px; width: 60px;"></a>
+      <a href="http://localhost:8080/" class="logo" style="text-decoration: none;">
+        <img src="/creative.png" alt="" style="height: 60px; width: 60px;">
+      </a>
     </div>
+
+    <!-- Admin navigation menu -->
     <nav class="admin-nav">
       <ul>
-        <li><a href="/dashboard" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+        <li><a href="/dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
         <li><a href="/admin/questions"><i class="fas fa-question-circle"></i> Questions</a></li>
-        <li><a href="/admin/users"><i class="fas fa-users"></i> Users</a></li>
+        <li><a href="/admin/users" class="active"><i class="fas fa-users"></i> Users</a></li>
+        <li><a href="/admin/mentors"><i class="fas fa-user-tie"></i> Mentors</a></li>
+        <li><a href="/admin/bookings"><i class="fas fa-calendar-alt"></i> Bookings</a></li>
         <li><a href="/admin/settings"><i class="fas fa-cog"></i> Settings</a></li>
       </ul>
     </nav>
+
+    <!-- Logout button -->
     <div class="admin-logout">
       <a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
     </div>
   </div>
   
+  <!-- Main content area for user details -->
   <div class="admin-content">
+
+    <!-- Header showing section title and current admin name -->
     <header class="admin-header">
       <div class="admin-header-title">
         <h2>User Details</h2>
@@ -35,16 +55,26 @@
       </div>
     </header>
     
+    <!-- Page body -->
     <main class="admin-main">
       <div class="user-detail-container">
+        
+        <!-- Top section with action buttons -->
         <div class="user-detail-header">
           <h3>User Information</h3>
           <div class="user-detail-actions">
-            <a href="/admin/users" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back to Users</a>
-            <a href="/admin/users/<%= user.id %>/edit" class="btn btn-primary"><i class="fas fa-edit"></i> Edit User</a>
+            <!-- Go back to all users list -->
+            <a href="/admin/users" class="btn btn-secondary">
+              <i class="fas fa-arrow-left"></i> Back to Users
+            </a>
+            <!-- Navigate to edit this user -->
+            <a href="/admin/users/<%= user.id %>/edit" class="btn btn-primary">
+              <i class="fas fa-edit"></i> Edit User
+            </a>
           </div>
         </div>
         
+        <!-- User basic information section -->
         <div class="user-detail-card">
           <div class="user-info">
             <div class="user-info-item">
@@ -75,22 +105,32 @@
               <span class="label">Email Verified:</span>
               <span class="value">
                 <% if (user.email_verified) { %>
-                  <span class="verified"><i class="fas fa-check-circle"></i> Verified</span>
+                  <span class="verified">
+                    <i class="fas fa-check-circle"></i> Verified
+                  </span>
                 <% } else { %>
-                  <span class="not-verified"><i class="fas fa-times-circle"></i> Not Verified</span>
+                  <span class="not-verified">
+                    <i class="fas fa-times-circle"></i> Not Verified
+                  </span>
                 <% } %>
               </span>
             </div>
           </div>
         </div>
         
+        <!-- Section displaying all questions submitted by the user -->
         <div class="user-questions-section">
           <h3>User Questions</h3>
-          
+
+          <!-- Check if user has any questions -->
           <% if (questions && questions.length > 0) { %>
             <div class="question-list">
+
+              <!-- Loop through each question and render it -->
               <% questions.forEach(question => { %>
                 <div class="question-item">
+
+                  <!-- Show date and time question was created -->
                   <div class="question-header">
                     <span class="question-date">
                       <% 
@@ -106,20 +146,26 @@
                       <%= qFormattedDate %>
                     </span>
                   </div>
+
+                  <!-- Display question text -->
                   <div class="question-content">
                     <p class="question-text"><%= question.question %></p>
-                    
+
+                    <!-- Show answer if it exists -->
                     <% if (question.answers && question.answers.trim() !== '') { %>
                       <div class="question-answer">
                         <h4>Answer:</h4>
                         <p><%= question.answers %></p>
                       </div>
                     <% } else { %>
+                      <!-- Fallback message if answer not given -->
                       <div class="question-no-answer">
                         <p><i class="fas fa-exclamation-circle"></i> No answer provided yet</p>
                       </div>
                     <% } %>
                   </div>
+
+                  <!-- Action button to edit or provide answer -->
                   <div class="question-actions">
                     <a href="/admin/<%= question.id %>/edit" class="btn btn-small">
                       <i class="fas fa-edit"></i> <%= question.answers ? 'Edit Answer' : 'Answer' %>
@@ -128,7 +174,9 @@
                 </div>
               <% }) %>
             </div>
+
           <% } else { %>
+            <!-- If user hasn't submitted any questions -->
             <div class="no-questions">
               <p>This user hasn't asked any questions yet.</p>
             </div>
@@ -136,12 +184,14 @@
         </div>
       </div>
     </main>
-    
+
+    <!-- Footer section -->
     <footer class="admin-footer">
-      <p>&copy; <%= new Date().getFullYear() %> CareerGuide Admin Panel. All rights reserved.</p>
+      <p>&copy; <%= new Date().getFullYear() %> VistaeGuide Admin Panel. All rights reserved.</p>
     </footer>
   </div>
 
+  <!-- Admin JavaScript for UI interactivity -->
   <script src="/admin.js"></script>
 </body>
 </html>

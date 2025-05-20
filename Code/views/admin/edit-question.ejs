@@ -1,54 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Character encoding and viewport settings for responsiveness -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%= question.answers ? 'Edit' : 'Answer' %> Question - CareerGuide Admin</title>
+
+  <!-- Dynamic page title changes based on whether the question already has an answer -->
+  <title><%= question.answers ? 'Edit' : 'Answer' %> Question - VistaeGuide Admin</title>
+
+  <!-- Stylesheets for admin layout and icons -->
   <link rel="stylesheet" href="/admin.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+
 <body class="admin-body">
+
+  <!-- Sidebar navigation for admin dashboard -->
   <div class="admin-sidebar">
+
+    <!-- Admin logo section linking to homepage -->
     <div class="admin-logo">
-      <a href="http://localhost:8080/" class="logo" style="text-decoration: none;"><img src="/creative.png" alt="" style="height: 60px; width: 60px;"></a>
-          </div>
-          <nav class="admin-nav">
-            <ul>
-              <li><a href="/dashboard" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-              <li><a href="/admin/questions"><i class="fas fa-question-circle"></i> Questions</a></li>
-              <li><a href="/admin/users"><i class="fas fa-users"></i> Users</a></li>
-              <li><a href="/admin/settings"><i class="fas fa-cog"></i> Settings</a></li>
+      <a href="http://localhost:8080/" class="logo" style="text-decoration: none;">
+        <img src="/creative.png" alt="" style="height: 60px; width: 60px;">
+      </a>
+    </div>
+
+    <!-- Sidebar navigation menu with current active link highlighted -->
+    <nav class="admin-nav">
+      <ul>
+        <li><a href="/dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+        <li><a href="/admin/questions" class="active"><i class="fas fa-question-circle"></i> Questions</a></li>
+        <li><a href="/admin/users"><i class="fas fa-users"></i> Users</a></li>
+        <li><a href="/admin/mentors"><i class="fas fa-user-tie"></i> Mentors</a></li>
+        <li><a href="/admin/bookings"><i class="fas fa-calendar-alt"></i> Bookings</a></li>
+        <li><a href="/admin/settings"><i class="fas fa-cog"></i> Settings</a></li>
       </ul>
     </nav>
+
+    <!-- Logout button for admin user -->
     <div class="admin-logout">
       <a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
     </div>
   </div>
 
+  <!-- Main admin content area -->
   <div class="admin-content">
+
+    <!-- Header section showing action type and user -->
     <header class="admin-header">
       <div class="admin-header-title">
+        <!-- Display 'Edit' or 'Answer' based on whether the question has an answer -->
         <h2><%= question.answers ? 'Edit' : 'Answer' %> Question</h2>
       </div>
       <div class="admin-header-user">
         <span>Welcome, <%= user.name %></span>
       </div>
     </header>
-    
+
+    <!-- Main content section -->
     <main class="admin-main">
       <div class="edit-question-container">
+
+        <!-- If a success message is available, display it -->
         <% if (success && success.length > 0) { %>
           <div class="alert alert-success">
             <%= success %>
           </div>
         <% } %>
-        
+
+        <!-- If an error message is available, display it -->
         <% if (error && error.length > 0) { %>
           <div class="alert alert-error">
             <%= error %>
           </div>
         <% } %>
-        
+
+        <!-- Header with title and back button -->
         <div class="edit-question-header">
           <h3><%= question.answers ? 'Edit Answer' : 'Provide Answer' %></h3>
           <div class="edit-question-actions">
@@ -57,8 +84,11 @@
             </a>
           </div>
         </div>
-        
+
+        <!-- Display question details before answer form -->
         <div class="edit-question-form-container">
+
+          <!-- Read-only display of question content -->
           <div class="question-display">
             <h4>Question</h4>
             <div class="question-content">
@@ -78,10 +108,14 @@
               </p>
             </div>
           </div>
-          
+
+          <!-- Form to either answer or update an existing answer -->
           <form action="/admin/questions/<%= question.id %>" method="POST" class="edit-question-form">
-            <input type="hidden" name="_method" value="PUT">
             
+            <!-- Use PUT method override for RESTful compliance -->
+            <input type="hidden" name="_method" value="PUT">
+
+            <!-- Textarea input for writing the answer -->
             <div class="form-group">
               <label for="answer">Your Answer</label>
               <textarea 
@@ -93,7 +127,8 @@
               ><%= question.answers || '' %></textarea>
               <small>Provide a clear and helpful answer to the question.</small>
             </div>
-            
+
+            <!-- Submit and cancel buttons -->
             <div class="form-actions">
               <button type="submit" class="btn btn-primary">
                 <i class="fas fa-save"></i> <%= question.answers ? 'Update Answer' : 'Submit Answer' %>
@@ -106,9 +141,10 @@
         </div>
       </div>
     </main>
-    
+
+    <!-- Footer with dynamic current year -->
     <footer class="admin-footer">
-      <p>&copy; <%= new Date().getFullYear() %> CareerGuide Admin Panel. All rights reserved.</p>
+      <p>&copy; <%= new Date().getFullYear() %> VistaeGuide Admin Panel. All rights reserved.</p>
     </footer>
   </div>
 </body>

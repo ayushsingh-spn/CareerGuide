@@ -3,23 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Career Quiz - CareerGuide</title>
+  <title>Career Quiz - VistaeGuide</title>
+
+  <!-- Stylesheets -->
   <link rel="stylesheet" href="/styles.css">
   <link rel="stylesheet" href="/quiz.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+
+  <!-- Header include -->
   <%- include("header.ejs") %>
 
   <main class="page-content">
     <div class="container">
+
+      <!-- Quiz page header -->
       <section class="page-header">
         <h1>AI-Powered Career Quiz</h1>
         <p class="quiz-intro">Answer these questions to get personalized career recommendations based on your interests, skills, and preferences.</p>
       </section>
 
+      <!-- Quiz content section -->
       <section class="quiz-container" id="quiz-container">
-        <!-- Progress Bar -->
+
+        <!-- Quiz progress bar -->
         <div class="quiz-progress">
           <div class="progress-bar-container">
             <div class="progress-bar" id="quiz-progress-bar"></div>
@@ -27,42 +35,66 @@
           <p class="progress-text" id="quiz-progress-text">Question 1 of 10</p>
         </div>
 
-        <!-- Quiz Card -->
+        <!-- Main quiz card -->
         <div class="quiz-card" id="quiz-card">
-          <!-- Question Section -->
+
+          <!-- Quiz question section -->
           <div class="quiz-question" id="quiz-question">
             <h2>Question <span id="question-number">1</span></h2>
             <p id="question-text">Which subject do you enjoy the most?</p>
             <div class="quiz-options">
-              <!-- Options will be dynamically inserted here -->
+              <!-- Options dynamically injected by JavaScript -->
             </div>
           </div>
 
-          <!-- Loading Indicator -->
+          <!-- AI loading state -->
           <div class="loading-indicator" id="loading-indicator" style="display: none;">
-            <div class="spinner"></div>
-            <p>Analyzing your responses with AI...</p>
+            <div class="loading-content">
+              <div class="ai-thinking-animation">
+                <div class="ai-dots">
+                  <div class="dot dot-1"></div>
+                  <div class="dot dot-2"></div>
+                  <div class="dot dot-3"></div>
+                </div>
+                <div class="ai-icon">
+                  <i class="fas fa-brain"></i>
+                </div>
+              </div>
+              <p class="loading-text">Our AI is analyzing your responses...</p>
+              <div class="progress-tracker">
+                <span class="progress-step active"></span>
+                <span class="progress-step"></span>
+                <span class="progress-step"></span>
+                <span class="progress-step"></span>
+                <span class="progress-step"></span>
+              </div>
+              <p class="fun-fact">Did you know? The average person changes careers 3-7 times in their lifetime.</p>
+            </div>
           </div>
 
-          <!-- Result Section -->
+          <!-- Quiz result display -->
           <div class="quiz-result" id="quiz-result" style="display: none;">
             <h2>Your Career Recommendation</h2>
             <div class="result-card">
               <p id="result-text" class="result-main"></p>
               <div id="detailed-results" class="detailed-results">
-                <!-- Detailed results will be inserted here -->
+                <!-- AI result details will be shown here -->
               </div>
             </div>
             <button class="btn btn-primary" id="retake-btn">Retake Quiz</button>
           </div>
+
         </div>
       </section>
     </div>
   </main>
 
+  <!-- Footer include -->
   <%- include("footer.ejs") %>
 
+  <!-- Scripts -->
   <script src="main.js"></script>
   <script src="enhanced-quiz.js"></script>
+
 </body>
 </html>

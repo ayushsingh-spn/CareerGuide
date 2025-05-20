@@ -1,47 +1,61 @@
+<!-- Fixed top header -->
 <header class="fixed-header">
-    <nav class="container">
-      <div class="nav-container">
-        <a href="http://localhost:8080/" class="logo"><img src="/creative.png" alt="" style="height: 60px; width: 60px;"></a>
-        <ul class="nav-links">
-          <li><a href="http://localhost:8080/streams">Streams</a></li>
-          <li><a href="http://localhost:8080/quiz">Career Quiz</a></li>
-          <li><a href="http://localhost:8080/testimonials">Testimonials</a></li>
-          <li><a href="http://localhost:8080/qa">Q&A</a></li>
-          <li><a href="http://localhost:8080/scholarships">Scholarships</a></li>
-          <% if (user) { %>
-            <li><a href="/profile">Profile</a></li>
-            <li><a href="/logout">Logout</a></li>
-            <% if (isAdmin) { %>
-              <li><a href="/dashboard">Dashboard</a></li>
-            <% } %>
-            <% } else { %>
-              <li><a href="/login">Login</a></li>
-              <li><a href="/signup">Signup</a></li>
-            <% } %>
-        </ul>
-        <div class="mobile-menu-btn">
-          <i class="fas fa-bars"></i>
-        </div>
-      </div>
-    </nav>
-  </header>
+  <nav class="container">
+    <div class="nav-container">
 
-  <div class="mobile-menu">
-    <ul>
-      <li><a href="http://localhost:8080/streams">Streams</a></li>
-          <li><a href="http://localhost:8080/quiz">Career Quiz</a></li>
-          <li><a href="http://localhost:8080/testimonials">Testimonials</a></li>
-          <li><a href="http://localhost:8080/qa">Q&A</a></li>
-          <li><a href="http://localhost:8080/scholarships">Scholarships</a></li>
-          <% if (user) { %>
-            <li><a href="/profile">Profile</a></li>
-            <li><a href="/logout">Logout</a></li>
-            <% if (isAdmin) { %>
-              <li><a href="/admin/dashboard">Dashboard</a></li>
-            <% } %>
-            <% } else { %>
-              <li><a href="/login">Login</a></li>
-              <li><a href="/signup">Signup</a></li>
-            <% } %>
-    </ul>
-  </div>
+      <!-- Logo linking to homepage -->
+      <a href="http://localhost:8080/" class="logo">
+        <img src="/creative.png" alt="" style="height: 60px; width: 60px;">
+      </a>
+
+      <!-- Desktop navigation links -->
+      <ul class="nav-links">
+        <li><a href="/streams">Streams</a></li>
+        <li><a href="/quiz">Career Quiz</a></li>
+        <li><a href="/testimonials">Testimonials</a></li>
+        <li><a href="/qa">Q&A</a></li>
+        <li><a href="/scholarships">Scholarships</a></li>
+
+        <!-- Conditional links based on user login status -->
+        <% if (user) { %>
+          <li><a href="/profile">Profile</a></li>
+          <li><a href="/logout">Logout</a></li>
+          <% if (isAdmin) { %>
+            <li><a href="/dashboard">Dashboard</a></li>
+          <% } %>
+        <% } else { %>
+          <li><a href="/login">Login</a></li>
+          <li><a href="/signup">Signup</a></li>
+        <% } %>
+      </ul>
+
+      <!-- Mobile menu toggle icon -->
+      <div class="mobile-menu-btn">
+        <i class="fas fa-bars"></i>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<!-- Mobile navigation menu -->
+<div class="mobile-menu">
+  <ul>
+    <li><a href="/streams">Streams</a></li>
+    <li><a href="/quiz">Career Quiz</a></li>
+    <li><a href="/testimonials">Testimonials</a></li>
+    <li><a href="/qa">Q&A</a></li>
+    <li><a href="/scholarships">Scholarships</a></li>
+
+    <!-- Conditional links for mobile view -->
+    <% if (user) { %>
+      <li><a href="/profile">Profile</a></li>
+      <li><a href="/logout">Logout</a></li>
+      <% if (isAdmin) { %>
+        <li><a href="/admin/dashboard">Dashboard</a></li>
+      <% } %>
+    <% } else { %>
+      <li><a href="/login">Login</a></li>
+      <li><a href="/signup">Signup</a></li>
+    <% } %>
+  </ul>
+</div>

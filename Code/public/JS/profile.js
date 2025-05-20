@@ -1,54 +1,45 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // Profile menu navigation
+  // Select all profile navigation menu links and profile section containers
   const menuLinks = document.querySelectorAll(".profile-menu a")
   const profileSections = document.querySelectorAll(".profile-section")
 
+  // Ensure both menu links and profile sections exist before binding interactions
   if (menuLinks && profileSections) {
     menuLinks.forEach((link) => {
       link.addEventListener("click", function (e) {
-        e.preventDefault()
+        e.preventDefault() // Prevent default anchor behavior (e.g., jumping to hash)
 
-        // Remove active class from all links and sections
+        // Deactivate all menu links and profile sections
         menuLinks.forEach((l) => l.classList.remove("active"))
         profileSections.forEach((s) => s.classList.remove("active"))
 
-        // Add active class to clicked link
+        // Highlight the clicked menu link
         this.classList.add("active")
 
-        // Show corresponding section
-        const targetId = this.getAttribute("href").substring(1)
+        // Activate the corresponding section based on href attribute (used as ID)
+        const targetId = this.getAttribute("href").substring(1) // Strip '#' from href
         document.getElementById(targetId).classList.add("active")
       })
     })
   }
 
-  // Form submission
-  const personalInfoForm = document.getElementById("personal-info-form")
-
-  if (personalInfoForm) {
-    personalInfoForm.addEventListener("submit", (e) => {
-      e.preventDefault()
-
-      // In a real application, you would send this data to the server
-      // For now, just show a success message
-      alert("Profile updated successfully!")
-    })
-  }
-
-  // Change avatar button
+  // Locate the "Change Avatar" button in the profile section
   const changeAvatarBtn = document.querySelector(".change-avatar-btn")
 
+  // Attach click handler to display a placeholder message (for demo purpose only)
   if (changeAvatarBtn) {
     changeAvatarBtn.addEventListener("click", () => {
-      // In a real application, you would open a file picker
+      // In a production system, this would trigger a file input dialog or image uploader
       alert("This feature is not implemented in the demo.")
     })
   }
 
-  // Check if there's a hash in the URL and navigate to that section
+  // Automatically navigate to a profile section if a URL hash exists on page load
   if (window.location.hash) {
-    const hash = window.location.hash.substring(1)
+    const hash = window.location.hash.substring(1) // Remove '#' symbol
     const targetLink = document.querySelector(`.profile-menu a[href="#${hash}"]`)
+    
+    // Simulate click on the matched link to load the associated section
     if (targetLink) {
       targetLink.click()
     }

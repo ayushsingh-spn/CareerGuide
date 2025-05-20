@@ -3,12 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Your Profile - CareerGuide</title>
+  <title>Your Profile - VistaeGuide</title>
   <link rel="stylesheet" href="/styles.css">
   <link rel="stylesheet" href="/profile.css">
+  <link rel="stylesheet" href="/admin.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+  <!-- Header include -->
   <%- include("header.ejs") %>
 
   <main class="page-content">
@@ -19,61 +21,59 @@
       </section>
 
       <div class="profile-container">
+        <!-- Sidebar with user details and menu -->
         <div class="profile-sidebar">
           <div class="profile-avatar">
             <img src="/images.jpeg?height=150&width=150" alt="<%= user.name %>">
-            
           </div>
           <h2 class="profile-name"><%= user.name %></h2>
           <p class="profile-email"><%= user.email %></p>
           <div class="profile-menu">
             <a href="#personal-info" class="active">Personal Information</a>
             <a href="#my-questions">My Questions</a>
-            <a href="#saved-careers">Saved Careers</a>
+            <a href="#Mentor-booking">Mentor Booking</a>
             <a href="#quiz-results">Quiz Results</a>
             <a href="#change-password">Change Password</a>
           </div>
         </div>
         
+        <!-- Main content sections -->
         <div class="profile-content">
+          <!-- Personal information form -->
           <div id="personal-info" class="profile-section active">
             <h3>Personal Information</h3>
-            <form class="profile-form" id="personal-info-form">
+            <form class="profile-form" id="personal-info-form" action="/profile-update" method="POST">
               <div class="form-group">
                 <label for="profile-name">Full Name</label>
-                <input type="text" id="profile-name" name="name" value="<%= user.name %>">
+                <input type="text" id="profile-name" name="name" value="<%= user.name %>" required>
               </div>
               
               <div class="form-group">
                 <label for="profile-email">Email Address</label>
-                <input type="email" id="profile-email" name="email" value="<%= user.email %>">
+                <input type="email" id="profile-email" name="email" value="<%= user.email %>" readonly disabled>
+                <small class="form-text text-muted">Email cannot be changed</small>
+              </div>
+            
+              <div cl ass="form-group">
+                <label for="profile-age">Age</label>
+                <input type="text" id="profile-age" name="age" value="<%= user.age  %>">
               </div>
               
               <div class="form-group">
                 <label for="profile-phone">Phone Number</label>
-                <input type="tel" id="profile-phone" name="phone" placeholder="Enter your phone number">
+                <input type="tel" id="profile-phone" name="phone" value="<%= user.phone %>">
               </div>
               
               <div class="form-group">
                 <label for="profile-school">School/College</label>
-                <input type="text" id="profile-school" name="school" placeholder="Enter your school or college name">
-              </div>
-              
-              <div class="form-group">
-                <label for="profile-grade">Grade/Year</label>
-                <select id="profile-grade" name="grade">
-                  <option value="">Select your grade</option>
-                  <option value="10">10th Grade</option>
-                  <option value="11">11th Grade</option>
-                  <option value="12">12th Grade</option>
-                  <option value="college">College</option>
-                </select>
+                <input type="text" id="profile-school" name="school" value="<%= user.school %>">
               </div>
               
               <button type="submit" class="btn btn-primary">Save Changes</button>
             </form>
           </div>
           
+          <!-- Change password form -->
           <div id="change-password" class="profile-section">
             <h3>Change Password</h3>
             <form class="profile-form" id="password-form">
@@ -96,6 +96,7 @@
             </form>
           </div>
 
+          <!-- My Questions section -->
           <div id="my-questions" class="profile-section">
             <h3>My Questions</h3>
             <div class="my-questions-container">
@@ -114,6 +115,7 @@
                     </div>
                     <p class="question-text"><%= q.question %></p>
                     
+                    <!-- Display answer if available -->
                     <div class="answer-section">
                       <h4>Answer</h4>
                       <% if (q.answers) { %>
@@ -133,38 +135,116 @@
               <% } %>
             </div>
           </div>
+          
+          <!-- Mentor bookings section -->
+          <div id="Mentor-booking" class="profile-section">
+            <h3>My Bookings</h3>
+            <div class="my-questions-container">
+              <% if (userBookings && userBookings.length > 0) { %>
+                <div class="table-responsive">
+                  <table class="admin-table">
+                    <thead>
+                      <tr>
+                        <th>Student</th>
+                        <th>Date</th>
+                        <th>Time Slot</th>
+                        <th>Status</th>
+                        <th>Booked On</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% userBookings.forEach(userBookings => { %>
+                        <tr>
+                          <td><%= userBookings.mentor_name %></td>
+                          <td><%= formatDate(userBookings.booking_date) %></td>
+                          <td><%= userBookings.booking_time %></td>
+                          <td>
+                            <span class="status-badge status-<%= userBookings.status %>">
+                              <%= userBookings.status %>
+                            </span>
+                          </td>
+                          <td><%= formatDatetime(userBookings.created_at) %></td>
+                          <td>
+                            <form action="/cancel-booking/<%= userBookings.id %>" method="POST">
+                              <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                          </form>
+                          </td>
+                        </tr>
+                      <% }) %>
+                    </tbody>
+                  </table>
+                </div>
+              <% } else { %>
+                <div class="no-questions">
+                  <i class="fas fa-question-circle"></i>
+                  <p>You haven't booked any Mentor sessions yet.</p>
+                  <a href="/qa" class="btn btn-primary">Book a Session</a>
+                </div>
+              <% } %>
+            </div>
+          </div>
+
+          <!-- Quiz results section -->
+          <div id="quiz-results" class="profile-section">
+            <h3>Quiz Results</h3>
+            <% if (quizResults && quizResults.length > 0) { %>
+              <div class="quiz-results-container">
+                <% quizResults.forEach(result => { %>
+                  <div class="quiz-result-card">
+                    <div class="quiz-result-header">
+                      <h4>Career Assessment</h4>
+                      <span class="quiz-result-date">
+                        Taken on <%= formatDatetime(result.created_at) %>
+                      </span>
+                    </div>
+                    
+                    <% if (result.recommendation) { %>
+                      <div class="quiz-result-section">
+                        <h5>Recommendation</h5>
+                        <p><%= result.recommendation %></p>
+                      </div>
+                    <% } %>
+                    
+                    <% if (result.potential_careers) { %>
+                      <div class="quiz-result-section">
+                        <h5>Potential Careers</h5>
+                        <p><%= result.potential_careers %></p>
+                      </div>
+                    <% } %>
+                    
+                    <% if (result.strengths) { %>
+                      <div class="quiz-result-section">
+                        <h5>Your Strengths</h5>
+                        <p><%= result.strengths %></p>
+                      </div>
+                    <% } %>
+                    
+                    <% if (result.next_steps) { %>
+                      <div class="quiz-result-section">
+                        <h5>Next Steps</h5>
+                        <p><%= result.next_steps %></p>
+                      </div>
+                    <% } %>
+                  </div>
+                <% }) %>
+              </div>
+            <% } else { %>
+              <div class="no-results">
+                <i class="fas fa-clipboard-question"></i>
+                <p>You haven't taken any career assessment quizzes yet.</p>
+                <a href="/quiz" class="btn btn-primary">Take the Quiz</a>
+              </div>
+            <% } %>
+          </div>
 
         </div>
       </div>
     </div>
   </main>
 
-  <footer>
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-col">
-          <h3>CareerGuide</h3>
-          <p>Empowering students to make informed career decisions.</p>
-        </div>
-        <div class="footer-col">
-          <h4>Quick Links</h4>
-          <ul>
-            <li><a href="/streams">Streams</a></li>
-            <li><a href="/quiz">Career Quiz</a></li>
-            <li><a href="/compare">Compare Streams</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h4>Contact Us</h4>
-          <p>Email: info@careerguide.com</p>
-          <p>Phone: +91 1234567890</p>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <p>&copy; <%= new Date().getFullYear() %> CareerGuide. All rights reserved.</p>
-      </div>
-    </div>
-  </footer>
+  <!-- Footer include -->
+  <%- include("footer.ejs") %>
 
   <script src="/profile.js"></script>
 </body>
