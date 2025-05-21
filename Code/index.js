@@ -217,7 +217,7 @@ app.post("/signup", async (req, res) => {
       // Execute the insert query with values
       connection.query(
         q,
-        [id, name, email, password, verificationToken, verificationExpiry],
+        [id, name, email, hashedPassword, verificationToken, verificationExpiry],
         async (err, result) => {
           if (err) throw err
 
