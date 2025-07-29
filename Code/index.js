@@ -171,7 +171,7 @@ function getStatusBadgeClass(status) {
   }
 }
 
-
+//VivaSignUp
 // Route to handle user registration (sign-up form submission)
 app.post("/signup", async (req, res) => {
   try {
@@ -687,7 +687,7 @@ app.get("/logout", (req, res) => {
   res.redirect("/login") // Redirect to login page
 })
 
-
+//VivaProfile
 // Route to display the logged-in user's profile page
 app.get("/profile", isLoggedIn, (req, res) => {
   // First query: fetch the logged-in user's basic information
@@ -754,6 +754,7 @@ app.get("/profile", isLoggedIn, (req, res) => {
   })
 })
 
+//VivaProfile
 // Route to handle user profile update form submission
 app.post("/profile-update", isLoggedIn, (req, res) => {
   const { name, age, phone, school } = req.body // Extract updated fields from form
@@ -784,7 +785,7 @@ app.post("/profile-update", isLoggedIn, (req, res) => {
   })
 })
 
-
+//VivaDashboard
 // Route to render the admin dashboard page
 app.get("/dashboard", isAdmin, (req, res) => {
 
@@ -939,7 +940,7 @@ app.get("/dashboard", isAdmin, (req, res) => {
   });
 });
 
-
+//VivaAdminUsers
 // Route to display all non-admin users in the admin panel
 app.get("/admin/users", isAdmin, (req, res) => {
   connection.query(
@@ -1085,7 +1086,7 @@ app.post("/admin/users/:id", isAdmin, async (req, res) => {
   }
 })
 
-
+//VivaAdminQuestions
 // Route to display all questions in the admin panel
 app.get("/admin/questions", isAdmin, (req, res) => {
   connection.query("SELECT * FROM question ORDER BY created_at DESC", (err, questions) => {
@@ -1240,6 +1241,7 @@ app.delete("/admin/questions/:id", isAdmin, (req, res) => {
   })
 })
 
+//VivaRoutes
 // Route to render the home page
 app.get("/", (req, res) => {
   res.render('index'); // Load index.ejs view
@@ -1290,7 +1292,7 @@ app.get("/admin/login", (req, res) => {
   res.render("admin-login", { layout: "auth-layout" }); // Use the authentication layout
 });
 
-
+//VivaUserQuestion
 // Route to render the QA (question & answer) listing page
 app.get("/qa", (req, res) => {
   let { id } = req.params;
@@ -1387,7 +1389,7 @@ app.locals.formatDatetime = formatDatetime; // Date + time formatted
 app.locals.getStatusBadgeClass = getStatusBadgeClass; // UI badge for status
 
 
-
+//VivaQuiz
 // Route to handle quiz submission and analyze responses via AI or fallback logic
 app.post("/api/analyze-quiz", async (req, res) => {
   try {
@@ -1457,7 +1459,7 @@ app.post("/api/analyze-quiz", async (req, res) => {
       try {
         console.log("⚙️ Trying Gemini...");
         const genAI = new GoogleGenerativeAI(geminiApiKey);
-        const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+        const model = genAI.getGenerativeModel({ model: "agemini-2.0-flash" });
         const geminiResponse = await model.generateContent(prompt);
         const text = await geminiResponse.response.text();
 
@@ -1483,7 +1485,7 @@ app.post("/api/analyze-quiz", async (req, res) => {
       try {
         console.log("⚙️ Trying OpenAI...");
         const { text } = await generateText({
-          model: openai("gpt-3.5-turbo"), // Fallback model
+          model: openai("agpt-3.5-turbo"), // Fallback model
           prompt,
           temperature: 0.7,
           max_tokens: 1000,
@@ -1661,7 +1663,7 @@ function performBasicAnalysis(answers) {
   }
 }
 
-
+//VivaUserMentor
 // Route to list all available mentors (public page)
 app.get("/mentors", (req, res) => {
   // Fetch all mentors from the database
@@ -1881,6 +1883,7 @@ app.post("/cancel-booking/:id", isLoggedIn, (req, res) => {
   );
 });
 
+//VivaProfile
 // Update profile route to include bookings
 app.get("/profile", isLoggedIn, (req, res) => {
   // First, get the user information
@@ -1934,6 +1937,7 @@ app.get("/profile", isLoggedIn, (req, res) => {
   });
 });
 
+//VivaAdminMentors
 // Admin mentor dashboard routes
 // Route to display all mentors in the admin panel
 app.get("/admin/mentors", isAdmin, (req, res) => {
